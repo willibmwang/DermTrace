@@ -373,12 +373,17 @@ Field & Contents \\
 \end{tabular}
 }
 
-\paragraph{Revised generation contract.} The model retains an exact labeled
-factual opening, the supplied QC note, and a research-use disclaimer, and
-writes explanatory prose using the evidence packet. The prompt prohibits
-additional numbers, mechanisms, citations, diagnoses, and treatment advice.
-The cap is 130 words; decoding uses temperature zero and at most 400 tokens.
-Raw expression and sample identifiers are excluded from the outgoing packet.
+\paragraph{Generation contracts.} \emph{v1} (\texttt{narrative\_local\_v1}):
+the model writes the whole narrative and must copy an exact labeled factual
+opening, the QC note, and a research-use disclaimer (130 words; greedy; at most
+400 tokens). \emph{v2} (\texttt{narrative\_local\_v2}, used by the demo): the
+model writes only two or three sentences stating which supplied programs pushed
+the score toward keloid or non-keloid, with no digits, class statements,
+mechanisms, or citations (60 words; greedy; at most 160 tokens). Code then
+inserts the factual opening (probability, decision, confidence), the transfer
+note, and the disclaimer, so no number or class label is model-generated. Raw
+expression and sample identifiers are excluded from the outgoing packet in
+both versions.
 
 \paragraph{Audit and status.} The revised harness rejects an unconfigured
 LLM audit, records actual request/response provenance, and retains raw outputs
@@ -388,24 +393,102 @@ contribution signs, QC, length, prohibited claims, packet immutability, and
 inspection of the outgoing payload. These checks are conservative and do not
 establish semantic faithfulness by themselves.
 
-The revised deterministic arm passes automated screening on 101/101 profiles,
-including 21 abstentions. Actual LLM generation and independent human review
-remain pending because no model endpoint or human ratings were available.
-No generative pass rate is claimed. Blank independent-rater forms and a rubric
-are supplied. Runtime fallback is labeled separately and never counted as
-successful raw generation in the audit.
+Each protocol was frozen before generation and run on the 101 frozen evidence
+packets (21 abstentions), with three greedy requests per packet. Repeats are
+clustered by profile.
 
-\noindent\textit{Source:} \texttt{results/reviewer\_revision/narrative\_audit/}.
+{\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Arm & Generated & All checks pass & Profiles passing every repeat \\
+\midrule
+Deterministic template & --- & 101/101 & 101/101 \\
+v1: Qwen3-1.7B, whole narrative & 303/303 & 0/303 & 0/101 \\
+v2: Qwen3-8B, prose only & 303/303 & \textbf{290/303} (95.7\%) & 96/101 \\
+\quad v2, also English-only (post hoc) & & 215/303 (71.0\%) & \\
+\bottomrule
+\end{tabular}
+}
+
+\smallskip
+\emph{v1 failures.} Every output echoed the prompt's section labels and so
+missed the exact opening. In a post hoc diagnostic, removing only those labels
+yielded 6/303 passes. The remaining failures were content failures. 297/303
+outputs restated numbers despite the instruction, and of 933 numbers attached to
+a named program, 255 were the program's input value described as a contribution
+and 69 matched no supplied field. The v1 phrase-level direction check passed
+every output and is therefore too weak.
+\emph{v2 design.} The format, model, and a stricter clause-level
+contribution-role check were chosen after inspecting v1 on the same packets.
+v2 is therefore development-informed, not an independent validation. Replay
+confirms that adding the check changes no earlier run outcome.
+\emph{v2 failures.} All 13 failures assigned a program to the wrong direction.
+Post hoc, 75/303 outputs contained a code-switched non-English token that no
+check covered.
+\emph{Runtime policy.} The demo displays generated prose only when it passes
+every check and is English-only; otherwise it shows the labeled template.
+Runtime fallback is never counted as successful generation.
+Independent human rating was not performed. Blank two-rater forms and a rubric
+are released with each run. The profile-cluster bootstrap 95\% interval for v2
+is 0.917--0.990.
+
+\noindent\textit{Source:} \texttt{results/reviewer\_revision/narrative\_audit/}
+(\texttt{qwen3\_1\_7b\_v1/}, \texttt{qwen3\_1\_7b\_v1\_diagnostics/},
+\texttt{qwen3\_8b\_v2/}); protocols in \texttt{protocols/}.
 
 % ---------------------------------------------------------------------
 % A9
 % ---------------------------------------------------------------------
-\subsection*{A9\quad Reproduction table}
+\subsection*{A9\quad Matched single-marker comparison}
+\label{app:markers}
+
+Six markers (POSTN, COL1A1, COL3A1, ACTA2, FN1, CTHRC1) were fixed at revision
+time and compared with five program views on all eight studies under one nested
+protocol. All arms share the same outer folds, study and donor weighting,
+training-only median imputation and scaling, L2 logistic regression with
+$C\in\{0.1,1,10\}$, inner-LOSO configuration selection, inner out-of-fold Platt
+calibration, and inner-selected thresholds. The \emph{inner-selected} arms
+choose a marker or program view within each outer training fold. The
+historical ensemble is a separate evidence object.
+
+{\small
+\begin{tabular}{@{}lcc|lcc@{}}
+\toprule
+Marker & Mean & Worst & Program view & Mean & Worst \\
+\midrule
+COL1A1 & 0.914 & 0.444 & Rank programs & 0.896 & 0.416 \\
+COL3A1 & 0.861 & 0.182 & Scar-discriminative & 0.842 & 0.416 \\
+POSTN  & 0.826 & 0.325 & Fused multiview & 0.836 & 0.325 \\
+FN1    & 0.818 & 0.325 & Fibrosis only & 0.802 & 0.182 \\
+CTHRC1 & 0.809 & 0.182 & Composition only & 0.750 & 0.325 \\
+ACTA2  & 0.356 & 0.143 & & & \\
+\midrule
+\textit{Inner-selected} & 0.829 & 0.182 & \textit{Inner-selected} & \textbf{0.855} & \textbf{0.416} \\
+\bottomrule
+\end{tabular}
+}
+
+\smallskip
+Inner-selected programs minus markers: $+0.025$ (descriptive paired
+study-bootstrap 95\% interval $-0.108$ to $+0.148$; eight studies). Programs are
+competitive and have a higher worst-study score, but general superiority is not
+established. COL1A1 is the best fixed arm, and selecting it from this table is
+descriptive only.
+
+\noindent\textit{Source:} \texttt{results/reviewer\_revision/matched\_results.json},
+\texttt{matched\_predictions.csv}, \texttt{matched\_selected\_configs.csv};
+\texttt{scripts/run\_marker\_benchmark.py}.
+
+% ---------------------------------------------------------------------
+% A10
+% ---------------------------------------------------------------------
+\subsection*{A10\quad Reproduction table}
 \label{app:repro}
 
-The exact model input behind the headline result is released as a single
-table: 92 profiles $\times$ 7 studies, carrying labels, grouping keys, and all
-sixteen program features. Raw expression matrices and GEO archives remain
+The exact model input behind the primary result is released as a single
+table of 101 profiles $\times$ 8 studies, carrying labels, grouping keys, and
+all sixteen program features. The post hoc seven-study subset is released
+separately. Raw expression matrices and GEO archives remain
 local-only, but they are not needed to reproduce any number in this paper ---
 the program features \emph{are} the model input.
 
@@ -424,10 +507,11 @@ Features & The sixteen \texttt{*\_rank} program scores of A1 \\
 
 \medskip
 \noindent\textit{Files:}
-\texttt{transferable\_7studies\_headline.csv} (92 profiles, features $+$
-labels), \texttt{transferable\_7studies\_manifest\_only.csv} (labels only),
-\texttt{primary\_development\_all8studies.csv} (includes the observed-failure
-\texttt{GSE173900} fold). Released under
+\texttt{primary\_development\_all8studies.csv} (primary; 101 profiles,
+including the observed-failure \texttt{GSE173900} fold);
+\texttt{transferable\_7studies\_headline.csv} and
+\texttt{transferable\_7studies\_manifest\_only.csv} (post hoc subset; historical
+file names). Reproduction commands are in \texttt{REPRODUCIBILITY.md}. Released under
 \texttt{results/accuracy\_085\_push/pi\_share/}.
 
-% The generated matched comparison is supplied in reviewer_revision_results.tex.
+
