@@ -85,7 +85,8 @@ def main():
         assert digest(packet)==record['packet_hash']==row['packet_hash']
         text=row['narrative'];anchor=factual_anchor(packet)
         qc=packet['quality_control'].get('transfer_note','')
-        normalized=validate_narrative(normalize_labels(text),packet)['checks']
+        # Use only the validator checks the run recorded; later-added checks are not retrofitted.
+        normalized={k:v for k,v in validate_narrative(normalize_labels(text),packet)['checks'].items() if k in row['checks']}
         found,ungrounded=extra_numbers(text,packet)
         attributed,contribution,value_only=attributed_numbers(text,packet)
         records.append({'profile_id':row['profile_id'],'accession':row['accession'],'repeat':row['repeat'],
