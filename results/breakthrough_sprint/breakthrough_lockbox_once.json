@@ -1,0 +1,66 @@
+{
+  "frozen_config": {
+    "feature_set": "composition_only",
+    "model": "ridge_logreg",
+    "weight_mode": "accession_donor",
+    "threshold": 0.6168781349987151
+  },
+  "lockbox_accession": "GSE185309",
+  "ingest": {
+    "accession": "GSE185309",
+    "status": "ok",
+    "n_samples": 17,
+    "n_genes": 60665,
+    "n_modules_with_signal": 7,
+    "role": "lockbox",
+    "labels": {
+      "keloid": 9,
+      "normal": 8
+    }
+  },
+  "results": [
+    {
+      "accession": "GSE185309",
+      "status": "ok",
+      "endpoint": "keloid_vs_unaffected_skin",
+      "eval_mode": "breakthrough_lockbox_once",
+      "feature_set": "composition_only",
+      "model": "ridge_logreg",
+      "weight_mode": "accession_donor",
+      "threshold": 0.6168781349987151,
+      "weighted_f1": 0.5261437908496732,
+      "macro_f1": 0.5277777777777778,
+      "auroc": 0.5555555555555556,
+      "balanced_accuracy": 0.5347222222222222,
+      "donor_weighted_f1": 0.5261437908496732,
+      "selective_f1": 0.5804195804195804,
+      "selective_coverage": 0.7058823529411765,
+      "confidence_threshold": 0.6,
+      "n_test": 17,
+      "n_test_donors": 17,
+      "classes": [
+        "keloid",
+        "non_keloid"
+      ]
+    }
+  ],
+  "claim_rule": {
+    "min_selective_coverage": 0.6,
+    "summary": {
+      "n_folds": 8,
+      "full_coverage_macro_f1": {
+        "mean": 0.5686516248925505,
+        "lo": 0.423679443099248,
+        "hi": 0.7175061812872044
+      },
+      "selective_macro_f1": {
+        "mean": 0.6381392947330446,
+        "lo": 0.471937582296176,
+        "hi": 0.7947161514700576
+      },
+      "mean_selective_coverage": 0.8500548245614035,
+      "worst_full_f1": 0.20202020202020204,
+      "worst_selective_f1": 0.20202020202020204
+    }
+  }
+}

@@ -181,10 +181,10 @@ def expression_qc(expression: pd.DataFrame, accession: str = "uploaded") -> dict
     pinned_present = len(set(expression.columns).intersection(ALL_PINNED_GENES))
     if accession in NON_TRANSFERABLE_ACCESSIONS:
         transfer_status = "non-transferable"
-        transfer_note = "This platform failed the documented cross-study transfer check."
+        transfer_note = "This study had a documented held-out failure and remains in the primary evaluation; this does not establish failure of its entire platform."
     elif accession in TRANSFERABLE_ACCESSIONS:
         transfer_status = "represented"
-        transfer_note = "This accession is represented in the transferable public-study evaluation."
+        transfer_note = "This study is included in the full development evaluation; membership does not establish prospective transferability."
     else:
         transfer_status = "unverified"
         transfer_note = "Transferability is unverified for this uploaded or unseen cohort."
@@ -358,6 +358,22 @@ def program_score_table(feature_row: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(records).sort_values("score", ascending=False)
 
 
+def evaluation_scope() -> dict[str, Any]:
+    report = json.loads((PROJECT_ROOT / 'results/reviewer_revision/evaluation.json').read_text())
+    primary = report['primary']
+    sensitivity = report['post_hoc_seven_study_sensitivity']
+    return {
+        'primary_loso_mean_macro_f1': primary['mean_macro_f1'],
+        'primary_profiles': primary['n_profiles'],
+        'primary_studies': primary['n_studies'],
+        'primary_worst_fold_macro_f1': primary['worst_macro_f1'],
+        'pooled_held_out_accuracy': primary['pooled_accuracy'],
+        'post_hoc_subset_mean_macro_f1': sensitivity['mean_macro_f1'],
+        'subset_status': 'Exploratory: excluded study selected after observing outer-fold failure.',
+        'warning': 'The live Stage-B artifact and the historical nested LOSO ensemble are distinct evidence objects.',
+    }
+
+
 def build_evidence_packet(
     score: dict[str, Any],
     qc: dict[str, Any],
@@ -366,8 +382,8 @@ def build_evidence_packet(
     accession: str,
     sample_label: str,
 ) -> dict[str, Any]:
-    top_support = sorted(score.get("contributions", []), key=lambda x: x["contribution"], reverse=True)[:3]
-    top_against = sorted(score.get("contributions", []), key=lambda x: x["contribution"])[:3]
+    top_support = sorted((x for x in score.get("contributions", []) if x["contribution"] > 0), key=lambda x: x["contribution"], reverse=True)[:3]
+    top_against = sorted((x for x in score.get("contributions", []) if x["contribution"] < 0), key=lambda x: x["contribution"])[:3]
     return {
         "system": "KeloidBench",
         "intended_use": "research-use cross-cohort transcriptomic triage",
@@ -395,13 +411,7 @@ def build_evidence_packet(
         "top_program_scores": programs.head(6).to_dict(orient="records"),
         "top_supporting_contributions": top_support,
         "top_opposing_contributions": top_against,
-        "evidence_scope": {
-            "transferable_loso_mean_macro_f1": 0.918,
-            "transferable_profiles": 92,
-            "transferable_studies": 7,
-            "pooled_held_out_accuracy": 77 / 92,
-            "warning": "The live Stage-B artifact and the later nested LOSO ensemble are distinct evidence objects.",
-        },
+        "evidence_scope": evaluation_scope(),
     }
 
 
@@ -439,49 +449,73 @@ def deterministic_summary(packet: dict[str, Any]) -> str:
 
 
 def _copilot_prompt(packet: dict[str, Any]) -> str:
+    from narrative_validation import DISCLAIMER, factual_anchor
     return (
-        "You are the KeloidBench research copilot. Write a concise, technically accurate "
-        "interpretation for a transcriptomics researcher. Use only the JSON evidence below. "
-        "Do not add mechanisms, citations, diagnoses, treatment advice, or numbers absent from "
-        "the evidence. Explicitly state when the decision is abstain and preserve the research-use "
-        "limitation. Use at most 130 words.\n\nEVIDENCE_JSON:\n"
-        + json.dumps(packet, indent=2)
+        "Write a research interpretation of the evidence below in at most 130 words. "
+        "Copy the factual opening exactly, including its labeled numbers. Then describe "
+        "only the supplied program contributions, preserving their sign, and include "
+        "the exact QC note. Do not assert another class decision. Do not add numbers, "
+        "mechanisms, citations, diagnoses, treatment advice, or unsupported facts. "
+        "End with the exact disclaimer. Output plain prose only.\n"
+        "OPENING: " + factual_anchor(packet) + "\nQC NOTE: "
+        + packet['quality_control']['transfer_note'] + "\nDISCLAIMER: " + DISCLAIMER
+        + "\nEVIDENCE_JSON:\n" + json.dumps(packet, indent=2)
     )
 
 
-def generate_grounded_summary(packet: dict[str, Any]) -> tuple[str, str]:
-    """Call an optional OpenAI-compatible endpoint; otherwise return faithful fallback prose.
+def external_evidence_packet(packet: dict[str, Any]) -> dict[str, Any]:
+    external = json.loads(json.dumps(packet))
+    if 'sample' in external:
+        external['sample']['sample_id'] = 'redacted'
+    return external
 
-    Configure with KELOIDBENCH_LLM_API_URL, KELOIDBENCH_LLM_MODEL, and optionally
-    KELOIDBENCH_LLM_API_KEY. The endpoint is never allowed to alter the score.
+
+def generate_grounded_summary(
+    packet: dict[str, Any], *, require_llm: bool = False,
+    request_recorder=None, validate_output: bool = True,
+) -> tuple[str, str]:
+    """Generate prose; audits require actual generation and inspect raw output.
+
+    Runtime validation may fall back to a template. Audit callers disable that
+    fallback and retain every raw response, including failed validation.
     """
-    url = os.environ.get("KELOIDBENCH_LLM_API_URL", "").strip()
-    model = os.environ.get("KELOIDBENCH_LLM_MODEL", "").strip()
+    url = os.environ.get('KELOIDBENCH_LLM_API_URL', '').strip()
+    model = os.environ.get('KELOIDBENCH_LLM_MODEL', '').strip()
     if not url or not model:
-        return deterministic_summary(packet), "deterministic_fallback"
-    # Never transmit raw expression or sample identifiers to a remote narrative
-    # endpoint. The model receives only derived evidence and a redacted sample key.
-    external_packet = json.loads(json.dumps(packet))
-    if "sample" in external_packet:
-        external_packet["sample"]["sample_id"] = "redacted"
-    headers = {"Content-Type": "application/json"}
-    key = os.environ.get("KELOIDBENCH_LLM_API_KEY", "").strip()
+        if require_llm:
+            raise RuntimeError('LLM audit requires KELOIDBENCH_LLM_API_URL and KELOIDBENCH_LLM_MODEL')
+        return deterministic_summary(packet), 'deterministic_fallback'
+    external_packet = external_evidence_packet(packet)
+    payload = {'model': model, 'messages': [{'role':'user','content':_copilot_prompt(external_packet)}],
+               'temperature':0, 'max_tokens':400}
+    headers = {'Content-Type':'application/json'}
+    key = os.environ.get('KELOIDBENCH_LLM_API_KEY','').strip()
     if key:
-        headers["Authorization"] = f"Bearer {key}"
-    response = requests.post(
-        url,
-        headers=headers,
-        json={
-            "model": model,
-            "messages": [{"role": "user", "content": _copilot_prompt(external_packet)}],
-            "temperature": 0,
-            "max_tokens": 220,
-        },
-        timeout=45,
-    )
-    response.raise_for_status()
-    body = response.json()
-    return str(body["choices"][0]["message"]["content"]).strip(), "grounded_llm"
+        headers['Authorization'] = f'Bearer {key}'
+    if request_recorder is not None:
+        request_recorder(json.loads(json.dumps(payload)))
+    try:
+        response = requests.post(url, headers=headers, json=payload, timeout=45)
+        response.raise_for_status()
+        body = response.json()
+        choice = body['choices'][0]
+        content = choice['message']['content']
+        if not isinstance(content, str) or not content.strip():
+            raise ValueError('Model returned empty or non-text narrative')
+        narrative = content.strip()
+        if request_recorder is not None:
+            request_recorder({'response_metadata': {'model':body.get('model'),
+                'id':body.get('id'), 'finish_reason':choice.get('finish_reason'),
+                'usage':body.get('usage')}})
+        from narrative_validation import validate_narrative
+        if validate_output and (choice.get('finish_reason') == 'length' or
+                                not validate_narrative(narrative,packet)['automated_pass']):
+            return deterministic_summary(packet), 'validation_fallback'
+        return narrative, 'grounded_llm'
+    except (requests.RequestException, ValueError, KeyError, IndexError, TypeError):
+        if require_llm:
+            raise
+        return deterministic_summary(packet), 'generation_error_fallback'
 
 
 def load_loso_evidence() -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any], dict[str, Any]]:

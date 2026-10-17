@@ -98,7 +98,8 @@ class DemoScoringTests(unittest.TestCase):
     def test_remote_narrative_redacts_sample_identifier(self):
         packet = {
             "sample": {"sample_id": "sensitive-id", "accession": "uploaded"},
-            "prediction": {"decision": "abstain"},
+            "prediction": {"decision": "abstain", "confidence": 0.52, "confidence_threshold": 0.55},
+            "quality_control": {"transfer_note": "Unverified cohort."},
         }
         response = Mock()
         response.raise_for_status.return_value = None
@@ -111,7 +112,7 @@ class DemoScoringTests(unittest.TestCase):
             },
             clear=False,
         ), patch("demo_utils.requests.post", return_value=response) as post:
-            text, mode = generate_grounded_summary(packet)
+            text, mode = generate_grounded_summary(packet, require_llm=True, validate_output=False)
         prompt = post.call_args.kwargs["json"]["messages"][0]["content"]
         self.assertEqual(text, "Grounded summary")
         self.assertEqual(mode, "grounded_llm")
