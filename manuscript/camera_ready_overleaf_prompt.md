@@ -1,6 +1,6 @@
 # Camera-ready edit instructions for the Overleaf agent
 
-Paste everything below the line into the Overleaf agent. Before running it, upload `paper_cross_study.pdf` and `narrative_audit.pdf` from `results/reviewer_revision/figures/` into the project's figure folder.
+Paste everything below the line into the Overleaf agent. Before running it, upload `paper_cross_study.pdf` and `narrative_audit.pdf` from `results/reviewer_revision/figures/`, plus `manuscript/appendix_keloidbench.tex`, into the Overleaf project.
 
 ---
 
@@ -47,5 +47,6 @@ Other provenance:
 9. **Conclusion.** Replace "the model's performance and auditable feature attributions support its use as a practical public-data triage tool" with wording that reflects the full-cohort result and its failure case. Add a limitations sentence covering: eight studies with an observed failure; post hoc subset; no demonstrated program superiority; narrative v2 development-informed with no human rating; and the need for independent prospective cohorts.
 10. **Code availability.** Add a final line: "Code, frozen protocols, predictions, narrative audit outputs, and reproduction commands: https://github.com/willibmwang/KeloidBench."
 11. **Final version.** Switch the style option from preprint to camera-ready (for example `\usepackage[final]{...}`) so the "Preprint." footer is removed.
+12. **Appendix.** Replace the project's appendix with the uploaded `appendix_keloidbench.tex`. It contains the updated A8 narrative audit, the new A9 matched-marker table, and the A10 reproduction table, and it requires `booktabs`. In the main text, point the narrative paragraph to Appendix A8 and the matched comparison to Appendix A9.
 
 Do not change any number not listed above. If space requires cuts, cut prose from the demo-walkthrough paragraphs in Section 4 rather than evidence or limitations.
