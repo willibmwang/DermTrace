@@ -463,6 +463,32 @@ def _copilot_prompt(packet: dict[str, Any]) -> str:
     )
 
 
+def _copilot_prose_prompt(packet: dict[str, Any]) -> str:
+    """narrative_local_v2: the model writes only the contribution prose; code adds the anchors."""
+    def names(items):
+        return ", ".join(item["display_name"] for item in items) or "none"
+    return (
+        "Write two or three plain sentences, at most 60 words in total, explaining which "
+        "programs pushed this sample's score toward keloid and which pushed it toward non-keloid. "
+        "Use only the program names listed below, keep each program in its listed direction, "
+        "and do not mention any other program. Do not write any digits or numbers. Do not state "
+        "a classification, decision, or diagnosis. Do not mention mechanisms, causes, treatment, "
+        "prognosis, or citations. Output only the sentences, without labels or headings.\n"
+        "Programs pushing toward keloid: " + names(packet.get("top_supporting_contributions", [])) + "\n"
+        "Programs pushing toward non-keloid: " + names(packet.get("top_opposing_contributions", [])) + "\n"
+        "EVIDENCE_JSON:\n" + json.dumps(packet, indent=2)
+    )
+
+
+def assemble_narrative(packet: dict[str, Any], prose: str) -> str:
+    """Wrap generated prose with the fixed factual opening, QC note, and disclaimer."""
+    from narrative_validation import DISCLAIMER, factual_anchor
+    qc = packet["quality_control"]
+    status = qc.get("transfer_status")
+    transfer = f"Transferability status is {status}: {qc['transfer_note']}" if status else qc["transfer_note"]
+    return " ".join([factual_anchor(packet), " ".join(prose.split()), transfer, DISCLAIMER])
+
+
 def external_evidence_packet(packet: dict[str, Any]) -> dict[str, Any]:
     external = json.loads(json.dumps(packet))
     if 'sample' in external:
@@ -486,7 +512,7 @@ def generate_grounded_summary(
             raise RuntimeError('LLM audit requires KELOIDBENCH_LLM_API_URL and KELOIDBENCH_LLM_MODEL')
         return deterministic_summary(packet), 'deterministic_fallback'
     external_packet = external_evidence_packet(packet)
-    payload = {'model': model, 'messages': [{'role':'user','content':_copilot_prompt(external_packet)}],
+    payload = {'model': model, 'messages': [{'role':'user','content':_copilot_prose_prompt(external_packet)}],
                'temperature':0, 'max_tokens':400}
     headers = {'Content-Type':'application/json'}
     key = os.environ.get('KELOIDBENCH_LLM_API_KEY','').strip()
@@ -502,14 +528,16 @@ def generate_grounded_summary(
         content = choice['message']['content']
         if not isinstance(content, str) or not content.strip():
             raise ValueError('Model returned empty or non-text narrative')
-        narrative = content.strip()
+        raw = content.strip()
         if request_recorder is not None:
             request_recorder({'response_metadata': {'model':body.get('model'),
                 'id':body.get('id'), 'finish_reason':choice.get('finish_reason'),
                 'usage':body.get('usage')}})
+        if not validate_output:
+            return raw, 'grounded_llm'  # audits keep the raw prose and assemble it themselves
         from narrative_validation import validate_narrative
-        if validate_output and (choice.get('finish_reason') == 'length' or
-                                not validate_narrative(narrative,packet)['automated_pass']):
+        narrative = assemble_narrative(packet, raw)
+        if choice.get('finish_reason') == 'length' or not validate_narrative(narrative,packet)['automated_pass']:
             return deterministic_summary(packet), 'validation_fallback'
         return narrative, 'grounded_llm'
     except (requests.RequestException, ValueError, KeyError, IndexError, TypeError):

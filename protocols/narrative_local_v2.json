@@ -1,0 +1,18 @@
+{
+  "version": "narrative_local_v2",
+  "specified_at": "2026-10-17",
+  "supersedes": "narrative_local_v1 (0/303 raw outputs passed; retained unchanged as a negative result)",
+  "development_informed": "Yes. The format, model choice, and contribution_role check were chosen after inspecting v1 outputs on the same 101 development packets. v2 is not an independent validation.",
+  "model": "Qwen/Qwen3-8B",
+  "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "reason": "Larger instruction model in the same family; v1 showed the 1.7B model could not follow format constraints.",
+  "packets": "results/reviewer_revision/narrative_audit/frozen_packets.jsonl",
+  "profiles": 101,
+  "repeats": 3,
+  "decoding": "greedy; enable_thinking=false; max_new_tokens=160; bfloat16; batch_size=16",
+  "format": "The model writes only the contribution prose (demo_utils._copilot_prose_prompt). Code adds the factual opening, transfer note, and disclaimer (demo_utils.assemble_narrative). The live demo uses the same format.",
+  "validator": "scripts/narrative_validation.py with the new clause-level contribution_role check. contribution_direction is evaluated per clause rather than per sentence, which removes false positives for sentences that name both directions. Replay shows that no earlier run outcome changes.",
+  "primary": "All raw attempts pass all automated checks on the assembled narrative; generation errors, empty outputs, and truncations count as failures.",
+  "uncertainty": "Profile-cluster bootstrap, seed 13, 10000 draws; repeated greedy generations are not independent samples.",
+  "policy": "Freeze before generation. Do not tune the prompt on v2 results. Report the result whatever it is; retain v1."
+}

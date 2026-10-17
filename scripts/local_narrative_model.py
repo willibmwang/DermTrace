@@ -7,7 +7,8 @@ import time
 from pathlib import Path
 
 
-def generate_local_attempts(records, repeats, model_path, batch_size=16):
+def generate_local_attempts(records, repeats, model_path, batch_size=16, model_name='Qwen/Qwen3-1.7B',
+                            narrative_format='full', max_new_tokens=400):
     import torch
     import transformers
     from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -25,13 +26,15 @@ def generate_local_attempts(records, repeats, model_path, batch_size=16):
         model_path, local_files_only=True, torch_dtype=torch.bfloat16,
         attn_implementation='sdpa',
     ).to('cuda').eval()
-    model_id = 'Qwen/Qwen3-1.7B@' + model_path.name
+    model_id = model_name + '@' + model_path.name
+    prompt = du._copilot_prose_prompt if narrative_format == 'prose' else du._copilot_prompt
     metadata = {
         'model': model_id, 'snapshot': model_path.name,
         'config_sha256': hashlib.sha256((model_path / 'config.json').read_bytes()).hexdigest(),
         'transformers': transformers.__version__, 'torch': torch.__version__,
         'device': torch.cuda.get_device_name(), 'dtype': 'bfloat16',
-        'enable_thinking': False, 'do_sample': False, 'max_new_tokens': 400,
+        'enable_thinking': False, 'do_sample': False, 'max_new_tokens': max_new_tokens,
+        'narrative_format': narrative_format,
         'batch_size': batch_size,
     }
     tasks = [(record, repeat) for record in records for repeat in range(repeats)]
@@ -42,8 +45,8 @@ def generate_local_attempts(records, repeats, model_path, batch_size=16):
             packet = du.external_evidence_packet(record['packet'])
             payloads.append({
                 'model': model_id,
-                'messages': [{'role': 'user', 'content': du._copilot_prompt(packet)}],
-                'temperature': 0, 'max_tokens': 400,
+                'messages': [{'role': 'user', 'content': prompt(packet)}],
+                'temperature': 0, 'max_tokens': max_new_tokens,
             })
         rendered = [tokenizer.apply_chat_template(
             payload['messages'], tokenize=False, add_generation_prompt=True,
@@ -54,7 +57,7 @@ def generate_local_attempts(records, repeats, model_path, batch_size=16):
         try:
             with torch.inference_mode():
                 generated = model.generate(
-                    **encoded, max_new_tokens=400, do_sample=False,
+                    **encoded, max_new_tokens=max_new_tokens, do_sample=False,
                     pad_token_id=tokenizer.pad_token_id,
                 )
             new_tokens = generated[:, encoded.input_ids.shape[1]:].cpu()

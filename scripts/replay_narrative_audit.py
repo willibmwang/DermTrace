@@ -18,8 +18,9 @@ for row in rows:
     record=packets[row['profile_id']]
     assert digest(record['packet'])==record['packet_hash']==row['packet_hash']
     checks=validate_narrative(row['narrative'],record['packet'])['checks']
-    for key,value in checks.items():
-        assert value==row['checks'][key],(row['profile_id'],key)
+    # Runs record the validator checks that existed when they ran; later-added checks are not retrofitted.
+    for key in checks.keys() & row['checks'].keys():
+        assert checks[key]==row['checks'][key],(row['profile_id'],key)
     if row['requested_arm']=='llm' and row['generation_success']:
         assert row['actual_mode']=='grounded_llm'
         assert row['request_payload'] and row['prompt_hash']==digest(row['request_payload'])

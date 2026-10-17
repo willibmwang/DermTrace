@@ -46,6 +46,8 @@ def run(args):
         raise ValueError('--local-model requires --arm llm')
     if args.arm=='llm' and not args.local_model and not all(os.environ.get(k,'').strip() for k in ['KELOIDBENCH_LLM_API_URL','KELOIDBENCH_LLM_MODEL']):
         raise RuntimeError('LLM audit requires a configured endpoint and model; deterministic fallback is forbidden.')
+    if args.arm=='llm' and not args.local_model and args.narrative_format!='prose':
+        raise ValueError('Endpoint audits use the live demo prose format; pass --narrative-format prose')
     if args.output.exists(): raise RuntimeError('Output directory exists; preserve it and choose a new run directory.')
     records=[json.loads(line) for line in args.packets.read_text().splitlines()]
     if args.limit: records=records[:args.limit]
@@ -55,24 +57,28 @@ def run(args):
     local_attempts = None
     if args.local_model:
         from local_narrative_model import generate_local_attempts
-        local_attempts = iter(generate_local_attempts(records,args.repeats,args.local_model,args.batch_size))
+        local_attempts = iter(generate_local_attempts(records,args.repeats,args.local_model,args.batch_size,
+                                                      args.model_name,args.narrative_format,args.max_new_tokens))
     attempts=[]
     for record in records:
         packet=record['packet']; assert digest(packet)==record['packet_hash']
         for repeat in range(args.repeats):
-            before=copy.deepcopy(packet);trace=[];narrative='';mode='generation_error';error=None
+            before=copy.deepcopy(packet);trace=[];narrative='';raw='';mode='generation_error';error=None
             try:
                 if args.arm=='llm':
                     if local_attempts is not None:
-                        narrative,trace,error=next(local_attempts)
-                        mode='grounded_llm' if error is None and narrative else 'generation_error'
-                        if not narrative and error is None: error='EmptyGeneration'
+                        raw,trace,error=next(local_attempts)
+                        mode='grounded_llm' if error is None and raw else 'generation_error'
+                        if not raw and error is None: error='EmptyGeneration'
+                        # Prose format: the model writes only the explanation; fixed anchors are added by code.
+                        narrative=du.assemble_narrative(packet,raw) if args.narrative_format=='prose' and raw else raw
                     else:
-                        narrative,mode=du.generate_grounded_summary(packet,require_llm=True,request_recorder=trace.append,validate_output=False)
+                        raw,mode=du.generate_grounded_summary(packet,require_llm=True,request_recorder=trace.append,validate_output=False)
+                        narrative=du.assemble_narrative(packet,raw)
                     if mode!='grounded_llm': raise RuntimeError('Non-generative output in LLM audit')
                 else: narrative,mode=du.deterministic_summary(packet),'deterministic'
             except Exception as exc:
-                error=type(exc).__name__
+                error=error or type(exc).__name__
             result=validate_narrative(narrative,packet)
             checks=result['checks']
             checks['packet_immutable']=packet==before
@@ -88,6 +94,7 @@ def run(args):
                  'packet_hash':record['packet_hash'],'prompt_hash':digest(payload) if payload else None,
                  'generation_success':error is None,'error_type':error,'response_metadata':response,
                  'checks':checks,'all_checks_pass':error is None and all(checks.values()),'narrative':narrative,
+                 'raw_generation':raw if args.arm=='llm' else None,'narrative_format':args.narrative_format,
                  'request_payload':payload}
             attempts.append(row)
             with (args.output/'responses.jsonl').open('a') as f:f.write(json.dumps(row)+'\n')
@@ -108,8 +115,9 @@ def run(args):
              'packets_sha256':hashlib.sha256(args.packets.read_bytes()).hexdigest(),
             'validator_sha256':hashlib.sha256((ROOT/'scripts/narrative_validation.py').read_bytes()).hexdigest(),
             'backend':'local_transformers' if args.local_model else 'http_endpoint' if args.arm=='llm' else 'template'}
+    summary['narrative_format']=args.narrative_format
     if args.local_model:
-        summary['model']=str(args.local_model.name)
+        summary['model']=args.model_name+'@'+str(args.local_model.name)
     profile_rates=[sum(values)/len(values) for values in by_profile.values()]
     import numpy as np
     rng=np.random.default_rng(13)
@@ -149,6 +157,10 @@ def main():
     p.add_argument('--output',type=Path,default=BASE/'deterministic_v1')
     p.add_argument('--local-model',type=Path)
     p.add_argument('--batch-size',type=int,default=16)
+    p.add_argument('--model-name',default='Qwen/Qwen3-1.7B')
+    p.add_argument('--narrative-format',choices=['full','prose'],default='full',
+                   help='full: v1 model writes the whole narrative; prose: v2 model writes only the explanation')
+    p.add_argument('--max-new-tokens',type=int,default=400)
     args=p.parse_args()
     if args.repeats<1: p.error('--repeats must be positive')
     if args.batch_size<1: p.error('--batch-size must be positive')

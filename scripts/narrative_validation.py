@@ -11,6 +11,32 @@ def factual_anchor(packet):
     return (f"KeloidBench returned a {p['decision'].replace('_', ' ')} research-triage result "
             f"with P(keloid)={p['prob_keloid']:.3f} and model confidence={p['confidence']:.3f}.")
 
+TOWARD_NON = re.compile(r'\b(?:non[- ]keloid|unaffected|against|away|oppos\w*|decreas\w*|lower\w*|reduc\w*|negative\w*)\b', re.I)
+TOWARD_KELOID = re.compile(r'\b(?:towards?|favou?r\w*|support\w*|increas\w*|rais\w*|positive\w*)\b', re.I)
+CLAUSE = re.compile(r'[,;:]|\b(?:while|whereas|but|however|although|in contrast)\b|(?<=[.!?])\s+', re.I)
+
+def contribution_roles_ok(text, packet):
+    """Clause-level check that each named program keeps its supplied direction.
+
+    Added in narrative_local_v2 after v1 showed the toward/against phrase check
+    was too weak. Contributions are oriented toward P(keloid). A clause naming
+    programs of both directions together with a direction word is ambiguous and fails.
+    """
+    roles = {}
+    for key, role in [('top_supporting_contributions', 'keloid'), ('top_opposing_contributions', 'non')]:
+        for item in packet.get(key, []):
+            name = item.get('display_name', '').lower()
+            for alias in {name, name.split(' ')[0], item.get('feature', '').lower().replace('_', ' ')}:
+                if alias: roles.setdefault(alias, set()).add(role)
+    for clause in CLAUSE.split(text.lower().replace('_', ' ')):
+        named = set().union(*[r for alias, r in roles.items() if re.search(r'\b' + re.escape(alias) + r'\b', clause)] or [set()])
+        if not named:
+            continue
+        direction = 'non' if TOWARD_NON.search(clause) else 'keloid' if TOWARD_KELOID.search(clause) else None
+        if direction and (len(named) > 1 or direction not in named):
+            return False
+    return True
+
 def validate_narrative(narrative, packet):
     anchor = factual_anchor(packet)
     text = narrative.strip()
@@ -33,7 +59,8 @@ def validate_narrative(narrative, packet):
     for item in contributions:
         name = item.get('display_name','')
         value = float(item.get('contribution',0))
-        for sentence in re.split(r'(?<=[.!?])\s+',stripped):
+        # Clause-level (v2): a correct sentence may name programs in both directions.
+        for sentence in CLAUSE.split(stripped):
             if name and name.lower() in sentence.lower():
                 toward = bool(re.search(r'(toward|support\w*|increas\w*)\s+(?:the\s+)?keloid',sentence,re.I))
                 against = bool(re.search(r'(against|away from|decreas\w*)\s+(?:the\s+)?keloid',sentence,re.I))
@@ -43,7 +70,8 @@ def validate_narrative(narrative, packet):
               'abstention_disclosed':packet['prediction']['decision']!='abstain' or (anchor_ok and 'abstained' in anchor),
               'no_prohibited_claims':not bool(prohibited), 'research_use_stated':text.endswith(DISCLAIMER),
               'qc_disclosed':bool(qc_note) and qc_note in text, 'contribution_direction':direction_ok,
-              'nonempty_and_within_word_limit':bool(text) and len(text.split())<=130}
+              'nonempty_and_within_word_limit':bool(text) and len(text.split())<=130,
+              'contribution_role':contribution_roles_ok(stripped, packet)}
     return {'checks':checks,'automated_pass':all(checks.values()),
             'failed_checks':[k for k,v in checks.items() if not v],
             'limitation':'Automated screening is conservative and incomplete; it is not a semantic faithfulness guarantee.'}
