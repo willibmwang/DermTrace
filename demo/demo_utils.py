@@ -537,7 +537,9 @@ def generate_grounded_summary(
             return raw, 'grounded_llm'  # audits keep the raw prose and assemble it themselves
         from narrative_validation import validate_narrative
         narrative = assemble_narrative(packet, raw)
-        if choice.get('finish_reason') == 'length' or not validate_narrative(narrative,packet)['automated_pass']:
+        # Display policy (after v2): also reject non-English text, e.g. Qwen code-switching seen in 75/303 v2 outputs.
+        if (choice.get('finish_reason') == 'length' or not raw.isascii()
+                or not validate_narrative(narrative,packet)['automated_pass']):
             return deterministic_summary(packet), 'validation_fallback'
         return narrative, 'grounded_llm'
     except (requests.RequestException, ValueError, KeyError, IndexError, TypeError):

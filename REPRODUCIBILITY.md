@@ -53,6 +53,13 @@ Replay any completed run without loading a model:
 python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1/responses.jsonl
 ```
 
+Run and replay the v2 audit (`protocols/narrative_local_v2.json`; Qwen3-8B snapshot `b968826`; set `KB_MODEL` to its local path):
+
+```bash
+sbatch scripts/run_narrative_audit_v2_gpu.sbatch
+python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_8b_v2/responses.jsonl
+```
+
 Regenerate the post hoc failure diagnostic for the frozen local run. It is exploratory, written after inspecting outputs, and does not alter the run or validator:
 
 ```bash

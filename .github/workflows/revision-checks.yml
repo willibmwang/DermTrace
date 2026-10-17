@@ -19,6 +19,7 @@ jobs:
       - run: python scripts/generate_revision_docs.py
       - run: python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/deterministic_v1/responses.jsonl
       - run: python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1/responses.jsonl
+      - run: python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_8b_v2/responses.jsonl
       - run: |
           python scripts/diagnose_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1 --output "$RUNNER_TEMP/diag"
           diff "$RUNNER_TEMP/diag/summary.json" results/reviewer_revision/narrative_audit/qwen3_1_7b_v1_diagnostics/summary.json

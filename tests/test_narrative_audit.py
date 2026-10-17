@@ -51,4 +51,12 @@ class NarrativeTests(unittest.TestCase):
         response=Mock();response.json.return_value={'choices':[{'message':{'content':''}}]}
         with patch.dict(os.environ,{'KELOIDBENCH_LLM_API_URL':'https://example.invalid','KELOIDBENCH_LLM_MODEL':'test'}),patch('demo_utils.requests.post',return_value=response):
             with self.assertRaises(ValueError):generate_grounded_summary(self.packet,require_llm=True,validate_output=False)
+    def test_runtime_display_assembles_valid_prose_and_rejects_code_switching(self):
+        for prose,expected in [('These programs are shown for research interpretation.','grounded_llm'),
+                               ('These programs show a keloid\u503e\u5411.','validation_fallback')]:
+            response=Mock();response.json.return_value={'choices':[{'message':{'content':prose},'finish_reason':'stop'}]}
+            with patch.dict(os.environ,{'KELOIDBENCH_LLM_API_URL':'https://example.invalid','KELOIDBENCH_LLM_MODEL':'test'}),patch('demo_utils.requests.post',return_value=response):
+                text,mode=generate_grounded_summary(self.packet)
+            self.assertEqual(mode,expected)
+            if expected=='grounded_llm':self.assertTrue(text.startswith(factual_anchor(self.packet)) and text.endswith(DISCLAIMER))
 if __name__=='__main__':unittest.main()

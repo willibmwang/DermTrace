@@ -29,9 +29,14 @@ def narrative_status():
     if V2.exists():
         v = json.loads(V2.read_text())
         lo, hi = v['profile_cluster_bootstrap_95_interval']
+        rows = [json.loads(line) for line in (V2.parent / 'responses.jsonl').read_text().splitlines()]
+        mixed = sum(not (row['raw_generation'] or '').isascii() for row in rows)
+        clean = sum(row['all_checks_pass'] and (row['raw_generation'] or '').isascii() for row in rows)
         text += (f" Development-informed v2 (Qwen3-8B writes only the contribution prose; code adds the fixed opening, QC note, and disclaimer): "
                  f"{v['generation_successes']}/{v['n_attempts']} generations completed and {v['all_checks_pass']}/{v['n_attempts']} assembled outputs "
                  f"passed all automated checks, including a stricter clause-level contribution-role check "
                  f"({v['profiles_all_repeats_pass']}/{v['n_profiles']} profiles on every repeat; profile-cluster interval [{lo:.3f}, {hi:.3f}]). "
+                 f"Post hoc, {mixed}/{v['n_attempts']} outputs contained a non-English token (Qwen code-switching) that no check covered, "
+                 f"so {clean}/{v['n_attempts']} were both check-passing and English-only; the demo now falls back to the template for such text. "
                  "v2 was designed after inspecting v1 on the same packets and is not an independent validation.")
     return text + ' ' + HUMAN

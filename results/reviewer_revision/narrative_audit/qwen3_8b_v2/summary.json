@@ -1,0 +1,125 @@
+{
+  "requested_arm": "llm",
+  "model": "Qwen/Qwen3-8B@b968826d9c46dd6066d109eabc6255188de91218",
+  "endpoint_host": null,
+  "n_profiles": 101,
+  "n_attempts": 303,
+  "repeats": 3,
+  "generation_successes": 303,
+  "all_checks_pass": 290,
+  "profiles_all_repeats_pass": 96,
+  "checks": {
+    "factual_anchor": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "numeric_fields_grounded": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "decision_consistent": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "abstention_disclosed": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "no_prohibited_claims": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "research_use_stated": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "qc_disclosed": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "contribution_direction": {
+      "n_pass": 300,
+      "denominator": 303
+    },
+    "nonempty_and_within_word_limit": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "contribution_role": {
+      "n_pass": 290,
+      "denominator": 303
+    },
+    "packet_immutable": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "request_redacted": {
+      "n_pass": 303,
+      "denominator": 303
+    },
+    "not_truncated": {
+      "n_pass": 303,
+      "denominator": 303
+    }
+  },
+  "subgroups": {
+    "E-MTAB-4945": {
+      "n_attempts": 90,
+      "all_checks_pass": 90
+    },
+    "GSE158395": {
+      "n_attempts": 39,
+      "all_checks_pass": 39
+    },
+    "GSE173900": {
+      "n_attempts": 27,
+      "all_checks_pass": 24
+    },
+    "GSE181297": {
+      "n_attempts": 18,
+      "all_checks_pass": 14
+    },
+    "GSE181316": {
+      "n_attempts": 15,
+      "all_checks_pass": 15
+    },
+    "GSE190626": {
+      "n_attempts": 18,
+      "all_checks_pass": 15
+    },
+    "GSE92566": {
+      "n_attempts": 21,
+      "all_checks_pass": 21
+    },
+    "Sun_Burns": {
+      "n_attempts": 75,
+      "all_checks_pass": 72
+    }
+  },
+  "human_review_status": "pending independent raters",
+  "interpretation": "Automated screening only; repeats are clustered by profile. No human-validated generative pass rate is established.",
+  "packets_sha256": "63edcd9ea2132c5ea5a83ea3a4882e434e7c4993029fad2ca265f09c36a3eb2d",
+  "validator_sha256": "ac43ee7bbd3e479d4bc31f0a0c64a48f33033b808bce8b3a910437725184d951",
+  "backend": "local_transformers",
+  "narrative_format": "prose",
+  "automated_pass_rate": 0.9570957095709571,
+  "profile_cluster_bootstrap_95_interval": [
+    0.9174917491749174,
+    0.9900990099009901
+  ],
+  "decision_subgroups": {
+    "abstain": {
+      "n_attempts": 63,
+      "all_checks_pass": 57
+    },
+    "keloid": {
+      "n_attempts": 135,
+      "all_checks_pass": 128
+    },
+    "non_keloid": {
+      "n_attempts": 105,
+      "all_checks_pass": 105
+    }
+  },
+  "displayed_template_fallbacks": 13
+}

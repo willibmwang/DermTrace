@@ -23,9 +23,24 @@ The frozen result is reported as is. The prompt was not tuned on these outputs.
 - **Numeric attribution (heuristic):** 297/303 outputs restated numbers despite the instruction not to. Of 933 numbers attached to a named program, 609 matched that program's contribution, 255 matched its input value while being described as a contribution, and 69 matched neither (for example, invented percentage shares). 120/303 outputs contained at least one such number.
 - **Checker limitation:** the frozen `contribution_direction` check passed every output because it detects only explicit toward/against-keloid phrasing. It missed sign/value confusions such as "highest positive contribution (-0.156)". Contribution faithfulness therefore requires human rating or a stronger, separately validated checker.
 
-**Conclusion.** Constrained generation with this small local model is not faithful enough for display under the frozen criteria. The runtime template fallback is required. A revised prompt, structured output format, or stronger model must be frozen as a new protocol version. Results on these same development packets would be development-informed.
+**Conclusion (v1).** Constrained whole-narrative generation with this small local model is not faithful enough for display under the frozen criteria. This motivated the separately frozen v2 below.
 
-Independent human review is still pending. Rater forms for the frozen run are in `qwen3_1_7b_v1/`.
+## v2 local LLM run (current generative result; development-informed)
+
+Protocol [`narrative_local_v2`](../../../protocols/narrative_local_v2.json) was frozen and pushed before generation (commit 2180d0d). Pinned Qwen3-8B, greedy decoding, 101 frozen packets x 3 requests, SLURM job 2866086 on one A40 ([log](../../slurm/keloid-narrative-v2-2866086.out)). Outputs: [`qwen3_8b_v2/`](qwen3_8b_v2/), including `raw_generation` for every attempt.
+
+The model writes only the contribution prose. Code adds the fixed factual opening, transfer note, and disclaimer, so no number or class decision is model-generated. The live demo uses the same format.
+
+- Generation succeeded for **303/303** requests, with no truncation.
+- **290/303** assembled outputs passed all automated checks (profile-cluster interval [0.917, 0.990]). **96/101** profiles passed on every repeat.
+- By decision: abstain 57/63, keloid 128/135, non-keloid 105/105.
+- All 13 failures were `contribution_role` failures, in which a program was described in the wrong direction. Three also failed `contribution_direction`. Manual inspection confirmed that these were genuine errors.
+- Greedy repeats were identical for 100/101 profiles.
+- **Post hoc observation:** 75/303 outputs contained a Chinese token (`倾向`, code-switching), and all of them passed the frozen checks. Only **215/303** were both check-passing and English-only. The demo now also requires English-only prose before display.
+
+**Caveat.** The format, model, and new check were chosen after inspecting v1 on the same development packets. v2 therefore shows that the constrained design is workable, not that it generalizes. The automated checks cover anchors, numbers, class statements, directions, prohibited claims, redaction, and immutability; they do not assess usefulness.
+
+Independent human rating was not performed in this revision. Blank two-rater forms are released in each run directory.
 
 The frozen packets identify the live Stage-B model's outputs; the historical LOSO ensemble is a separate evidence object. These public development profiles are not a new held-out clinical evaluation.
 
@@ -66,4 +81,4 @@ For each item, compare the narrative with its redacted evidence packet:
 
 Report each rater's counts, raw agreement and chance-adjusted agreement, adjudicated outcomes, and denominators. Report request success separately from faithfulness among successful generations. Count API failures in the all-attempt success measure. Repeated outputs share a profile: use profile-cluster bootstrap intervals, and report study/decision breakdowns. Do not count repeated requests as independent profiles.
 
-For a blinded template-versus-LLM usefulness comparison, mix both arms under randomly assigned item IDs and remove arm labels before rating. The per-run forms alone do not provide cross-arm blinding. This comparison and human adjudication remain pending until independent raters are available.
+For a blinded template-versus-LLM usefulness comparison, mix both arms under randomly assigned item IDs and remove arm labels before rating. The per-run forms alone do not provide cross-arm blinding. This comparison and human adjudication were not performed in this revision.
