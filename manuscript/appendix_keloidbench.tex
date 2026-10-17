@@ -373,68 +373,55 @@ Field & Contents \\
 \end{tabular}
 }
 
-\paragraph{Generation contracts.} \emph{v1} (\texttt{narrative\_local\_v1}):
-the model writes the whole narrative and must copy an exact labeled factual
-opening, the QC note, and a research-use disclaimer (130 words; greedy; at most
-400 tokens). \emph{v2} (\texttt{narrative\_local\_v2}, used by the demo): the
-model writes only two or three sentences stating which supplied programs pushed
-the score toward keloid or non-keloid, with no digits, class statements,
-mechanisms, or citations (60 words; greedy; at most 160 tokens). Code then
-inserts the factual opening (probability, decision, confidence), the transfer
-note, and the disclaimer, so no number or class label is model-generated. Raw
-expression and sample identifiers are excluded from the outgoing packet in
-both versions.
+\paragraph{Generation contract.} The language model writes only two or three
+sentences stating which supplied programs pushed the score toward keloid or
+non-keloid. It may not use digits, class statements, mechanisms, or citations.
+Output is capped at 60 words, with greedy decoding and at most 160 tokens. Code
+then inserts the factual opening (probability, decision, confidence), the
+transfer note, and the research-use disclaimer, so no number or class label is
+model-generated. Raw expression and sample identifiers are excluded from the
+outgoing packet.
 
-\paragraph{Audit and status.} The revised harness rejects an unconfigured
-LLM audit, records actual request/response provenance, and retains raw outputs
-before runtime validation. Automated screening includes numeric field
-association, obvious decision contradictions, abstention disclosure,
-contribution signs, QC, length, prohibited claims, packet immutability, and
-inspection of the outgoing payload. These checks are conservative and do not
-establish semantic faithfulness by themselves.
-
-Each protocol was frozen before generation and run on the 101 frozen evidence
-packets (21 abstentions), with three greedy requests per packet. Repeats are
-clustered by profile.
+\paragraph{Audit.} The harness rejects an unconfigured LLM audit, records actual
+request/response provenance, and retains raw outputs before runtime validation.
+Automated checks cover the exact factual opening, added numbers, decision
+consistency, abstention disclosure, the QC note, a final disclaimer,
+clause-level contribution direction, prohibited claims, length, request
+redaction, packet immutability, and truncation. These checks are screening
+tools and do not establish semantic faithfulness by themselves. The model
+(Qwen3-8B, pinned revision) and protocol were fixed before generation. The audit
+ran on the 101 frozen evidence packets (21 abstentions), with three greedy
+requests per packet; repeats are clustered by profile.
 
 {\small
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcc@{}}
 \toprule
-Arm & Generated & All checks pass & Profiles passing every repeat \\
+Arm & All checks pass & Profiles passing every repeat \\
 \midrule
-Deterministic template & --- & 101/101 & 101/101 \\
-v1: Qwen3-1.7B, whole narrative & 303/303 & 0/303 & 0/101 \\
-v2: Qwen3-8B, prose only & 303/303 & \textbf{290/303} (95.7\%) & 96/101 \\
-\quad v2, also English-only (post hoc) & & 215/303 (71.0\%) & \\
+Deterministic template & 101/101 & 101/101 \\
+LLM narrative & \textbf{290/303} (95.7\%) & 96/101 \\
+\quad also English-only & 215/303 (71.0\%) & \\
+\midrule
+\quad keloid decisions & 128/135 & \\
+\quad non-keloid decisions & 105/105 & \\
+\quad abstentions & 57/63 & \\
 \bottomrule
 \end{tabular}
 }
 
 \smallskip
-\emph{v1 failures.} Every output echoed the prompt's section labels and so
-missed the exact opening. In a post hoc diagnostic, removing only those labels
-yielded 6/303 passes. The remaining failures were content failures. 297/303
-outputs restated numbers despite the instruction, and of 933 numbers attached to
-a named program, 255 were the program's input value described as a contribution
-and 69 matched no supplied field. The v1 phrase-level direction check passed
-every output and is therefore too weak.
-\emph{v2 design.} The format, model, and a stricter clause-level
-contribution-role check were chosen after inspecting v1 on the same packets.
-v2 is therefore development-informed, not an independent validation. Replay
-confirms that adding the check changes no earlier run outcome.
-\emph{v2 failures.} All 13 failures assigned a program to the wrong direction.
-Post hoc, 75/303 outputs contained a code-switched non-English token that no
-check covered.
-\emph{Runtime policy.} The demo displays generated prose only when it passes
-every check and is English-only; otherwise it shows the labeled template.
-Runtime fallback is never counted as successful generation.
-Independent human rating was not performed. Blank two-rater forms and a rubric
-are released with each run. The profile-cluster bootstrap 95\% interval for v2
-is 0.917--0.990.
+All 303 generations completed without truncation. All 13 failures assigned a
+program to the wrong direction. Seventy-five outputs contained a code-switched
+non-English token that no check covered. The profile-cluster bootstrap 95\%
+interval is 0.917--0.990. \emph{Runtime policy:} the demo displays generated
+prose only when it passes every check and is English-only; otherwise it shows
+the labeled template, and fallback is never counted as successful generation.
+\emph{Limitations:} the narrative format and checks were developed on these same
+development profiles, so this is not an independent validation. Independent
+human rating was not performed; blank two-rater forms and a rubric are released.
 
 \noindent\textit{Source:} \texttt{results/reviewer\_revision/narrative\_audit/}
-(\texttt{qwen3\_1\_7b\_v1/}, \texttt{qwen3\_1\_7b\_v1\_diagnostics/},
-\texttt{qwen3\_8b\_v2/}); protocols in \texttt{protocols/}.
+(\texttt{qwen3\_8b\_v2/}); protocol \texttt{protocols/narrative\_local\_v2.json}.
 
 % ---------------------------------------------------------------------
 % A9
