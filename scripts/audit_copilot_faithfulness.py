@@ -42,12 +42,20 @@ def freeze_packets(path):
     print('Frozen',len(records),'packets;',sum(r['packet']['prediction']['decision']=='abstain' for r in records),'abstentions')
 
 def run(args):
-    if args.arm=='llm' and not all(os.environ.get(k,'').strip() for k in ['KELOIDBENCH_LLM_API_URL','KELOIDBENCH_LLM_MODEL']):
+    if args.local_model and args.arm != 'llm':
+        raise ValueError('--local-model requires --arm llm')
+    if args.arm=='llm' and not args.local_model and not all(os.environ.get(k,'').strip() for k in ['KELOIDBENCH_LLM_API_URL','KELOIDBENCH_LLM_MODEL']):
         raise RuntimeError('LLM audit requires a configured endpoint and model; deterministic fallback is forbidden.')
     if args.output.exists(): raise RuntimeError('Output directory exists; preserve it and choose a new run directory.')
     records=[json.loads(line) for line in args.packets.read_text().splitlines()]
     if args.limit: records=records[:args.limit]
+    if not records:
+        raise ValueError('Audit packet collection is empty')
     args.output.mkdir(parents=True)
+    local_attempts = None
+    if args.local_model:
+        from local_narrative_model import generate_local_attempts
+        local_attempts = iter(generate_local_attempts(records,args.repeats,args.local_model,args.batch_size))
     attempts=[]
     for record in records:
         packet=record['packet']; assert digest(packet)==record['packet_hash']
@@ -55,7 +63,12 @@ def run(args):
             before=copy.deepcopy(packet);trace=[];narrative='';mode='generation_error';error=None
             try:
                 if args.arm=='llm':
-                    narrative,mode=du.generate_grounded_summary(packet,require_llm=True,request_recorder=trace.append,validate_output=False)
+                    if local_attempts is not None:
+                        narrative,trace,error=next(local_attempts)
+                        mode='grounded_llm' if error is None and narrative else 'generation_error'
+                        if not narrative and error is None: error='EmptyGeneration'
+                    else:
+                        narrative,mode=du.generate_grounded_summary(packet,require_llm=True,request_recorder=trace.append,validate_output=False)
                     if mode!='grounded_llm': raise RuntimeError('Non-generative output in LLM audit')
                 else: narrative,mode=du.deterministic_summary(packet),'deterministic'
             except Exception as exc:
@@ -93,7 +106,20 @@ def run(args):
              'human_review_status':'pending independent raters',
              'interpretation':'Automated screening only; repeats are clustered by profile. No human-validated generative pass rate is established.',
              'packets_sha256':hashlib.sha256(args.packets.read_bytes()).hexdigest(),
-             'validator_sha256':hashlib.sha256((ROOT/'scripts/narrative_validation.py').read_bytes()).hexdigest()}
+            'validator_sha256':hashlib.sha256((ROOT/'scripts/narrative_validation.py').read_bytes()).hexdigest(),
+            'backend':'local_transformers' if args.local_model else 'http_endpoint' if args.arm=='llm' else 'template'}
+    if args.local_model:
+        summary['model']=str(args.local_model.name)
+    profile_rates=[sum(values)/len(values) for values in by_profile.values()]
+    import numpy as np
+    rng=np.random.default_rng(13)
+    bootstrap=np.mean(rng.choice(profile_rates,size=(10000,len(profile_rates)),replace=True),axis=1)
+    summary['automated_pass_rate']=summary['all_checks_pass']/summary['n_attempts']
+    summary['profile_cluster_bootstrap_95_interval']=np.percentile(bootstrap,[2.5,97.5]).tolist()
+    summary['decision_subgroups']={decision:{'n_attempts':sum(row['decision']==decision for row in attempts),
+        'all_checks_pass':sum(row['all_checks_pass'] for row in attempts if row['decision']==decision)}
+        for decision in sorted({row['decision'] for row in attempts})}
+    summary['displayed_template_fallbacks']=sum(not row['all_checks_pass'] for row in attempts)
     (args.output/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     # Frozen stratification by study and decision, before any ratings are inspected.
     chosen=[];rng=random.Random(13)
@@ -121,8 +147,11 @@ def main():
     p.add_argument('--repeats',type=int,default=1)
     p.add_argument('--limit',type=int)
     p.add_argument('--output',type=Path,default=BASE/'deterministic_v1')
+    p.add_argument('--local-model',type=Path)
+    p.add_argument('--batch-size',type=int,default=16)
     args=p.parse_args()
     if args.repeats<1: p.error('--repeats must be positive')
+    if args.batch_size<1: p.error('--batch-size must be positive')
     if args.freeze_packets:freeze_packets(args.packets)
     else:run(args)
 if __name__=='__main__':main()

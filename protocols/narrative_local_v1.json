@@ -1,0 +1,16 @@
+{
+  "version": "narrative_local_v1",
+  "specified_at": "2026-10-17",
+  "model": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "reason": "Existing cached instruction-capable model; chosen before inspecting generated audit outcomes.",
+  "packets": "results/reviewer_revision/narrative_audit/frozen_packets.jsonl",
+  "profiles": 101,
+  "repeats": 3,
+  "decoding": "greedy; enable_thinking=false; max_new_tokens=400; bfloat16; batch_size=16",
+  "prompt": "Existing demo_utils._copilot_prompt, unchanged from the frozen template audit implementation.",
+  "primary": "All raw attempts passing all automated checks; generation errors and truncations count as failures.",
+  "uncertainty": "Profile-cluster bootstrap, seed 13, 10000 draws; repeated greedy generations are not independent samples.",
+  "limitations": "Development profiles; constrained factual anchors; automated screening is incomplete; independent human ratings are required and remain separate.",
+  "policy": "Retain raw responses and all failed checks. Do not tune the prompt on these results. Runtime fallback outcomes are reported separately."
+}
