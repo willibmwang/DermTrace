@@ -18,4 +18,8 @@ jobs:
       - run: python scripts/run_marker_benchmark.py --report-only
       - run: python scripts/generate_revision_docs.py
       - run: python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/deterministic_v1/responses.jsonl
+      - run: python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1/responses.jsonl
+      - run: |
+          python scripts/diagnose_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1 --output "$RUNNER_TEMP/diag"
+          diff "$RUNNER_TEMP/diag/summary.json" results/reviewer_revision/narrative_audit/qwen3_1_7b_v1_diagnostics/summary.json
       - run: git diff --exit-code -- results/reviewer_revision/evaluation.json results/reviewer_revision/matched_results.json README.md manuscript/reviewer_revision_results.md

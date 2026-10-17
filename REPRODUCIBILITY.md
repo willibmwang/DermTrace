@@ -53,6 +53,13 @@ Replay any completed run without loading a model:
 python scripts/replay_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1/responses.jsonl
 ```
 
+Regenerate the post hoc failure diagnostic for the frozen local run. It is exploratory, written after inspecting outputs, and does not alter the run or validator:
+
+```bash
+python scripts/diagnose_narrative_audit.py results/reviewer_revision/narrative_audit/qwen3_1_7b_v1 --output /tmp/narrative_diagnostics
+diff /tmp/narrative_diagnostics/summary.json results/reviewer_revision/narrative_audit/qwen3_1_7b_v1_diagnostics/summary.json
+```
+
 Each run supplies two blank rating forms. Follow the [human-review rubric](results/reviewer_revision/narrative_audit/README.md). Do not report unfilled forms as completed human evaluation.
 
 ## Publication and provenance

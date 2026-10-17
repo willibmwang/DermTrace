@@ -1,0 +1,101 @@
+{
+  "run": "results/reviewer_revision/narrative_audit/qwen3_1_7b_v1",
+  "status": "post hoc diagnostic; not a primary or pre-specified pass rate",
+  "raw_primary_all_checks_pass": 0,
+  "n_attempts": 303,
+  "raw_failed_check_patterns": {
+    "factual_anchor;numeric_fields_grounded;decision_consistent": 138,
+    "factual_anchor;numeric_fields_grounded;decision_consistent;research_use_stated": 99,
+    "factual_anchor;numeric_fields_grounded;decision_consistent;abstention_disclosed;research_use_stated": 48,
+    "factual_anchor;numeric_fields_grounded;decision_consistent;abstention_disclosed": 15,
+    "factual_anchor;numeric_fields_grounded;decision_consistent;nonempty_and_within_word_limit": 3
+  },
+  "format": {
+    "echoed_section_labels": {
+      "n": 303,
+      "denominator": 303
+    },
+    "end_marker": {
+      "n": 171,
+      "denominator": 303
+    },
+    "anchor_verbatim_anywhere": {
+      "n": 303,
+      "denominator": 303
+    },
+    "qc_note_verbatim": {
+      "n": 303,
+      "denominator": 303
+    },
+    "disclaimer_repeated": {
+      "n": 156,
+      "denominator": 303
+    },
+    "disclaimer_missing": {
+      "n": 0,
+      "denominator": 303
+    }
+  },
+  "numbers": {
+    "attempts_with_extra_numbers": {
+      "n": 297,
+      "denominator": 303
+    },
+    "attempts_with_numbers_not_in_packet": {
+      "n": 57,
+      "denominator": 303
+    },
+    "program_attributed_numbers": {
+      "n": 933,
+      "matches_program_contribution": 609,
+      "matches_program_input_value_only": 255,
+      "matches_neither": 69,
+      "attempts_with_any_non_contribution_number": {
+        "n": 120,
+        "denominator": 303
+      },
+      "method": "Heuristic: each number is paired with the nearest preceding named program in its sentence and compared with that program signed contribution, then its input value, within one unit of the last written digit."
+    }
+  },
+  "label_normalized": {
+    "description": "Echoed OPENING/QC NOTE/DISCLAIMER labels and END OF OUTPUT/RESPONSE lines removed; validator unchanged.",
+    "all_checks_pass": {
+      "n": 6,
+      "denominator": 303
+    },
+    "profile_cluster_bootstrap_95_interval": [
+      0.0,
+      0.04950495049504951
+    ],
+    "failed_checks": {
+      "numeric_fields_grounded": {
+        "n": 297,
+        "denominator": 303
+      },
+      "research_use_stated": {
+        "n": 147,
+        "denominator": 303
+      },
+      "decision_consistent": {
+        "n": 21,
+        "denominator": 303
+      }
+    },
+    "by_decision": {
+      "abstain": {
+        "n_attempts": 63,
+        "all_checks_pass": 0
+      },
+      "keloid": {
+        "n_attempts": 135,
+        "all_checks_pass": 3
+      },
+      "non_keloid": {
+        "n_attempts": 105,
+        "all_checks_pass": 3
+      }
+    }
+  },
+  "repeat_identical_outputs": 97,
+  "n_profiles": 101
+}

@@ -2,11 +2,44 @@
 
 The revised deterministic audit passed automated screening on **101/101 profiles**, including **21 abstentions**. This is template validation, not evidence that LLM-generated narratives are faithful.
 
-**Actual LLM generation is pending:** no model endpoint was configured during this revision. Independent human review is also pending. No generative or human-reviewed pass rates are claimed.
+## Frozen local LLM run (primary generative result)
+
+Protocol [`narrative_local_v1`](../../../protocols/narrative_local_v1.json): pinned Qwen3-1.7B snapshot, greedy decoding, unchanged prompt, 101 frozen packets x 3 requests, SLURM job 2865612 on one A40 ([log](../../slurm/keloid-narrative-audit-2865612.out)). Outputs: [`qwen3_1_7b_v1/`](qwen3_1_7b_v1/).
+
+- Generation succeeded for **303/303** requests; none truncated.
+- **0/303** raw outputs passed all automated checks (profile-cluster bootstrap interval [0.0, 0.0]). No profile passed on any repeat.
+- Every output failed `factual_anchor`, and therefore the dependent `numeric_fields_grounded` and `decision_consistent` checks. `research_use_stated` passed 156/303; `abstention_disclosed` passed 240/303 (all failures were the 63 abstention attempts). All other checks passed for every attempt.
+- Greedy repeats were identical for 97/101 profiles, so repeats mostly measure determinism rather than independent variation.
+- With this model, the demo's runtime validation would display the labeled template for every frozen-run output.
+
+The frozen result is reported as is. The prompt was not tuned on these outputs.
+
+## Post hoc failure diagnostic (not a pass rate)
+
+[`scripts/diagnose_narrative_audit.py`](../../../scripts/diagnose_narrative_audit.py) was written after inspecting the outputs. It leaves the run and validator unchanged; outputs are in [`qwen3_1_7b_v1_diagnostics/`](qwen3_1_7b_v1_diagnostics/).
+
+- **Formatting:** all 303 outputs echoed the prompt's `OPENING:` / `QC NOTE:` / `DISCLAIMER:` labels, so none began with the exact anchor sentence, although the anchor and QC note appeared verbatim in every output. 171 added an `END OF OUTPUT/RESPONSE` line, and 156 repeated the disclaimer.
+- **Label-normalized rescoring:** removing only those labels and end markers yields **6/303** passes (cluster interval [0.000, 0.050]). Remaining failures are extra numbers (297), a disclaimer that is not final (147), and conservative decision flags (21). Manual inspection found that every decision flag restated the supplied class; none reversed it.
+- **Numeric attribution (heuristic):** 297/303 outputs restated numbers despite the instruction not to. Of 933 numbers attached to a named program, 609 matched that program's contribution, 255 matched its input value while being described as a contribution, and 69 matched neither (for example, invented percentage shares). 120/303 outputs contained at least one such number.
+- **Checker limitation:** the frozen `contribution_direction` check passed every output because it detects only explicit toward/against-keloid phrasing. It missed sign/value confusions such as "highest positive contribution (-0.156)". Contribution faithfulness therefore requires human rating or a stronger, separately validated checker.
+
+**Conclusion.** Constrained generation with this small local model is not faithful enough for display under the frozen criteria. The runtime template fallback is required. A revised prompt, structured output format, or stronger model must be frozen as a new protocol version. Results on these same development packets would be development-informed.
+
+Independent human review is still pending. Rater forms for the frozen run are in `qwen3_1_7b_v1/`.
 
 The frozen packets identify the live Stage-B model's outputs; the historical LOSO ensemble is a separate evidence object. These public development profiles are not a new held-out clinical evaluation.
 
-Run with a configured OpenAI-compatible chat-completions endpoint (configure credentials outside the repository):
+Reproduce the frozen local run on a GPU node (pinned snapshot from the protocol), then replay and diagnose it without a GPU:
+
+```bash
+sbatch scripts/run_narrative_audit_gpu.sbatch
+python scripts/replay_narrative_audit.py \
+  results/reviewer_revision/narrative_audit/qwen3_1_7b_v1/responses.jsonl
+python scripts/diagnose_narrative_audit.py \
+  results/reviewer_revision/narrative_audit/qwen3_1_7b_v1 --output /tmp/narrative_diagnostics
+```
+
+Alternatively, run with a configured OpenAI-compatible chat-completions endpoint (configure credentials outside the repository):
 
 ```bash
 python scripts/audit_copilot_faithfulness.py --arm llm --repeats 3 \
@@ -33,4 +66,4 @@ For each item, compare the narrative with its redacted evidence packet:
 
 Report each rater's counts, raw agreement and chance-adjusted agreement, adjudicated outcomes, and denominators. Report request success separately from faithfulness among successful generations. Count API failures in the all-attempt success measure. Repeated outputs share a profile: use profile-cluster bootstrap intervals, and report study/decision breakdowns. Do not count repeated requests as independent profiles.
 
-For a blinded template-versus-LLM usefulness comparison, mix both arms under randomly assigned item IDs and remove arm labels before rating. The per-run forms alone do not provide cross-arm blinding. This comparison and human adjudication remain pending until actual LLM outputs and raters are available.
+For a blinded template-versus-LLM usefulness comparison, mix both arms under randomly assigned item IDs and remove arm labels before rating. The per-run forms alone do not provide cross-arm blinding. This comparison and human adjudication remain pending until independent raters are available.

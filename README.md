@@ -12,7 +12,7 @@ The primary historical ensemble result includes **8 studies / 101 profiles**: **
 
 Under the new matched protocol, COL1A1 alone scores **0.914** and the fixed rank-program view **0.896**. Inner-selected programs versus markers score **0.855 versus 0.829** (paired difference +0.025; descriptive study-bootstrap interval [-0.108, +0.148]). These results do **not** establish general superiority of program features.
 
-The revised template audit passes automated screening on **101/101 profiles**, including **21 abstentions**. Actual LLM audit is pending. Templates pass automated screening on 101/101 profiles; independent human ratings remain pending.
+The revised template audit passes automated screening on **101/101 profiles**, including **21 abstentions**. Qwen3-1.7B: 303/303 generations completed; 0/303 raw outputs passed all automated checks across 101 profiles (3 greedy requests per profile). In a post hoc diagnostic, removing echoed prompt labels raised this only to 6/303: 297/303 outputs restated numbers despite the instruction not to, and 609/933 numbers attached to a named program matched its contribution (255 reported its input value instead; 69 matched neither). Automated screening is not human-validated faithfulness. Independent human ratings remain pending.
 
 <!-- REVISION_RESULTS_END -->
 

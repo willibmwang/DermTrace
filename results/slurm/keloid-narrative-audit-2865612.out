@@ -1,0 +1,19 @@
+Generated batch 1-16/303 in 13.0s
+Generated batch 17-32/303 in 10.2s
+Generated batch 33-48/303 in 13.3s
+Generated batch 49-64/303 in 10.6s
+Generated batch 65-80/303 in 9.9s
+Generated batch 81-96/303 in 11.3s
+Generated batch 97-112/303 in 10.5s
+Generated batch 113-128/303 in 10.6s
+Generated batch 129-144/303 in 13.0s
+Generated batch 145-160/303 in 11.7s
+Generated batch 161-176/303 in 12.0s
+Generated batch 177-192/303 in 10.7s
+Generated batch 193-208/303 in 11.0s
+Generated batch 209-224/303 in 11.0s
+Generated batch 225-240/303 in 13.4s
+Generated batch 241-256/303 in 10.8s
+Generated batch 257-272/303 in 10.1s
+Generated batch 273-288/303 in 10.5s
+{"requested_arm": "llm", "n_profiles": 101, "n_attempts": 303, "all_checks_pass": 0, "human_review_status": "pending independent raters"}

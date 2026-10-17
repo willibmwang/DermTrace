@@ -4,7 +4,7 @@ Prepared 2026-10-17 from the supplied NeurIPS GenAI4Health reviews and local rep
 
 ## Execution update
 
-The plan was pushed before implementation. The primary eight-study report has been reproduced, the matched marker/program experiment has run, the audit has been hardened, and the deterministic audit passes on 101 profiles. Current status and evidence are tracked in [REVIEWER_RESPONSE.md](REVIEWER_RESPONSE.md). A frozen local GPU LLM audit is in progress; independent human ratings remain outstanding. The sections below preserve the original plan.
+The plan was pushed before implementation. The primary eight-study report has been reproduced, the matched marker/program experiment has run, the audit has been hardened, and the deterministic audit passes on 101 profiles. Current status and evidence are tracked in [REVIEWER_RESPONSE.md](REVIEWER_RESPONSE.md). The frozen local GPU LLM audit (Qwen3-1.7B, SLURM job 2865612) completed with 0/303 raw outputs passing all automated checks. This is reported as a negative primary result with a separately labeled post hoc failure diagnostic. Independent human ratings remain outstanding. The sections below preserve the original plan.
 
 ## Objective
 

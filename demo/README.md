@@ -104,4 +104,4 @@ cannot alter the classifier probability, class threshold, confidence, or
 abstention result.
 
 
-The seven-study sensitivity result (0.918) was selected after observing the excluded study failure. The primary report includes all eight studies. Actual LLM audit and independent human ratings remain pending; see [the audit status](../results/reviewer_revision/narrative_audit/README.md). Runtime template fallback after generation or validation failure is explicitly labeled.
+The seven-study sensitivity result (0.918) was selected after observing the excluded study failure. The primary report includes all eight studies. The frozen local LLM audit (Qwen3-1.7B) passed 0/303 raw outputs on all automated checks, so the demo relies on its validated template fallback; independent human ratings remain pending. See [the audit status](../results/reviewer_revision/narrative_audit/README.md). Runtime template fallback after generation or validation failure is explicitly labeled.
