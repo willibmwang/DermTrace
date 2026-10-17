@@ -6,10 +6,10 @@ This Streamlit application demonstrates five connected parts of KeloidBench:
 2. the biological program-score feature table;
 3. live scoring, linear contributions, and confidence-based abstention;
 4. evidence-grounded narrative generation; and
-5. study-held-out predictions, including the known non-transferable cohort.
+5. study-held-out predictions, including the observed study failure, included in the primary evaluation.
 
 The live scorer uses the exported Stage-B joblib artifact in
-`results/product_friday/`. The later 0.918 transferable-cohort result is shown
+`results/product_friday/`. The historical all-eight-study ensemble result (mean macro F1 0.826) is shown
 from stored nested LOSO predictions. The app labels these as distinct evidence
 objects rather than attributing the later metric to the older frozen artifact.
 
@@ -62,7 +62,7 @@ views from repository artifacts:
 
 - a PCA map calculated from the real fused program-feature table;
 - a molecular fingerprint comparing the selected profile with keloid and
-  unaffected medians from the seven-study transferable subset;
+  unaffected medians from the seven-study post hoc subset;
 - the frozen Stage-B probability, confidence rule, and linear feature
   contributions; and
 - stored outer-fold predictions from the later nested LOSO evaluation.
@@ -102,3 +102,6 @@ Only the derived, structured evidence packet is sent; raw expression and sample
 identifiers are never transmitted to the narrative endpoint. The language model
 cannot alter the classifier probability, class threshold, confidence, or
 abstention result.
+
+
+The seven-study sensitivity result (0.918) was selected after observing the excluded study failure. The primary report includes all eight studies. Actual LLM audit and independent human ratings remain pending; see [the audit status](../results/reviewer_revision/narrative_audit/README.md). Runtime template fallback after generation or validation failure is explicitly labeled.

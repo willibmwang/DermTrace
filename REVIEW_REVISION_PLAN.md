@@ -2,6 +2,10 @@
 
 Prepared 2026-10-17 from the supplied NeurIPS GenAI4Health reviews and local repository inspection. Status: proposed work; no new experiments have been run for this plan.
 
+## Execution update
+
+The plan was pushed before implementation. The primary eight-study report has been reproduced, the matched marker/program experiment has run, the audit has been hardened, and the deterministic audit passes on 101 profiles. Current status and evidence are tracked in [REVIEWER_RESPONSE.md](REVIEWER_RESPONSE.md). A frozen local GPU LLM audit is in progress; independent human ratings remain outstanding. The sections below preserve the original plan.
+
 ## Objective
 
 Address the three concerns shared by both reviewers and the area chair: validate actual generated narratives, report cross-study performance without outcome-dependent exclusions, and compare program features against individual markers under a matched protocol. Keep the interpretable predictor and separate narrative layer as the core contribution.

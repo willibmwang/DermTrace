@@ -1,74 +1,48 @@
 # KeloidBench
 
-Encoder-decoder modeling for keloid fibrotic biology from gene-expression data, with spheroid assays used as phenotype grounding and downstream validation.
+KeloidBench is an interpretable research pipeline for keloid-versus-unaffected-skin transcriptomic classification. It combines fibroblast gene-program features, linear classifiers, study-held-out evaluation, adjustable abstention, and a separate narrative layer that cannot change predictions.
 
-## NeurIPS GenAI4Health
+Accepted as a **poster at NeurIPS GenAI4Health**. [View the accepted poster](KeloidBench%20Poster_WW.pdf) · [Interactive website](https://willibmwang.github.io/KeloidBench/)
 
-KeloidBench has been accepted to NeurIPS GenAI4Health.
+## Reviewer revision results
 
-[View the poster (PDF)](KeloidBench%20Poster_WW.pdf)
+<!-- REVISION_RESULTS_START -->
 
-## Interactive demonstration
+The primary historical ensemble result includes **8 studies / 101 profiles**: **0.826 mean macro F1**, with **0.182 on the worst study**. The **0.918** seven-study result is an exploratory subset selected after observing GSE173900's failure.
 
-The five-screen research demo covers expression quality control, program-score
-features, live prediction with confidence-based abstention, evidence-grounded
-narratives, and study-held-out cohort exploration.
+Under the new matched protocol, COL1A1 alone scores **0.914** and the fixed rank-program view **0.896**. Inner-selected programs versus markers score **0.855 versus 0.829** (paired difference +0.025; descriptive study-bootstrap interval [-0.108, +0.148]). These results do **not** establish general superiority of program features.
+
+The revised template audit passes automated screening on **101/101 profiles**, including **21 abstentions**. Actual LLM audit is pending. Templates pass automated screening on 101/101 profiles; independent human ratings remain pending.
+
+<!-- REVISION_RESULTS_END -->
+
+The poster is preserved as originally uploaded and may contain submission-time claims. The revision reports below are the current evidence. This is a research demonstration; its development results do not establish clinical performance.
+
+## Evidence and revision status
+
+- [Full-cohort evaluation](results/reviewer_revision/evaluation.md), [per-study table](results/reviewer_revision/all_studies.csv), and [coverage by study/class](results/reviewer_revision/selective_by_study.csv).
+- [Matched single-marker comparison](results/reviewer_revision/matched_comparison.md), [frozen protocol](protocols/reviewer_revision_v1.json), and [per-profile predictions](results/reviewer_revision/matched_predictions.csv).
+- [Narrative audit status and human-review rubric](results/reviewer_revision/narrative_audit/README.md).
+- [Reviewer response matrix](REVIEWER_RESPONSE.md) and [camera-ready results text](manuscript/reviewer_revision_results.md).
+- [Reproduction guide](REPRODUCIBILITY.md) and [revision plan/status](REVIEW_REVISION_PLAN.md).
+
+The live demonstration uses a frozen Stage-B scorer. The historical nested ensemble and the new matched marker benchmark are distinct evaluation artifacts. The browser website uses deterministic summaries. The optional model-backed demo labels generation and validation fallbacks explicitly.
+
+## Run locally
+
+Use Python 3.10 and the tested revision environment:
 
 ```bash
-KB_PY=/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python
-"$KB_PY" -m pip install -r requirements.txt
-"$KB_PY" demo/launch_demo.py
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-revision.txt
+python scripts/revision_report.py
+python scripts/run_marker_benchmark.py --report-only
+python -m streamlit run demo/app.py
 ```
 
-See [`demo/README.md`](demo/README.md) for input formats, artifact boundaries,
-and optional grounded language-model configuration.
+See [demo/README.md](demo/README.md) for input formats and narrative endpoint configuration. No model endpoint is required for scoring, report reproduction, or deterministic summaries.
 
-## Quick start
+## Historical research
 
-```bash
-# Collect local seed files and source manifests
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/sourcing.py
-
-# Build the unified microarray disease-state pretraining corpus
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/preprocess_microarray.py
-
-# Build spheroid seed/validation data (Choi source Excel + Dirand seed labels)
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/data_extraction.py --dataset dataset_a
-
-# Build optional public morphology context
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/build_morphology_table.py
-
-# Build current public keloid signature baseline
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/build_keloid_signature.py
-
-# Harmonize current spheroid/signature tables
-/gpfs/radev/home/wbw7/.conda/envs/encdec_llm/bin/python scripts/harmonize_features.py
-```
-
-## Data
-
-| File | Description |
-|------|-------------|
-| `supplementary_choi.xlsx` | Choi et al. 2024 Supplementary Data 1 |
-| `data/processed/choi_*.parquet` | Long-format tables per figure |
-| `data/processed/microarray/microarray_expression_wide.parquet` | Unified sample x gene microarray table |
-| `data/processed/microarray/microarray_X.npy` | Encoder-ready dense expression matrix |
-| `data/processed/microarray/microarray_encoder_decoder_samples.jsonl` | Prompt/response records for lightweight encoder-decoder training |
-| `data/processed/microarray/signatures/dataset_c_keloid_signature.parquet` | Legacy GEO keloid marker module baseline |
-| `data/processed/spheroid/dataset_a_keloid_spheroid.parquet` | Choi/Dirand spheroid phenotype grounding table |
-| `data/processed/spheroid/dataset_b_morphology.parquet` | Optional public spheroid morphology context |
-
-## New Direction
-
-The project is pivoting from a small tabular MVP to a trainable expression-modeling project. Primary training data will come from larger microarray, bulk RNA-seq, scRNA-seq, and spatial keloid datasets. The intended model family is an encoder-decoder architecture adapted from `../Encoder_Decoder_LLM`, where a continuous expression encoder produces learned prefix tokens for a Qwen decoder.
-
-Core tasks include:
-
-- `keloid_vs_normal`
-- `lesional_status`
-- `scar_differential`
-- `fibrotic_activity`
-- fibroblast/endothelial cell-state programs
-- spheroid-state and drug-response validation using Choi/Dirand
-
-See [`PLAN.md`](PLAN.md) for the updated project plan.
+The repository retains prior experiments, processed data, and broader research directions. [PLAN.md](PLAN.md) is the historical encoder-decoder roadmap; [manuscript/draft.md](manuscript/draft.md) contains development history. Older result files are preserved for provenance and are superseded for current claims by the reviewer revision reports.

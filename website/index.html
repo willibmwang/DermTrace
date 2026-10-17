@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="KeloidBench: an interactive, program-grounded benchmark for transferable keloid transcriptomic classification.">
+  <meta name="theme-color" content="#102635">
+  <title>KeloidBench · Program-grounded transcriptomic triage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=DM+Serif+Display&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261017-review">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="KeloidBench home">
+      <span class="brand-mark" aria-hidden="true">KB</span>
+      <span>KeloidBench</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#finding">Finding</a>
+      <a href="#demo">Live demo</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#method">Method</a>
+      <a href="#provenance">Data</a>
+    </nav>
+    <a class="header-link" href="https://github.com/willibmwang/KeloidBench" target="_blank" rel="noreferrer">GitHub ↗</a>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-image" role="img" aria-label="Illustration of keloid skin, fibroblasts, collagen, and program-level data"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-copy wrap">
+        <p class="eyebrow">Interactive demonstration · research use only</p>
+        <h1 id="hero-title">Fibrosis benchmark<br>that transfers across studies.</h1>
+        <p class="hero-lede">KeloidBench turns heterogeneous expression profiles into fibroblast-centered biological programs, confidence-aware predictions, and auditable cross-study evidence.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Explore a real profile</a>
+          <a class="button ghost" href="#method">See the algorithm</a>
+        </div>
+      </div>
+      <p class="hero-credit">Original KeloidBench concept illustration. Explanatory artwork—not a clinical specimen or model input.</p>
+    </section>
+
+    <section class="section finding-section" id="finding">
+      <div class="wrap split-heading">
+        <div>
+          <p class="eyebrow dark">The central finding</p>
+          <h2>Programs outperform isolated markers when cohorts change.</h2>
+        </div>
+        <div class="finding-copy">
+          <p class="lead">Fibroblast program features transfer across public tissue cohorts substantially better than singular marker genes.</p>
+          <p>Across <strong data-result="studies">8</strong> development studies, mean LOSO macro F1 is <strong data-result="loso_macro_f1">0.826</strong>, with a worst-study score of <strong data-result="worst_macro_f1">0.182</strong>. The seven-study result is an exploratory analysis selected after observing a failure.</p>
+        </div>
+      </div>
+      <div class="wrap principle-row" aria-label="Design principles">
+        <div><span>01</span><h3>Program-grounded</h3><p>Versioned gene sets summarize ECM, remodeling, inflammation, cell composition, and mechanotransduction.</p></div>
+        <div><span>02</span><h3>Study-held-out</h3><p>Every evaluation fold treats an entire public study as unseen, exposing dataset shift directly.</p></div>
+        <div><span>03</span><h3>Selective</h3><p>Low-confidence cases can be withheld, while platform transfer failures receive an explicit warning.</p></div>
+      </div>
+    </section>
+
+    <section class="section demo-section" id="demo">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">Interactive public-data demo</p><h2>Choose a profile story</h2></div>
+          <p>Every value below is exported from versioned repository artifacts. Change the confidence policy, inspect programs, or click a point in the cohort map.</p>
+        </div>
+
+        <div class="story-grid" id="story-grid" aria-label="Curated examples"></div>
+
+        <section class="upload-lab" id="upload-lab" aria-labelledby="upload-title">
+          <div class="upload-heading">
+            <div><p class="eyebrow dark">Analyze your data</p><h3 id="upload-title">Upload a processed GEO or keloid expression matrix</h3></div>
+            <p><strong>Private by design:</strong> scoring runs entirely in this browser. Your file is never uploaded to KeloidBench or sent to a server.</p>
+          </div>
+          <div class="upload-workspace">
+            <label class="file-drop" id="file-drop" for="expression-file">
+              <input id="expression-file" class="visually-hidden" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values">
+              <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 9h21l10 10v36H18z"/><path d="M39 9v11h10M32 44V26M25 33l7-7 7 7"/></svg>
+              <strong id="file-name">Drop an expression file here</strong>
+              <span>or click to choose CSV / TSV · up to 30 MB</span>
+            </label>
+            <div class="upload-settings">
+              <div class="upload-fields">
+                <label for="matrix-orientation"><span>Matrix layout</span><select id="matrix-orientation"><option value="auto">Detect automatically</option><option value="samples_rows">Samples in rows</option><option value="genes_rows">Genes in rows</option></select></label>
+                <label for="upload-accession"><span>GEO accession <i>optional</i></span><input id="upload-accession" type="text" placeholder="e.g. GSE123456" maxlength="32"></label>
+              </div>
+              <button id="analyze-upload" class="button upload-button" type="button" disabled>Analyze in browser</button>
+              <p>Use normalized, processed expression with <strong>HGNC gene symbols</strong>. Raw FASTQ, CEL files, and probe-ID-only matrices need preprocessing first.</p>
+              <details class="format-help"><summary>Accepted layouts</summary><code>sample_id,POSTN,COL1A1,KRT1,…<br>sample_01,8.2,7.1,3.4,…</code><code>gene_symbol,sample_01,sample_02,…<br>POSTN,8.2,6.1,…</code></details>
+            </div>
+          </div>
+          <div id="upload-status" class="upload-status hidden" role="status" aria-live="polite"></div>
+          <div id="upload-results" class="upload-results hidden">
+            <div class="upload-results-heading"><div><span class="panel-kicker">Browser-scored profiles</span><h4 id="upload-results-title">Analysis complete</h4></div><p>Click a row to inspect its programs and model drivers below.</p></div>
+            <div class="upload-table-wrap"><table><thead><tr><th>Sample</th><th>Score</th><th>Confidence</th><th>Result</th><th>Program coverage</th></tr></thead><tbody id="upload-results-body"></tbody></table></div>
+          </div>
+        </section>
+
+        <div class="profile-toolbar">
+          <label for="profile-select">Browse public or uploaded profiles</label>
+          <select id="profile-select" aria-label="Public profile"></select>
+          <span class="toolbar-note"><span class="dot coral"></span> keloid reference <span class="dot teal"></span> unaffected reference</span>
+        </div>
+
+        <div class="demo-shell">
+          <aside class="decision-panel">
+            <div class="panel-kicker">Frozen live artifact</div>
+            <h3 id="profile-name">Loading profile…</h3>
+            <p id="profile-meta" class="muted"></p>
+            <div id="transfer-badge" class="status-badge"></div>
+
+            <div class="probability-gauge" id="probability-gauge" aria-label="Keloid probability">
+              <div><strong id="probability-value">—</strong><span>P(keloid)</span></div>
+            </div>
+            <div id="decision-label" class="decision-label">Loading…</div>
+
+            <dl class="score-list">
+              <div><dt>Model confidence</dt><dd id="confidence-value">—</dd></div>
+              <div><dt>Reference label</dt><dd id="reference-value">—</dd></div>
+              <div><dt>Class threshold</dt><dd id="class-threshold-value">—</dd></div>
+            </dl>
+
+            <label class="threshold-control" for="confidence-threshold">
+              <span>Abstain below confidence</span><output id="threshold-output">0.55</output>
+            </label>
+            <input id="confidence-threshold" type="range" min="0.50" max="0.90" value="0.55" step="0.01">
+            <p id="decision-explanation" class="policy-note"></p>
+            <a id="paper-link" class="text-link hidden" href="#" target="_blank" rel="noreferrer">Trace to original paper ↗</a>
+
+            <div class="embedded-contributions">
+              <div class="embedded-contribution-heading">
+                <div><span class="panel-kicker">Transparent linear model</span><h4>Feature contributions</h4></div>
+                <p>← unaffected · keloid →</p>
+              </div>
+              <div id="contribution-chart"></div>
+              <p class="artifact-note">Frozen Stage-B artifact. Later LOSO ensemble evidence is shown separately below.</p>
+            </div>
+          </aside>
+
+          <div class="visual-panel program-panel">
+            <div class="panel-heading">
+              <div><span class="panel-kicker">Molecular fingerprint</span><h3>Program activity</h3></div>
+              <div class="legend compact"><span><i class="selected"></i> selected</span><span><i class="keloid"></i> keloid median</span><span><i class="unaffected"></i> unaffected median</span></div>
+            </div>
+            <div id="program-chart" class="svg-chart" aria-live="polite"></div>
+          </div>
+
+          <div class="visual-panel pca-panel">
+            <div class="panel-heading">
+              <div><span class="panel-kicker" id="pca-count">101 repository profiles</span><h3>Program-space map</h3></div>
+              <p>Click any point to inspect it</p>
+            </div>
+            <div id="pca-chart" class="svg-chart" aria-live="polite"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section evidence-section" id="evidence">
+      <div class="wrap">
+        <div class="section-heading light-heading">
+          <div><p class="eyebrow">Outer-fold evidence</p><h2>What happens when a whole study is unseen?</h2></div>
+          <p>Inspect stored predictions from the later nested leave-one-study-out evaluation. The orange band marks cases withheld at confidence 0.55.</p>
+        </div>
+
+        <figure class="results-overview">
+          <div class="results-overview-heading">
+            <div><span>Main results</span><strong>All eight development studies</strong></div>
+            <div class="results-downloads">
+              <a href="assets/images/keloidbench-results.svg" download>SVG ↓</a>
+              <a href="assets/images/keloidbench-results.png" download>PNG ↓</a>
+            </div>
+          </div>
+          <div class="results-graphic-frame">
+            <img src="assets/images/keloidbench-results.svg?v=20261017-review" alt="KeloidBench full-cohort evaluation, including the observed study failure; the subset result is post hoc.">
+          </div>
+          <figcaption>Primary results include all eight studies. Macro F1 uses donor means for class-pure multi-donor studies and sample-level scoring otherwise. The seven-study sensitivity analysis excludes GSE173900 after observing its failure.</figcaption>
+        </figure>
+
+        <p><a href="https://github.com/willibmwang/KeloidBench/blob/main/results/reviewer_revision/matched_comparison.md">Matched marker benchmark</a> · <a href="https://github.com/willibmwang/KeloidBench/blob/main/results/reviewer_revision/narrative_audit/README.md">Narrative audit status</a>. Browser summaries are deterministic. <span data-narrative-status>See the linked report for generated-output screening and human-review status.</span></p>
+        <div class="fold-toolbar">
+          <label for="fold-select">Held-out study</label>
+          <select id="fold-select"></select>
+          <span id="fold-transfer" class="status-badge"></span>
+        </div>
+        <div class="fold-metrics">
+          <div><span>Macro F1</span><strong id="fold-f1">—</strong></div>
+          <div><span>Accuracy</span><strong id="fold-accuracy">—</strong></div>
+          <div><span>Coverage @ 0.55</span><strong id="fold-coverage">—</strong></div>
+          <div><span>Profiles</span><strong id="fold-count">—</strong></div>
+        </div>
+        <div class="evidence-plot-wrap">
+          <div id="fold-chart" class="svg-chart dark-chart"></div>
+        </div>
+        <details class="prediction-details">
+          <summary>Inspect held-out profile predictions</summary>
+          <div class="table-scroll"><table id="prediction-table"><thead><tr><th>Profile</th><th>Reference</th><th>P(keloid)</th><th>Prediction</th><th>Confidence</th><th>Selective decision</th></tr></thead><tbody></tbody></table></div>
+        </details>
+        <div class="failure-callout">
+          <span>Known boundary</span>
+          <p><strong>GSE173900 remains in the primary evaluation.</strong> Its observed failure is a limitation of this model on this study. It does not establish failure of an entire sequencing platform.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method">
+      <div class="wrap">
+        <div class="method-intro">
+          <p class="eyebrow dark">How it works</p>
+          <h2>One tissue profile in.<br>A clear, traceable answer out.</h2>
+          <p>KeloidBench looks for coordinated biological patterns—not one “magic” gene. Here is the full journey of a sample in five steps.</p>
+        </div>
+
+        <div class="walk-flow" aria-label="Five-step KeloidBench workflow">
+          <article class="walk-step">
+            <span class="walk-number">1</span>
+            <svg class="walk-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M20 8h23l11 11v45H20z"/><path d="M43 8v12h11M27 31h20M27 40h20M27 49h14"/></svg>
+            <h3>Start with a gene profile</h3>
+            <p>A table showing which genes are more or less active in one tissue sample.</p>
+          </article>
+          <span class="walk-arrow" aria-hidden="true">→</span>
+          <article class="walk-step">
+            <span class="walk-number">2</span>
+            <svg class="walk-icon" viewBox="0 0 72 72" aria-hidden="true"><circle cx="21" cy="24" r="7"/><circle cx="50" cy="20" r="7"/><circle cx="36" cy="50" r="8"/><path d="M27 27l6 16M44 25l-5 17M28 23l15-2"/></svg>
+            <h3>Read 16 biological signals</h3>
+            <p>Related genes are grouped into signals such as scarring, inflammation, and cell composition.</p>
+          </article>
+          <span class="walk-arrow" aria-hidden="true">→</span>
+          <article class="walk-step">
+            <span class="walk-number">3</span>
+            <svg class="walk-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M10 57h52M14 52l11-14 11 7 9-22 13 9"/><circle cx="25" cy="38" r="3"/><circle cx="36" cy="45" r="3"/><circle cx="45" cy="23" r="3"/></svg>
+            <h3>Match the overall pattern</h3>
+            <p>The model combines program signals. The matched comparison does not establish general superiority over individual marker genes.</p>
+          </article>
+          <span class="walk-arrow" aria-hidden="true">→</span>
+          <article class="walk-step decision-step">
+            <span class="walk-number">4</span>
+            <svg class="walk-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M12 36h20M32 36c10 0 9-17 19-17h9M32 36c10 0 9 17 19 17h9"/><path d="M54 13l6 6-6 6M54 47l6 6-6 6"/></svg>
+            <h3>Predict—or pause</h3>
+            <p>Return <b>keloid-like</b>, <b>unaffected-like</b>, or <b>not sure</b> when confidence is low.</p>
+          </article>
+          <span class="walk-arrow" aria-hidden="true">→</span>
+          <article class="walk-step evidence-step">
+            <span class="walk-number">5</span>
+            <svg class="walk-icon" viewBox="0 0 72 72" aria-hidden="true"><path d="M10 58h52M17 51V36h8v15M32 51V20h8v31M47 51V29h8v22"/><circle cx="55" cy="14" r="8"/><path d="M61 20l6 6"/></svg>
+            <h3>Show the evidence</h3>
+            <p>See confidence, the strongest biological signals, model drivers, and the original study.</p>
+          </article>
+        </div>
+
+        <div class="transfer-explainer">
+          <div class="transfer-graphic" aria-hidden="true"><span>Study A</span><i>≠</i><span>Study B</span><b>→</b><strong>Shared biology</strong></div>
+          <div><p class="eyebrow dark">Why this can transfer</p><h3>Different studies measure genes differently. Biological programs preserve more of the shared story.</h3><p>By comparing groups of related genes within each sample, KeloidBench is less dependent on one platform, one study, or one unusually strong marker.</p></div>
+        </div>
+
+        <div class="method-actions">
+          <a class="button primary" href="#demo">Try a real profile ↑</a>
+          <span>Choose “Confidence-based abstention” to see the model say “not sure.”</span>
+        </div>
+
+        <details class="technical-methods">
+          <summary><span><small>For reviewers &amp; technical visitors</small>Open the full model architecture</span><b aria-hidden="true">+</b></summary>
+          <div class="technical-grid">
+            <article><span>01 · Program scoring</span><h3>Within-sample rank contrasts</h3><p>Genes are mapped to HGNC symbols and ranked inside each sample. Each score is the mean rank of a program’s positive genes minus the mean rank of its reference genes. Minimum-gene coverage is checked before scoring.</p><div class="formula" aria-label="Program score formula"><span>s<sub>p</sub>(x)</span><strong>=</strong><span>mean rank(G<sup>+</sup><sub>p</sub>)</span><strong>−</strong><span>mean rank(G<sup>−</sup><sub>p</sub>)</span></div></article>
+            <article><span>02 · Learning</span><h3>Small, transparent linear models</h3><p>Predefined fibrosis, composition, scar, and fused program views feed standardized linear SVM and regularized logistic models. Donor/accession weighting limits domination by large studies or repeated donors.</p></article>
+            <article><span>03 · Transfer test</span><h3>Leave one whole study out</h3><p>One study is held aside. Only the remaining studies select the feature view, model, normalization, and threshold. The top three choices vote, and the held-out study is evaluated. These development studies have been inspected across experiments.</p></article>
+            <article><span>04 · Selective output</span><h3>A prediction is not permission to guess</h3><p>A class threshold produces the label. Confidence is max(score, 1 − score); below the fixed confidence policy, the output is abstain. Scores, contributions, coverage, and provenance are retained.</p></article>
+          </div>
+          <div class="evidence-objects">
+            <div><span>What powers this live page</span><h4>Frozen four-program linear scorer</h4><p>The interactive profile panel uses fibroblast, keratinocyte, immune, and endothelial composition signals. Its sigmoid-mapped SVM margin is a research score—not a clinically calibrated probability.</p></div>
+            <div><span>What supports the transfer claim</span><h4>Separate nested study-held-out ensemble</h4><p>The historical nested ensemble reaches <span data-result="loso_macro_f1">0.826</span> mean LOSO macro F1 across all eight development studies. The post hoc seven-study result is <span data-result="post_hoc_subset_macro_f1">0.918</span>. The live scorer is a different model.</p></div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section context-section" id="provenance">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow dark">Biological context &amp; provenance</p><h2>Images explain the problem. Transcriptomes drive the model.</h2></div>
+          <p>Clinical photography is shown only to ground the phenotype. KeloidBench does not analyze images; it operates on public, de-identified expression profiles.</p>
+        </div>
+        <div class="context-grid">
+          <figure>
+            <img src="assets/images/keloid-ear-clinical.jpg" alt="Clinical photograph of an ear-lobe keloid">
+            <figcaption><strong>Clinical phenotype.</strong> Photo by Bobjgalindo, <a href="https://commons.wikimedia.org/wiki/File:A_keloid_scar_on_ear_lobe.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. Displayed without image edits.</figcaption>
+          </figure>
+          <figure class="anatomy-figure">
+            <img src="assets/images/skin-anatomy-nci.jpg" alt="National Cancer Institute illustration of human skin anatomy">
+            <figcaption><strong>Skin anatomy.</strong> Don Bliss / National Cancer Institute, <a href="https://commons.wikimedia.org/wiki/File:Anatomy_The_Skin_-_NCI_Visuals_Online.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>, U.S. government public domain.</figcaption>
+          </figure>
+        </div>
+
+        <div class="source-heading"><h3>Profiles trace back to their public studies</h3><p>Select a source to open its original publication or GEO record.</p></div>
+        <div id="source-grid" class="source-grid"></div>
+      </div>
+    </section>
+
+    <section class="section limitations-section">
+      <div class="wrap limitations-grid">
+        <div><p class="eyebrow dark">Use boundary</p><h2>A research benchmark, not a clinical diagnostic.</h2></div>
+        <div>
+          <p>Public transcriptomic studies vary in platform, tissue composition, preprocessing, ancestry, and sampling design. Predictions should be interpreted as research-triage outputs, with cohort transferability and abstention reviewed before any biological conclusion.</p>
+          <a class="button dark-button" href="https://github.com/willibmwang/KeloidBench" target="_blank" rel="noreferrer">Inspect the repository ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap"><div><strong>KeloidBench</strong><p>Program-grounded cross-study keloid transcriptomics.</p></div><div><a href="#demo">Demo</a><a href="#evidence">Evidence</a><a href="https://github.com/willibmwang/KeloidBench/blob/keloidbench-demo/demo/IMAGE_CREDITS.md">Image credits</a><a href="https://github.com/willibmwang/KeloidBench">Source</a></div></div>
+  </footer>
+
+  <div id="tooltip" class="tooltip" role="tooltip"></div>
+  <script src="assets/js/app.js?v=20261017-review-clean" defer></script>
+</body>
+</html>

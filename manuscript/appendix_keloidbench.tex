@@ -1,0 +1,433 @@
+% =====================================================================
+% KeloidBench -- Appendix A1-A9
+% Paste into Overleaf after \section{Conclusion} (or after the
+% bibliography, per venue preference).
+%
+% Required preamble packages:
+%   \usepackage{booktabs}
+%   \usepackage{tabularx}
+%   \usepackage{multirow}
+%   \usepackage{amsmath}
+%   \usepackage{graphicx}   % for \resizebox
+%   \usepackage[table]{xcolor}  % optional, only if you want row shading
+%
+% Every number below is exported from a versioned repository artifact;
+% the source path is named in each caption.
+% =====================================================================
+
+\appendix
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+
+% ---------------------------------------------------------------------
+% A1
+% ---------------------------------------------------------------------
+\subsection*{A1\quad Program feature definitions}
+\label{app:programs}
+
+All sixteen program scores are literature-fixed before any model fitting and are
+never re-derived from held-out data. Each score is a coverage-adjusted
+within-sample rank contrast between its positive set and its negative-control
+set, computed after per-accession scaling. A program is emitted only when at
+least \texttt{min} of its member genes are present in the input matrix;
+otherwise the profile receives the training-set median for that column.
+
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{}lXXcl@{}}
+\toprule
+Program & Positive set & Negative control & Min & Provenance \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Core fibrosis / compartment programs}}\\
+\texttt{ecm\_profibrotic} & POSTN, CTHRC1, COMP, ASPN, ADAM12, TGFBI, COL1A1, COL3A1, FN1, COL11A1 & KRT1, KRT10, KRT14, DMKN & 4 & \texttt{literature\_fixed\_v1} \\
+\texttt{remodeling} & MMP14, ADAM12, HTRA1, CTHRC1, MMP2, LOX, LOXL2 & KRT1, KRT10 & 3 & \texttt{literature\_fixed\_v1} \\
+\texttt{yap\_taz\_mechano} & CTGF, CYR61, ANKRD1, AMOTL2, TEAD1, WWTR1, YAP1 & KRT14, DMKN & 3 & \texttt{literature\_fixed\_v1} \\
+\texttt{wound\_inflammation} & IL6, CXCL8, CCL2, ICAM1, VCAM1, SERPINE1, TNF, IL1B & KRT1, KRT10 & 3 & \texttt{literature\_fixed\_v1} \\
+\texttt{fibroblast\_identity} & PDGFRA, LUM, DCN, COL1A2, FBLN1, THY1 & KRT1, KRT14, KRT5, DMKN & 3 & \texttt{literature\_fixed\_v1} \\
+\texttt{keratinocyte\_compartment} & KRT1, KRT10, KRT14, KRT5, DMKN, DSC1 & PDGFRA, LUM, COL1A1 & 3 & \texttt{literature\_fixed\_v1} \\
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{Scar-discriminative programs}}\\
+\texttt{immune\_activation} & CD3D, CD8A, GZMB, PRF1, HLA-DRA, CD74, CCL5, CXCL9, CXCL10 & COL1A1, POSTN & 3 & \texttt{msigdb\_immune\_literature\_v1} \\
+\texttt{jak\_stat\_th2} & IL4R, IL13, CCL11, CCL17, CCL18, JAK3, STAT6, OX40L, ICOS & KRT1, KRT10 & 3 & \texttt{keloid\_th2\_literature\_v1} \\
+\texttt{epidermal\_keratinization} & KRT1, KRT10, KRT14, FLG, LOR, IVL, DMKN, DSC1 & POSTN, COL1A1, ACTA2 & 3 & \texttt{msigdb\_keratinization\_v1} \\
+\texttt{lipid\_metabolism} & LGMN, FABP4, FABP5, PPARG, ACSL1, SCD, FASN, DGAT2 & KRT14, DMKN & 3 & \texttt{keloid\_lipid\_literature\_v1} \\
+\texttt{sensory\_neural} & NTRK1, NTRK2, NGFR, RET, TAC1, CALCA, TRPV1, PIEZO2 & KRT1, PDGFRA & 2 & \texttt{keloid\_sensory\_literature\_v1} \\
+\texttt{hypoxia\_vascular} & HIF1A, VEGFA, PECAM1, VWF, KDR, ANGPT1, EDN1 & KRT1, KRT10 & 3 & \texttt{literature\_fixed\_v1} \\
+\addlinespace
+\multicolumn{5}{@{}l}{\textit{Composition proxies (cell-mixture surrogates, not disease labels)}}\\
+\texttt{fibroblast\_composition} & PDGFRA, LUM, DCN, COL1A2, FBLN1, THY1, DPT & KRT1, KRT14, CD3D, CD68 & 3 & \texttt{composition\_proxy\_v1} \\
+\texttt{keratinocyte\_composition} & KRT1, KRT10, KRT14, KRT5, DMKN, DSC1, FLG & PDGFRA, LUM, COL1A1, CD3D & 3 & \texttt{composition\_proxy\_v1} \\
+\texttt{immune\_composition} & CD3D, CD8A, CD68, CD74, HLA-DRA, LYZ, CSF1R & COL1A1, KRT1, POSTN & 3 & \texttt{composition\_proxy\_v1} \\
+\texttt{endothelial\_composition} & PECAM1, VWF, KDR, CDH5, ENG & KRT1, PDGFRA, COL1A1 & 2 & \texttt{composition\_proxy\_v1} \\
+\bottomrule
+\end{tabularx}
+}
+
+\medskip
+\noindent\textit{Source:} \texttt{scripts/gene\_modules.py}. Column suffix
+\texttt{\_rank} is omitted above for width; the emitted feature names are
+\texttt{<program>\_rank}.
+
+% ---------------------------------------------------------------------
+% A2
+% ---------------------------------------------------------------------
+\subsection*{A2\quad Feature views}
+\label{app:views}
+
+The inner selection loop chooses among five nested views. View width spans
+4--16 features, which is the operating range referenced in Section~3.
+
+{\small
+\begin{tabular}{@{}llp{7.4cm}@{}}
+\toprule
+View & Dim. & Composition \\
+\midrule
+\texttt{fibrosis\_only} & 4 & ECM/profibrotic, remodeling, YAP/TAZ mechano, wound inflammation \\
+\texttt{rank\_programs\_only} & 6 & \texttt{fibrosis\_only} $+$ fibroblast identity, keratinocyte compartment \\
+\texttt{scar\_discriminative} & 12 & \texttt{rank\_programs\_only} $+$ the six scar-discriminative programs \\
+\texttt{composition\_only} & 4 & the four composition proxies \\
+\texttt{fused\_multiview} & 16 & all programs in A1 \\
+\bottomrule
+\end{tabular}
+}
+
+\medskip
+\noindent\textit{Source:}
+\texttt{data/processed/training/features/*\_columns.txt}.
+
+% ---------------------------------------------------------------------
+% A3
+% ---------------------------------------------------------------------
+\subsection*{A3\quad Platform transferability diagnostic}
+\label{app:transferability}
+
+The primary analysis includes all eight eligible development studies. The
+seven-study result is a post hoc sensitivity analysis: GSE173900 was excluded
+only after observing its outer-fold failure. Its inclusion rule was therefore
+not independent of test performance.
+
+\paragraph{Diagnostic evidence.} The following historical grid uses held-out
+labels to describe observed failures. It is not a prospective eligibility rule
+and does not establish a platform-wide limitation.
+
+{\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Held-out study & Configs & Median macro F1 & \textbf{Max macro F1} & \textbf{Max AUROC} & Donors \\
+\midrule
+E-MTAB-4945 & 56 & 0.762 & 0.899 & 0.795 & 10 \\
+GSE158395   & 56 & 0.883 & 1.000 & 1.000 & 9 \\
+GSE181297   & 56 & 0.829 & 1.000 & 1.000 & 6 \\
+GSE181316   & 48 & 1.000 & 1.000 & 1.000 & 4 \\
+GSE190626   & 48 & 1.000 & 1.000 & 1.000 & 6 \\
+GSE92566    & 56 & 0.250 & 1.000 & 1.000 & 3 \\
+Sun\,\&\,Burns & 56 & 0.750 & 0.913 & 0.985 & 1 \\
+\midrule
+\textbf{GSE173900} & 48 & \textbf{0.325} & \textbf{0.416} & \textbf{0.450} & 9 \\
+\bottomrule
+\end{tabular}
+}
+
+\paragraph{Interpretation.} Every retained cohort reaches at least 0.899 macro
+F1 and 0.795 AUROC under \emph{some} configuration. \texttt{GSE173900} peaks at
+0.416 macro F1 and 0.450 AUROC across all 48 of its configurations --- below
+chance in AUROC terms. Fibrosis markers (POSTN, COL1A1) are directionally
+\emph{inverted} on this cohort relative to every other tissue study after
+harmonization. This is not a label swap: the KC (control) / KL (keloid)
+assignment was verified against the source metadata. Train-only normalization
+(accession $z$-score, reference quantile, ComBat-lite) and calibrated soft-vote
+ensembling do not recover the fold.
+
+\paragraph{Status.} The full eight-study historical ensemble gives mean
+macro F1 0.826 and worst-fold F1 0.182, failing the existing development gates.
+The seven-study mean 0.918 is exploratory. A label-dependent AUROC rule remains
+outcome-dependent even if written in advance. Future eligibility rules must
+use information available without held-out outcomes and be independently validated.
+GSE185309 was scored in an earlier experiment and was not rescored in this
+revision; it must not be described as untouched.
+
+\medskip
+\noindent\textit{Source:}
+\texttt{results/accuracy\_085\_push/diagnostic\_fixed\_grid\_v2.csv} (424
+configurations), \texttt{FINAL\_VERDICT.md}.
+
+% ---------------------------------------------------------------------
+% A4
+% ---------------------------------------------------------------------
+\subsection*{A4\quad Per-fold LOSO results}
+\label{app:perfold}
+
+Nested leave-one-study-out results for
+\texttt{keloid\_vs\_unaffected\_skin}. Confusion matrices are ordered
+$[\,$keloid, non-keloid$\,]$ and read row\,=\,truth.
+
+{\footnotesize
+\begin{tabular}{@{}lrrrccccl@{}}
+\toprule
+\multirow{2}{*}{Held-out study} & \multirow{2}{*}{$n_{\text{tr}}$} & \multirow{2}{*}{$n_{\text{te}}$} & \multirow{2}{*}{Donors} & \multicolumn{2}{c}{Macro F1} & \multirow{2}{*}{AUROC} & \multirow{2}{*}{Confusion} & \multirow{2}{*}{Reported} \\
+\cmidrule(lr){5-6}
+ & & & & sample & donor & & & \\
+\midrule
+E-MTAB-4945    & 49 & 30 & 10 & 0.558 & \textbf{0.762} & 0.739 & $[[19,4],[5,2]]$ & donor \\
+GSE158395      & 82 & 13 & 9  & \textbf{0.838} & 1.000 & 1.000 & $[[4,0],[2,7]]$  & sample$^{\dagger}$ \\
+GSE181297      & 75 & 6  & 6  & 1.000 & \textbf{1.000} & 1.000 & $[[4,0],[0,2]]$  & donor \\
+GSE181316      & 79 & 5  & 4  & 1.000 & \textbf{1.000} & 1.000 & $[[4,0],[0,1]]$  & donor \\
+GSE190626      & 64 & 6  & 6  & 1.000 & \textbf{1.000} & 1.000 & $[[3,0],[0,3]]$  & donor \\
+GSE92566       & 62 & 7  & 3  & \textbf{1.000} & 0.250 & 1.000 & $[[4,0],[0,3]]$  & sample$^{\dagger}$ \\
+Sun\,\&\,Burns & 49 & 25 & 1  & \textbf{0.826} & 1.000 & 0.956 & $[[14,3],[1,7]]$ & sample$^{\ddagger}$ \\
+\midrule
+\multicolumn{6}{@{}l}{Post hoc seven-study sensitivity} & \multicolumn{3}{l}{0.918\quad(95\% bootstrap CI 0.848--0.977)} \\
+\midrule
+GSE173900$^{\S}$ & 84 & 9 & 9 & 0.182 & 0.182 & 0.250 & $[[2,3],[4,0]]$ & donor \\
+\multicolumn{6}{@{}l}{\textbf{Primary mean, all eight folds}} & \multicolumn{3}{l}{\textbf{0.826}\quad(worst fold 0.182)} \\
+\bottomrule
+\end{tabular}
+}
+
+\medskip
+{\footnotesize
+\noindent$^{\dagger}$ Within-patient lesional vs.\ non-lesional contrast:
+donors are not class-pure, so majority-donor collapse is undefined and
+sample grain is used. We note that donor-collapsed macro F1 on
+\texttt{GSE92566} is 0.250 precisely because collapsing a mixed-class donor
+destroys the contrast; the sample-grain value is the meaningful one.\\
+$^{\ddagger}$ Single donor ($n_{\text{donors}}=1$); donor grain is degenerate.\\
+$^{\S}$ Observed study failure, included in the primary mean (see A3).\\
+Bold entries are the grain reported in Figure~2. The grain rule --- donor when
+donors are class-pure and countable, sample otherwise --- is fixed by cohort
+design, not chosen per fold to improve the metric.
+}
+
+\medskip
+\noindent\textit{Source:}
+\texttt{results/accuracy\_085\_push/expanded\_ensemble\_v1/nested\_selected.csv}.
+
+% ---------------------------------------------------------------------
+% A5
+% ---------------------------------------------------------------------
+\subsection*{A5\quad Cohort disposition}
+\label{app:cohorts}
+
+All twenty-one candidate accessions considered for the primary endpoint, with
+compartment, assigned role, and inclusion decision. Endpoint purity --- not
+performance --- determines inclusion: cultured fibroblasts, immortalized cell
+lines, isolated endothelium, and stiffness-perturbation arms are routed to
+sensitivity or specialist analyses rather than the tissue endpoint.
+
+{\footnotesize
+\begin{tabularx}{\textwidth}{@{}lrrrlX@{}}
+\toprule
+Accession & $n_{\text{corpus}}$ & $n_{\text{prim}}$ & Donors & Primary skin & Rationale \\
+\midrule
+E-MTAB-4945 & 40 & 30 & 10 & \textbf{include}$^{*}$ & Tissue rows kept; fibroblast/keratinocyte culture rows dropped \\
+GSE158395   & 13 & 13 & 9  & \textbf{include} & Lesional-status cohort remapped to primary endpoint \\
+GSE173900   & 9  & 9  & 9  & \textbf{include} & Multi-donor bulk tissue, keloid vs.\ control skin \\
+GSE181297   & 7  & 6  & 6  & \textbf{include} & Donor-level all-barcode pseudobulk approximating tissue mix \\
+GSE181316   & 8  & 5  & 4  & \textbf{include} & All-barcode tissue pseudobulk; keloid $+$ healthy skin, scars routed out \\
+GSE190626   & 6  & 6  & 6  & \textbf{include} & Multi-donor bulk tissue, keloid vs.\ normal skin \\
+GSE92566    & 7  & 7  & 3  & \textbf{include} & Lesional-status cohort remapped to primary endpoint \\
+Sun\,\&\,Burns & 25 & 25 & 1 & \textbf{include}$^{*}$ & Bulk tissue but $n_{\text{donors}}=1$; accession-level grouping caveat \\
+\addlinespace
+E-MTAB-2509 & 27  & --- & --- & exclude & Fibroblast cultures with drug arms; sensitivity analysis only \\
+GSE145725   & 19  & --- & --- & exclude & Fibroblast cultures; routed to fibroblast endpoint \\
+GSE7890     & 19  & --- & --- & exclude & Cultures; controls are normal scar, half hydrocortisone-treated \\
+GSE282479   & 7   & --- & --- & exclude & Isolated fibroblasts forced into tissue endpoint inverted v1 LOSO \\
+GSE246562   & 12  & --- & --- & exclude & Stiffness perturbation arm; auxiliary only \\
+GSE210434   & 9   & --- & --- & exclude & Scar-triad fibroblasts; scar specialists only \\
+GSE303591   & 8   & --- & --- & exclude & Two dermal lines with technical replicates, not independent donors \\
+GSE232079   & 14  & --- & --- & exclude & Commercial/immortalized lines under vehicle; cell-line domain \\
+GSE121618   & 11  & --- & --- & exclude & Keloid vs.\ normal endothelium; not whole-skin tissue \\
+GSE163973   & 220 & --- & --- & exclude & Controls labeled normal scar; routed to scar/cell-type tasks \\
+GSE188952   & 12  & --- & --- & exclude & Scar-differential design; single donor \\
+GSE245660   & 5   & --- & --- & exclude & Keloid vs.\ immature scar; pathologic-scar specialist \\
+GSE44270    & 32  & --- & --- & exclude & Single pseudo-donor, mixed compartments; pending donor recovery \\
+\bottomrule
+\end{tabularx}
+}
+
+\medskip
+{\footnotesize
+\noindent$^{*}$ Included with the documented qualification in the rationale
+column. $n_{\text{corpus}}$ is profiles in the harmonized corpus;
+$n_{\text{prim}}$ is profiles evaluable on
+\texttt{keloid\_vs\_unaffected\_skin} and matches the per-fold $n_{\text{te}}$
+of A4.
+}
+
+\paragraph{Screening record.} Ten further accessions were retrieved and
+rejected before any model fitting, against pre-stated inclusion gates (human;
+keloid \emph{and} unaffected/normal skin present; unperturbed bulk tissue or
+all-barcode tissue pseudobulk; not isolated cultures, cell lines, or
+stiffness/drug arms; recoverable donor IDs; program coverage above the A1
+minima). Rejections: GSE220300, GSE335482, GSE307504 (no unaffected-skin arm);
+GSE181318 (wrong disease); GSE211150, GSE202293, GSE191267, GSE253664 (culture
+interventions); GSE270438 (sorted immune cells only); GSE182192 (unusable
+expression in the series matrix).
+
+\medskip
+\noindent\textit{Source:}
+\texttt{results/breakthrough\_sprint\_v2/cohort\_decision\_ledger.csv},
+\texttt{results/accuracy\_085\_push/cohort\_expansion\_ledger.json}.
+
+% ---------------------------------------------------------------------
+% A6
+% ---------------------------------------------------------------------
+\subsection*{A6\quad Protocol hyperparameters}
+\label{app:hyper}
+
+Concrete instantiation of Algorithm~1. All selection, threshold tuning, and
+normalization statistics are computed on training accessions or inner
+out-of-fold predictions only; no outer-test label or outer-test expression
+enters any fitting step.
+
+{\small
+\begin{tabular}{@{}lp{9.2cm}@{}}
+\toprule
+Component & Setting \\
+\midrule
+Views $\mathcal{V}$ & The five views of A2 \\
+Models $\mathcal{M}$ & \texttt{linear\_svm}: \texttt{StandardScaler} $\to$ \texttt{LinearSVC}, \texttt{class\_weight="balanced"}, \texttt{max\_iter=8000}\newline
+\texttt{ridge\_logreg}: \texttt{LogisticRegression}, \texttt{penalty="l2"}, \texttt{solver="lbfgs"}, \texttt{max\_iter=4000}\newline
+\texttt{elastic\_net\_logreg}: \texttt{LogisticRegression}, \texttt{penalty="elasticnet"}, \texttt{solver="saga"}, \texttt{l1\_ratio=0.5}, \texttt{class\_weight="balanced"}, \texttt{max\_iter=3000} \\
+Normalization & \texttt{none}, \texttt{train\_accession\_zscore}, \texttt{train\_reference\_quantile}, \texttt{train\_combat\_lite} (all fit on training accessions only) \\
+Calibration & \texttt{none} or \texttt{platt\_inner\_oof} --- \texttt{CalibratedClassifierCV}, \texttt{method="sigmoid"}, \texttt{StratifiedGroupKFold} on donor groups ($k=\min(3,n_{\text{groups}})$), falling back to \texttt{StratifiedKFold} when fewer than three groups \\
+Threshold grid $\Theta$ & Swept over inner out-of-fold probabilities; ties broken toward the lower threshold at equal inner F1 \\
+Selection metric $m$ & Equal-accession mean macro F1 with lower-tail tie-break; each inner study contributes equally \\
+Sample weights & Accession $\times$ donor balanced, so large studies cannot dominate the objective \\
+Ensemble & $K=3$ soft-vote over top-ranked inner configurations; operating threshold is the median of member thresholds \\
+Selection grain & Donor \\
+Random state & 13 \\
+\bottomrule
+\end{tabular}
+}
+
+\medskip
+\noindent\textit{Source:} \texttt{scripts/train\_accuracy\_085\_push.py},
+\texttt{scripts/train\_ensemble\_loso.py}, \texttt{scripts/domain\_adaptation.py}.
+Per-fold selected configurations and their ensemble members are recorded in
+\texttt{nested\_selected.csv}.
+
+% ---------------------------------------------------------------------
+% A7
+% ---------------------------------------------------------------------
+\subsection*{A7\quad Selective triage}
+\label{app:selective}
+
+The system may abstain when $\max(p, 1-p)$ falls below a confidence threshold.
+The following historical policies were evaluated on the post hoc seven-study subset. They are secondary; the all-eight-study coverage table is in results/reviewer\_revision/selective\_by\_study.csv.
+
+{\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Policy & Mean sel.\ F1 & Worst sel.\ F1 & Mean cov. & Min cov. & Dual-class folds \\
+\midrule
+Inner-OOF-tuned threshold & 0.651 & 0.000 & 0.543 & 0.000 & 4/7 \\
+\textbf{Fixed conf.\ $\geq0.55$} & \textbf{0.929} & 0.652 & \textbf{0.804} & 0.600 & \textbf{7/7} \\
+Fixed conf.\ $\geq0.60$ & 0.857 & 0.500 & 0.654 & 0.333 & 5/7 \\
+\bottomrule
+\end{tabular}
+}
+
+\paragraph{Why the tuned policy is not used.} Thresholds tuned on inner
+out-of-fold predictions over-abstain when transferred to outer folds: coverage
+collapses to zero on \texttt{GSE181297} and to 0.20 on \texttt{GSE181316},
+leaving those folds single-class and non-evaluable. The reported triage arm
+therefore uses a \emph{pre-specified} fixed threshold of 0.55, with both
+classes required in the kept set. At that setting the arm clears the
+$\text{F1}\geq0.90$ at $\text{coverage}\geq0.60$ criterion but not the
+worst-fold $\geq0.75$ criterion; the binding fold is E-MTAB-4945 at 0.652.
+
+\medskip
+\noindent\textit{Source:}
+\texttt{results/accuracy\_085\_push/selective\_transferable\_v1/}
+(\texttt{report.json}, \texttt{selective\_folds.csv}).
+
+% ---------------------------------------------------------------------
+% A8
+% ---------------------------------------------------------------------
+\subsection*{A8\quad Copilot specification and faithfulness audit}
+\label{app:copilot}
+
+\paragraph{Architecture.} The language layer is strictly downstream of
+inference. The classifier produces a probability, label, confidence, abstention
+decision, and per-feature linear contributions; these are serialized into an
+\emph{evidence packet}; the packet is the language model's only input. The
+model's output is rendered as display text and is never fed back into scoring.
+The interface therefore cannot hallucinate a prediction --- only, in principle,
+a description of one.
+
+\paragraph{Evidence packet schema.}
+
+{\small
+\begin{tabular}{@{}lp{8.6cm}@{}}
+\toprule
+Field & Contents \\
+\midrule
+\texttt{system}, \texttt{intended\_use}, \texttt{not\_for} & Fixed strings pinning research-use scope \\
+\texttt{sample} & Accession; \texttt{sample\_id} replaced by \texttt{"redacted"} before transmission \\
+\texttt{quality\_control} & Profile and gene counts, pinned-gene coverage, usable/total programs, transfer status and note \\
+\texttt{prediction} & \texttt{prob\_keloid}, \texttt{pred\_label}, \texttt{decision}, \texttt{confidence}, \texttt{decision\_threshold}, \texttt{confidence\_threshold}, \texttt{feature\_set}, \texttt{model\_name}, \texttt{artifact\_stage} \\
+\texttt{top\_program\_scores} & Six highest-magnitude program scores with direction \\
+\texttt{top\_supporting\_} / \texttt{opposing\_contributions} & Three signed linear contributions each \\
+\texttt{evidence\_scope} & Full-cohort context (0.826 mean macro F1; 101 profiles; 8 studies), with the post hoc subset explicitly labeled and an explicit warning that the live artifact and the nested LOSO ensemble are distinct evidence objects \\
+\bottomrule
+\end{tabular}
+}
+
+\paragraph{Revised generation contract.} The model retains an exact labeled
+factual opening, the supplied QC note, and a research-use disclaimer, and
+writes explanatory prose using the evidence packet. The prompt prohibits
+additional numbers, mechanisms, citations, diagnoses, and treatment advice.
+The cap is 130 words; decoding uses temperature zero and at most 400 tokens.
+Raw expression and sample identifiers are excluded from the outgoing packet.
+
+\paragraph{Audit and status.} The revised harness rejects an unconfigured
+LLM audit, records actual request/response provenance, and retains raw outputs
+before runtime validation. Automated screening includes numeric field
+association, obvious decision contradictions, abstention disclosure,
+contribution signs, QC, length, prohibited claims, packet immutability, and
+inspection of the outgoing payload. These checks are conservative and do not
+establish semantic faithfulness by themselves.
+
+The revised deterministic arm passes automated screening on 101/101 profiles,
+including 21 abstentions. Actual LLM generation and independent human review
+remain pending because no model endpoint or human ratings were available.
+No generative pass rate is claimed. Blank independent-rater forms and a rubric
+are supplied. Runtime fallback is labeled separately and never counted as
+successful raw generation in the audit.
+
+\noindent\textit{Source:} \texttt{results/reviewer\_revision/narrative\_audit/}.
+
+% ---------------------------------------------------------------------
+% A9
+% ---------------------------------------------------------------------
+\subsection*{A9\quad Reproduction table}
+\label{app:repro}
+
+The exact model input behind the headline result is released as a single
+table: 92 profiles $\times$ 7 studies, carrying labels, grouping keys, and all
+sixteen program features. Raw expression matrices and GEO archives remain
+local-only, but they are not needed to reproduce any number in this paper ---
+the program features \emph{are} the model input.
+
+{\small
+\begin{tabular}{@{}lp{8.8cm}@{}}
+\toprule
+Column group & Fields \\
+\midrule
+Identity & \texttt{sample\_id}, \texttt{accession}, \texttt{patient\_id}, \texttt{split\_group} \\
+Provenance & \texttt{platform\_id}, \texttt{modality}, \texttt{cohort\_role}, \texttt{lockbox} \\
+Labels & \texttt{keloid\_vs\_unaffected\_skin} (primary), \texttt{keloid\_vs\_normal}, \texttt{lesional\_status}, \texttt{cell\_type}, \texttt{disease\_label} \\
+Features & The sixteen \texttt{*\_rank} program scores of A1 \\
+\bottomrule
+\end{tabular}
+}
+
+\medskip
+\noindent\textit{Files:}
+\texttt{transferable\_7studies\_headline.csv} (92 profiles, features $+$
+labels), \texttt{transferable\_7studies\_manifest\_only.csv} (labels only),
+\texttt{primary\_development\_all8studies.csv} (includes the observed-failure
+\texttt{GSE173900} fold). Released under
+\texttt{results/accuracy\_085\_push/pi\_share/}.
+
+% The generated matched comparison is supplied in reviewer_revision_results.tex.

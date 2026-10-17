@@ -116,14 +116,19 @@ def main():
         preds=pd.concat([preds,*winners],ignore_index=True)
     preds.to_csv(OUT/'matched_predictions.csv',index=False)
     pd.DataFrame(configs).to_csv(OUT/'matched_selected_configs.csv',index=False)
+    report_results(preds,protocol,meta)
+
+def report_results(preds,protocol,meta):
     summaries=[]; fold_rows=[]; details={}
     for arm,sub in preds.groupby('arm'):
         result=summarize(sub,meta.reset_index(drop=True))
-        details[arm]={**result,'selective':selective_report(sub)}
+        sensitivity=summarize(sub[~sub.accession.eq('GSE173900')],meta.reset_index(drop=True))
+        details[arm]={**result,'selective':selective_report(sub),'post_hoc_seven_study_sensitivity':sensitivity}
         summaries.append({'arm':arm,**{k:v for k,v in result.items() if not isinstance(v,(list,dict))}})
         fold_rows.extend({'arm':arm,**r} for r in result['folds'])
     table=pd.DataFrame(summaries).sort_values('arm')
     table.to_csv(OUT/'matched_summary.csv',index=False)
+    pd.DataFrame([{'arm':arm, **{k:v for k,v in item['post_hoc_seven_study_sensitivity'].items() if not isinstance(v,(dict,list))}} for arm,item in details.items()]).to_csv(OUT/'matched_sensitivity_summary.csv',index=False)
     folds=pd.DataFrame(fold_rows);folds.to_csv(OUT/'matched_per_study.csv',index=False)
     pivot=folds.pivot(index='accession',columns='arm',values='macro_f1')
     delta=(pivot.inner_selected_program-pivot.inner_selected_marker).to_numpy()
@@ -142,4 +147,10 @@ def main():
               'No universal superiority claim is made. The development cohorts were already inspected; these results require independent confirmation. Missingness and per-study predictions are published alongside this report.']
     (OUT/'matched_comparison.md').write_text('\n'.join(lines)+'\n')
     print(table[['arm','mean_macro_f1','worst_macro_f1']].to_string(index=False))
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--report-only',action='store_true')
+    if parser.parse_args().report_only:
+        report_results(pd.read_csv(OUT/'matched_predictions.csv'),json.loads(PROTOCOL.read_text()),pd.read_csv(OUT/'cohort_manifest.csv').set_index('sample_id',drop=False))
+    else:main()

@@ -1,14 +1,16 @@
+> Current camera-ready claims and matched comparisons are in [reviewer_revision_results.md](reviewer_revision_results.md). The sections below preserve development history.
+
 # Keloid transcriptomic reproducibility lives at the fibroblast-program level, not the marker-gene level
 
 ## Abstract
 
-Across independent keloid transcriptomic cohorts, individual marker genes and published hub-gene signatures show poor study-to-study reproducibility, but aggregated fibroblast activation programs—especially POSTN/profibrotic, ECM, remodeling, and mechanoresponsive mesenchymal fibroblast programs—remain stable across platforms, cohorts, and validation schemes. Leave-one-study-out (LOSO) prediction confirms that reproducibility emerges at the **program/state level** rather than at the single-gene marker level.
+KeloidBench evaluates interpretable gene-program features under cross-study validation. The matched revision comparison does not establish general superiority over single-marker classifiers; see [current revision results](reviewer_revision_results.md).
 
 We do **not** claim discovery of POSTN-high fibroblasts; that literature is already crowded (Deng et al., Nat Commun 2021; Shim et al., JID 2022; Cheng et al., Commun Biol 2024; Zhang et al., Commun Biol 2025). Harmonizing **794** keloid-related expression profiles from **10** derivation studies, we ask: **(RQ1)** which reported keloid signals survive forced cross-cohort replication, and **(RQ2)** whether keloid status is predicted more reliably from fibroblast **program scores** than from published **marker gene sets** under LOSO evaluation.
 
 **Replication (RQ1):** Individual keloid markers and curated published signatures show poor external reproducibility (**0%** of three signature gene sets meet strict low-heterogeneity core criteria; **68%** of curated markers fail per-study direction tests), but datasets repeatedly converge on a **coherent fibroblast activation program panel** (direction-correct in **6/7** modules; POSTN/profibrotic module largest delta, p≈8.7×10⁻¹³; ECM and remodeling modules also strongly enriched). A separate **44-gene** low-I² core exists but is not synonymous with this program family and does not replicate as cleanly. Held-out keloid cohorts (E-MTAB-2509/4945), cross-modality checks (microarray, bulk, scRNA/spatial pseudobulk, ArrayExpress), and exploratory IPF/SSc bulk tests show **module-level** (not gene-level) generalization.
 
-**Prediction (RQ2):** Under LOSO, `modules_only` elastic net reaches weighted F1 **0.655**; the single POSTN/profibrotic module alone reaches **0.651**—both beating published marker unions (**0.630**), the strict 44-gene core (**0.580**), and high-dimensional gene features (**0.565–0.569**). Grouped cross-validation inflates gene-model F1 to **~0.74** while program features remain stable (grouped−LOSO gap **~0.03** for modules vs **~0.17** for genes). On the endpoint-pure primary (`keloid_vs_unaffected_skin`), train-only normalization + calibrated ensemble on **transferable** tissue cohorts (7 studies / **92** profiles / **39** donors; BGISEQ `GSE173900` excluded as non-transferable) reaches mean donor-primary macro F1 **~0.92** (worst **~0.76**). As a **selective triage** mode (pre-specified confidence ≥0.55), mean selective macro F1 is **~0.93** at **~80%** coverage (sprint selective arm); worst selective fold remains **~0.65**. Full-coverage public gates including `GSE173900` fail; a matched multi-arm clinical cohort remains required for a clinical high-accuracy claim. A frozen Qwen hybrid adapter remains a negative LOSO control (~**0.32–0.42**). Exploratory spheroid transfer (Choi/Dirand) supports cross-scale biological grounding but is supplementary.
+**Prediction (RQ2), revised:** The primary historical ensemble uses all eight studies (101 profiles): mean macro F1 **0.826**, worst study **0.182**. The **0.918** seven-study result is post hoc. A matched revision benchmark now compares each individual marker and program view; the current results and limitations are in [reviewer_revision_results.md](reviewer_revision_results.md).
 
 ## Introduction
 
@@ -197,24 +199,24 @@ Public GEO expansion alone did not clear the sprint gates. v1 nested primary mac
 - Same success criteria as the breakthrough sprint; public-GEO-frozen model is the primary scorer
 - Friday product packaging: `PRODUCT.md` / `results/product_friday/` (Stage-B joblib cascade + CLI). v2 fibroblast lockbox GSE218007 one-shot macro F1≈0.33 (culture domain fail). Scar specialist refresh with GSE178562: pathologic≈0.42, normal-scar≈0.33.
 
-### RQ2 accuracy ≥0.85 push (donor-primary skin endpoint + selective triage)
+### Historical RQ2 accuracy campaign (superseded claim framing)
 
-After v2, we pre-registered a donor-primary scoreboard for `keloid_vs_unaffected_skin` (`scripts/score_primary_ladder.py`; success = mean macro F1 ≥0.85 **and** every evaluable fold ≥0.75, then untouched lockbox). Selection, thresholds, and normalization references remain train / inner-OOF only.
+After v2, we pre-registered a donor-primary scoreboard for `keloid_vs_unaffected_skin` (`scripts/score_primary_ladder.py`; success = mean macro F1 ≥0.85 **and** every evaluable fold ≥0.75, then independent validation). Selection, thresholds, and normalization references remain train / inner-OOF only.
 
 **Phase 0–1 (harness + train-only norms).** Baseline Stage-B donor-primary mean ≈**0.75** with worst fold **GSE173900 ≈0.42**. Train-only accession z-score, reference quantile, and ComBat-lite (`scripts/domain_adaptation.py`) plus calibrated soft-vote ensemble (`scripts/train_accuracy_085_push.py`) did **not** lift `GSE173900` over 0.75. Fixed-grid oracle ceiling on that fold remains ≈**0.42** F1 / AUROC ≤≈**0.45** even with gene-level views—fibrosis programs are inverted relative to other tissue cohorts after harmonization (KC/KL labels verified).
 
 **Phase 2 (tissue expansion).** Lesional-status cohorts (`GSE158395`, `GSE92566`) were remapped onto the primary endpoint; `GSE181316` was ingested as all-barcode tissue pseudobulk (keloid + healthy skin for primary; scars routed to specialists). Checkpoint: **8** LOSO tissue folds. Culture/stiffness arms remain excluded via `PRIMARY_SKIN_EXCLUDE_ACCESSIONS`.
 
-**Phase 3 (nested re-run).** Expanded ensemble (`expanded_ensemble_v1`): full-coverage mean macro F1 **0.826**, worst **0.182** (`GSE173900`) → public gates **FAIL**; lockbox not scored. Mixed-class within-donor contrasts (lesion vs non-lesional) use sample grain.
+**Phase 3 (nested re-run).** Expanded ensemble (`expanded_ensemble_v1`): full-coverage mean macro F1 **0.826**, worst **0.182** (`GSE173900`) → public gates **FAIL**; no new lockbox score in this campaign (GSE185309 had been scored previously). Mixed-class within-donor contrasts (lesion vs non-lesional) use sample grain.
 
-**Transferable tissue scoreboard (documented platform exclusion).** Dropping non-transferable `GSE173900` leaves **7** folds / **92** profiles / **39** donors:
+**Post hoc sensitivity analysis.** Excluding `GSE173900` after observing its failure leaves **7** folds / **92** profiles / **39** donors:
 
 | Stat | Value |
 |------|-------|
 | Mean macro F1 | **0.918** |
 | Worst fold | **0.762** (E-MTAB-4945) |
 | 95% bootstrap CI (mean) | **0.85–0.98** |
-| Numeric gates (mean≥0.85, worst≥0.75) | **PASS** |
+| Status | Exploratory subset; not a passed primary gate |
 
 | Fold | Grain | Macro F1 |
 |------|-------|----------|
@@ -225,7 +227,7 @@ After v2, we pre-registered a donor-primary scoreboard for `keloid_vs_unaffected
 
 Pooled sample accuracy on the same held-out predictions is **77/92 ≈ 84%** (not the headline metric; studies are equally weighted in the mean).
 
-**Selective abstention / triage (co-primary product mode).** Leakage-safe retune (`scripts/retune_selective_transferable.py`): inner-OOF-tuned confidence thresholds over-abstain on outer folds. Pre-specified confidence ≥**0.55** (both classes required in the kept set):
+**Historical selective abstention on the post hoc subset.** Leakage-safe retune (`scripts/retune_selective_transferable.py`): inner-OOF-tuned confidence thresholds over-abstain on outer folds. Pre-specified confidence ≥**0.55** (both classes required in the kept set):
 
 | Mode | Mean sel F1 | Worst sel F1 | Mean coverage | Sprint arm (F1≥0.90 @ cov≥0.60) | Full (+ worst≥0.75) |
 |------|-------------|--------------|---------------|--------------------------------|---------------------|
@@ -236,7 +238,7 @@ Pooled sample accuracy on the same held-out predictions is **77/92 ≈ 84%** (no
 Hard selective fold: E-MTAB-4945 ≈**0.65**. Artifacts: `results/accuracy_085_push/`.
 
 **Claim framing**
-- Methods / triage claim on **transferable** public tissue: supported (full-coverage ~0.92; selective ~0.93 @ ~80% coverage).
+- Seven-study performance is descriptive and outcome-selected; it does not establish a prospective transfer claim.
 - Full-coverage public claim including all platforms: **not** supported (`GSE173900` blocks worst≥0.75).
 - Clinical high-accuracy classifier: still requires the matched cohort (`EXECUTE_MATCHED_COHORT_PROTOCOL`); GSE185309 not rescored; GSE212954/GSE237752 lockbox deferred until public full-coverage gates pass.
 
@@ -266,9 +268,9 @@ POSTN-high profibrotic fibroblasts are not new, and the claim that they matter i
 
 ### Central message
 
-Across independent keloid transcriptomic cohorts, individual marker genes and published hub-gene signatures show poor study-to-study reproducibility, but aggregated fibroblast activation programs remain stable across platforms, cohorts, and validation schemes. Leave-one-study-out prediction confirms that reproducibility emerges at the **program/state level** rather than at the single-gene marker level.
+KeloidBench evaluates interpretable gene-program features under cross-study validation. The matched revision comparison does not establish general superiority over single-marker classifiers; see [current revision results](reviewer_revision_results.md).
 
-POSTN is therefore reframed from "newly discovered keloid marker" to **one anchor within a recurring cross-study fibroblast activation state**. Historical broad `keloid_binary` LOSO (~0.65–0.71) remains methods-grade. On the tissue-pure primary endpoint, program features support stronger **study-held-out** performance on transferable cohorts (~0.92 mean macro F1; selective triage ~0.93 at ~80% coverage), but that is still a **public-data / triage** result—not a clinical diagnostic claim. Platform non-transferability (`GSE173900`) and residual worst-fold selective F1 (~0.65) define the public ceiling; the matched multi-arm cohort is the confirmatory path for clinical accuracy.
+POSTN is one component of the curated fibroblast program representation. Both individual markers and programs can perform well on selected development studies; the observed cross-study failures and uncertain paired comparison prevent a general program-superiority claim. Independent validation remains necessary.
 
 We do **not** claim this program family is *the* core of all pathological fibrosis. Train-only (not label-using) cross-study normalization is disclosed wherever used; outer-test lockboxes are one-shot.
 
@@ -286,8 +288,8 @@ We do **not** claim this program family is *the* core of all pathological fibros
 - scRNA / all-barcode pseudobulk inflates profile count relative to donor-level meta-analysis; donor-primary metrics are preferred where donors are class-pure.
 - Single atlas for fibroblast-state localization.
 - Curated signature audit covers three lists; broader literature mining would strengthen cautionary claims.
-- Heterogeneous public platforms: `GSE173900` (BGISEQ) is non-transferable under current program/gene features (oracle AUROC ≤≈0.45); excluding it is a documented platform rule, not silent cherry-picking after the fact for the transferable scoreboard.
-- Transferable primary n remains modest (**92** profiles / **39** donors / **7** studies); equal study weighting makes small perfect folds influential.
+- GSE173900 is an observed held-out failure included in the primary analysis. Its post hoc exclusion is outcome-dependent and does not prove a platform-wide limitation.
+- Primary n remains modest (**101** profiles / **48** donors / **8** studies); equal study weighting makes small perfect folds influential.
 - Selective triage worst fold (E-MTAB-4945 ≈0.65) fails the ≥0.75 worst-fold gate; conf≥0.55 is pre-specified for the reported triage arm.
 - No new matched clinical cohort yet; lockbox confirmation deferred while full-coverage public gates fail.
 - Spheroid transfer is exploratory and partially circular (gene holdout rho ≈ 0.81); report cautiously.
