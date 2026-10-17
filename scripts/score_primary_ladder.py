@@ -138,7 +138,7 @@ def score_from_predictions(
     threshold_by_acc: dict[str, float] | None = None,
 ) -> list[dict]:
     """Recompute donor/sample-grain macro F1 from prediction rows."""
-    meta = manifest.set_index("sample_id")
+    meta = manifest.set_index("sample_id") if "sample_id" in manifest else pd.DataFrame()
     folds = []
     for acc, sub in preds.groupby(preds["accession"].astype(str)):
         thr = 0.5
@@ -148,7 +148,8 @@ def score_from_predictions(
             thr = float(sub["threshold"].iloc[0])
         y = sub["y_true"].astype(int).to_numpy()
         p = sub["prob_keloid"].astype(float).to_numpy()
-        pred = (p >= thr).astype(int)
+        # Saved training predictions encode keloid as 0, non_keloid as 1.
+        pred = np.where(p >= thr, 0, 1)
         sample_macro = float(f1_score(y, pred, average="macro", zero_division=0))
         # Donor grain
         if "donor" in sub.columns:
@@ -167,7 +168,7 @@ def score_from_predictions(
             yi = y[[sub.index.get_loc(i) for i in idx]]
             pi = p[[sub.index.get_loc(i) for i in idx]]
             donor_true.append(int(np.round(yi.mean())))
-            donor_pred.append(int(np.mean(pi) >= thr))
+            donor_pred.append(0 if np.mean(pi) >= thr else 1)
         n_donors = len(donor_true)
         donor_macro = (
             float(f1_score(donor_true, donor_pred, average="macro", zero_division=0))

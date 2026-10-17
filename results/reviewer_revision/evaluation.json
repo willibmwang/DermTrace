@@ -1,0 +1,350 @@
+{
+  "status": "recomputed from saved predictions; no new model training",
+  "positive_label": "keloid",
+  "positive_code": 0,
+  "metric": "equal-study macro F1; donor means for class-pure multi-donor studies; sample fallback otherwise",
+  "primary": {
+    "n_studies": 8,
+    "n_profiles": 101,
+    "n_donors": 48,
+    "mean_macro_f1": 0.825951479076479,
+    "worst_macro_f1": 0.18181818181818182,
+    "mean_sample_macro_f1": 0.80047606796277,
+    "pooled_accuracy": 0.7821782178217822,
+    "pooled_correct": 79,
+    "pooled_sample_macro_f1": 0.7626068376068376,
+    "study_bootstrap_ci": {
+      "mean": 0.825951479076479,
+      "lo": 0.6308554292929294,
+      "hi": 0.9702380952380952
+    },
+    "folds": [
+      {
+        "accession": "E-MTAB-4945",
+        "n_donors": 10,
+        "grain": "donor",
+        "macro_f1": 0.7619047619047619,
+        "sample_macro_f1": 0.5581014729950899,
+        "donor_macro_f1": 0.7619047619047619,
+        "n_test": 30,
+        "threshold": 0.5,
+        "n_keloid": 23,
+        "n_unaffected": 7,
+        "sample_accuracy": 0.7,
+        "brier_score": 0.19894487143148104
+      },
+      {
+        "accession": "GSE158395",
+        "n_donors": 9,
+        "grain": "sample_mixed_donor",
+        "macro_f1": 0.8375,
+        "sample_macro_f1": 0.8375,
+        "donor_macro_f1": 1.0,
+        "n_test": 13,
+        "threshold": 0.5,
+        "n_keloid": 4,
+        "n_unaffected": 9,
+        "sample_accuracy": 0.8461538461538461,
+        "brier_score": 0.13992687336418844
+      },
+      {
+        "accession": "GSE173900",
+        "n_donors": 9,
+        "grain": "donor",
+        "macro_f1": 0.18181818181818182,
+        "sample_macro_f1": 0.18181818181818182,
+        "donor_macro_f1": 0.18181818181818182,
+        "n_test": 9,
+        "threshold": 0.4906141813319206,
+        "n_keloid": 5,
+        "n_unaffected": 4,
+        "sample_accuracy": 0.2222222222222222,
+        "brier_score": 0.5471488167528611
+      },
+      {
+        "accession": "GSE181297",
+        "n_donors": 6,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 6,
+        "threshold": 0.5,
+        "n_keloid": 4,
+        "n_unaffected": 2,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.18037929673051145
+      },
+      {
+        "accession": "GSE181316",
+        "n_donors": 4,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 5,
+        "threshold": 0.4354576318952971,
+        "n_keloid": 4,
+        "n_unaffected": 1,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.07110893135645774
+      },
+      {
+        "accession": "GSE190626",
+        "n_donors": 6,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 6,
+        "threshold": 0.5,
+        "n_keloid": 3,
+        "n_unaffected": 3,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.07422369398853487
+      },
+      {
+        "accession": "GSE92566",
+        "n_donors": 3,
+        "grain": "sample_mixed_donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 0.25,
+        "n_test": 7,
+        "threshold": 0.5216586815410849,
+        "n_keloid": 4,
+        "n_unaffected": 3,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.11361664383438079
+      },
+      {
+        "accession": "Sun_Burns",
+        "n_donors": 1,
+        "grain": "sample",
+        "macro_f1": 0.8263888888888888,
+        "sample_macro_f1": 0.8263888888888888,
+        "donor_macro_f1": 1.0,
+        "n_test": 25,
+        "threshold": 0.4952199603590005,
+        "n_keloid": 17,
+        "n_unaffected": 8,
+        "sample_accuracy": 0.84,
+        "brier_score": 0.1846732569276206
+      }
+    ]
+  },
+  "post_hoc_seven_study_sensitivity": {
+    "n_studies": 7,
+    "n_profiles": 92,
+    "n_donors": 39,
+    "mean_macro_f1": 0.9179705215419501,
+    "worst_macro_f1": 0.7619047619047619,
+    "mean_sample_macro_f1": 0.8888557659834255,
+    "pooled_accuracy": 0.8369565217391305,
+    "pooled_correct": 77,
+    "pooled_sample_macro_f1": 0.821590174531351,
+    "study_bootstrap_ci": {
+      "mean": 0.9179705215419501,
+      "lo": 0.8483553004535147,
+      "hi": 0.9767857142857144
+    },
+    "folds": [
+      {
+        "accession": "E-MTAB-4945",
+        "n_donors": 10,
+        "grain": "donor",
+        "macro_f1": 0.7619047619047619,
+        "sample_macro_f1": 0.5581014729950899,
+        "donor_macro_f1": 0.7619047619047619,
+        "n_test": 30,
+        "threshold": 0.5,
+        "n_keloid": 23,
+        "n_unaffected": 7,
+        "sample_accuracy": 0.7,
+        "brier_score": 0.19894487143148104
+      },
+      {
+        "accession": "GSE158395",
+        "n_donors": 9,
+        "grain": "sample_mixed_donor",
+        "macro_f1": 0.8375,
+        "sample_macro_f1": 0.8375,
+        "donor_macro_f1": 1.0,
+        "n_test": 13,
+        "threshold": 0.5,
+        "n_keloid": 4,
+        "n_unaffected": 9,
+        "sample_accuracy": 0.8461538461538461,
+        "brier_score": 0.13992687336418844
+      },
+      {
+        "accession": "GSE181297",
+        "n_donors": 6,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 6,
+        "threshold": 0.5,
+        "n_keloid": 4,
+        "n_unaffected": 2,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.18037929673051145
+      },
+      {
+        "accession": "GSE181316",
+        "n_donors": 4,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 5,
+        "threshold": 0.4354576318952971,
+        "n_keloid": 4,
+        "n_unaffected": 1,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.07110893135645774
+      },
+      {
+        "accession": "GSE190626",
+        "n_donors": 6,
+        "grain": "donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 1.0,
+        "n_test": 6,
+        "threshold": 0.5,
+        "n_keloid": 3,
+        "n_unaffected": 3,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.07422369398853487
+      },
+      {
+        "accession": "GSE92566",
+        "n_donors": 3,
+        "grain": "sample_mixed_donor",
+        "macro_f1": 1.0,
+        "sample_macro_f1": 1.0,
+        "donor_macro_f1": 0.25,
+        "n_test": 7,
+        "threshold": 0.5216586815410849,
+        "n_keloid": 4,
+        "n_unaffected": 3,
+        "sample_accuracy": 1.0,
+        "brier_score": 0.11361664383438079
+      },
+      {
+        "accession": "Sun_Burns",
+        "n_donors": 1,
+        "grain": "sample",
+        "macro_f1": 0.8263888888888888,
+        "sample_macro_f1": 0.8263888888888888,
+        "donor_macro_f1": 1.0,
+        "n_test": 25,
+        "threshold": 0.4952199603590005,
+        "n_keloid": 17,
+        "n_unaffected": 8,
+        "sample_accuracy": 0.84,
+        "brier_score": 0.1846732569276206
+      }
+    ]
+  },
+  "primary_selective": {
+    "confidence_threshold": 0.55,
+    "metric_grain": "sample; both true classes required",
+    "mean_coverage": 0.8144993894993895,
+    "n_evaluable_folds": 8,
+    "mean_sample_macro_f1_evaluable": 0.8375769690285819,
+    "folds": [
+      {
+        "accession": "E-MTAB-4945",
+        "n_total": 30,
+        "n_retained": 18,
+        "coverage": 0.6,
+        "keloid_coverage": 0.6521739130434783,
+        "unaffected_coverage": 0.42857142857142855,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 0.6516129032258065
+      },
+      {
+        "accession": "GSE158395",
+        "n_total": 13,
+        "n_retained": 11,
+        "coverage": 0.8461538461538461,
+        "keloid_coverage": 1.0,
+        "unaffected_coverage": 0.7777777777777778,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 0.905982905982906
+      },
+      {
+        "accession": "GSE173900",
+        "n_total": 9,
+        "n_retained": 8,
+        "coverage": 0.8888888888888888,
+        "keloid_coverage": 0.8,
+        "unaffected_coverage": 1.0,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 0.2
+      },
+      {
+        "accession": "GSE181297",
+        "n_total": 6,
+        "n_retained": 4,
+        "coverage": 0.6666666666666666,
+        "keloid_coverage": 0.5,
+        "unaffected_coverage": 1.0,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 1.0
+      },
+      {
+        "accession": "GSE181316",
+        "n_total": 5,
+        "n_retained": 5,
+        "coverage": 1.0,
+        "keloid_coverage": 1.0,
+        "unaffected_coverage": 1.0,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 1.0
+      },
+      {
+        "accession": "GSE190626",
+        "n_total": 6,
+        "n_retained": 6,
+        "coverage": 1.0,
+        "keloid_coverage": 1.0,
+        "unaffected_coverage": 1.0,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 1.0
+      },
+      {
+        "accession": "GSE92566",
+        "n_total": 7,
+        "n_retained": 5,
+        "coverage": 0.7142857142857143,
+        "keloid_coverage": 0.75,
+        "unaffected_coverage": 0.6666666666666666,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 1.0
+      },
+      {
+        "accession": "Sun_Burns",
+        "n_total": 25,
+        "n_retained": 20,
+        "coverage": 0.8,
+        "keloid_coverage": 0.8235294117647058,
+        "unaffected_coverage": 0.75,
+        "evaluable_both_classes": true,
+        "sample_macro_f1": 0.9430199430199431
+      }
+    ]
+  },
+  "source_sha256": {
+    "results/accuracy_085_push/expanded_ensemble_v1/predictions_keloid_vs_unaffected_skin.csv": "2251c2f4563bbf2a5192cae21e81288bbf6116389a7a639b5109d0df0db0a152"
+  },
+  "limitations": [
+    "Seven-study exclusion followed observation of test failure.",
+    "Study bootstrap has only eight clusters; estimates are descriptive.",
+    "Historical development data have been inspected repeatedly; this is not independent confirmation.",
+    "Live Stage-B model is distinct from this nested ensemble."
+  ]
+}
