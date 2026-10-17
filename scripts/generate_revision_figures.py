@@ -15,9 +15,13 @@ PRIMARY,FAIL='#2a78d6','#c2532f'
 INK,MUTED,GRID='#1f2933','#5b6670','#d9dde1'
 
 def save(fig,name,website_name=None):
-    for suffix in ['svg','png','pdf']:
-        fig.savefig(OUT/f'{name}.{suffix}',dpi=180,bbox_inches='tight',facecolor='white')
-        if website_name:fig.savefig(WEB/f'{website_name}.{suffix}',dpi=180,bbox_inches='tight',facecolor='white')
+    from PIL import Image
+    for folder,stem in [(OUT,name)]+([(WEB,website_name)] if website_name else []):
+        for suffix in ['svg','pdf','png']:
+            path=folder/f'{stem}.{suffix}'
+            fig.savefig(path,dpi=300,bbox_inches='tight',pad_inches=.05,facecolor='white')
+        # Print-ready PNG: 300 dpi, flat RGB on white (no alpha channel).
+        Image.open(path).convert('RGB').save(path,dpi=(300,300),optimize=True)
     plt.close(fig)
 
 def main():

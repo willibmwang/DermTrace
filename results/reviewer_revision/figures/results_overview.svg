@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="856.8pt" height="237.455719pt" viewBox="0 0 856.8 237.455719" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="849.6pt" height="230.255719pt" viewBox="0 0 849.6 230.255719" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-17T18:34:58.360694</dc:date>
+    <dc:date>2026-10-17T18:36:38.641068</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,9 +21,9 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 237.455719 
-L 856.8 237.455719 
-L 856.8 0 
+   <path d="M 0 230.255719 
+L 849.6 230.255719 
+L 849.6 0 
 L 0 0 
 z
 " style="fill: #ffffff"/>
@@ -31,7 +31,7 @@ z
   <g id="axes_1">
    <g id="text_1">
     <!-- Primary macro F1 -->
-    <g style="fill: #314655" transform="translate(7.2 81.5688) scale(0.11 -0.11)">
+    <g style="fill: #314655" transform="translate(3.6 77.9688) scale(0.11 -0.11)">
      <defs>
       <path id="DejaVuSans-50" d="M 1259 4147 
 L 1259 2394 
@@ -255,7 +255,7 @@ z
    </g>
    <g id="text_2">
     <!-- 0.826 -->
-    <g style="fill: #2a78d6" transform="translate(7.2 137.39184) scale(0.33 -0.33)">
+    <g style="fill: #2a78d6" transform="translate(3.6 133.79184) scale(0.33 -0.33)">
      <defs>
       <path id="DejaVuSans-Bold-30" d="M 2944 2338 
 Q 2944 3213 2780 3570 
@@ -386,7 +386,7 @@ z
    </g>
    <g id="text_3">
     <!-- 8 studies · 101 profiles -->
-    <g style="fill: #5b6670" transform="translate(7.2 170.61984) scale(0.1 -0.1)">
+    <g style="fill: #5b6670" transform="translate(3.6 167.01984) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-38" d="M 2034 2216 
 Q 1584 2216 1326 1975 
@@ -665,7 +665,7 @@ z
   <g id="axes_2">
    <g id="text_4">
     <!-- Worst-study macro F1 -->
-    <g style="fill: #314655" transform="translate(220.5 81.5688) scale(0.11 -0.11)">
+    <g style="fill: #314655" transform="translate(216.9 77.9688) scale(0.11 -0.11)">
      <defs>
       <path id="DejaVuSans-57" d="M 213 4666 
 L 850 4666 
@@ -715,7 +715,7 @@ z
    </g>
    <g id="text_5">
     <!-- 0.182 -->
-    <g style="fill: #2a78d6" transform="translate(220.5 137.39184) scale(0.33 -0.33)">
+    <g style="fill: #2a78d6" transform="translate(216.9 133.79184) scale(0.33 -0.33)">
      <defs>
       <path id="DejaVuSans-Bold-31" d="M 750 831 
 L 1813 831 
@@ -741,7 +741,7 @@ z
    </g>
    <g id="text_6">
     <!-- GSE173900 included -->
-    <g style="fill: #5b6670" transform="translate(220.5 170.61984) scale(0.1 -0.1)">
+    <g style="fill: #5b6670" transform="translate(216.9 167.01984) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-47" d="M 3809 666 
 L 3809 1919 
@@ -930,7 +930,7 @@ z
   <g id="axes_3">
    <g id="text_7">
     <!-- Pooled sample accuracy -->
-    <g style="fill: #314655" transform="translate(433.8 81.5688) scale(0.11 -0.11)">
+    <g style="fill: #314655" transform="translate(430.2 77.9688) scale(0.11 -0.11)">
      <use xlink:href="#DejaVuSans-50"/>
      <use xlink:href="#DejaVuSans-6f" transform="translate(56.677734 0)"/>
      <use xlink:href="#DejaVuSans-6f" transform="translate(117.859375 0)"/>
@@ -957,7 +957,7 @@ z
    </g>
    <g id="text_8">
     <!-- 78.2% -->
-    <g style="fill: #2a78d6" transform="translate(433.8 137.39184) scale(0.33 -0.33)">
+    <g style="fill: #2a78d6" transform="translate(430.2 133.79184) scale(0.33 -0.33)">
      <defs>
       <path id="DejaVuSans-Bold-37" d="M 428 4666 
 L 3944 4666 
@@ -1026,7 +1026,7 @@ z
    </g>
    <g id="text_9">
     <!-- 79/101 profiles -->
-    <g style="fill: #5b6670" transform="translate(433.8 170.61984) scale(0.1 -0.1)">
+    <g style="fill: #5b6670" transform="translate(430.2 167.01984) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-2f" d="M 1625 4666 
 L 2156 4666 
@@ -1057,7 +1057,7 @@ z
   <g id="axes_4">
    <g id="text_10">
     <!-- Post hoc subset F1 -->
-    <g style="fill: #314655" transform="translate(647.1 81.5688) scale(0.11 -0.11)">
+    <g style="fill: #314655" transform="translate(643.5 77.9688) scale(0.11 -0.11)">
      <defs>
       <path id="DejaVuSans-68" d="M 3513 2113 
 L 3513 0 
@@ -1127,7 +1127,7 @@ z
    </g>
    <g id="text_11">
     <!-- 0.918 -->
-    <g style="fill: #2a78d6" transform="translate(647.1 137.39184) scale(0.33 -0.33)">
+    <g style="fill: #2a78d6" transform="translate(643.5 133.79184) scale(0.33 -0.33)">
      <defs>
       <path id="DejaVuSans-Bold-39" d="M 641 103 
 L 641 966 
@@ -1169,7 +1169,7 @@ z
    </g>
    <g id="text_12">
     <!-- 7 studies · outcome-selected -->
-    <g style="fill: #5b6670" transform="translate(647.1 170.61984) scale(0.1 -0.1)">
+    <g style="fill: #5b6670" transform="translate(643.5 167.01984) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-37"/>
      <use xlink:href="#DejaVuSans-20" transform="translate(63.623047 0)"/>
      <use xlink:href="#DejaVuSans-73" transform="translate(95.410156 0)"/>
@@ -1203,7 +1203,7 @@ z
   </g>
   <g id="text_13">
    <!-- KeloidBench: full-cohort evidence and its limits -->
-   <g transform="translate(9.36 19.3575) scale(0.16 -0.16)">
+   <g transform="translate(5.76 15.7575) scale(0.16 -0.16)">
     <defs>
      <path id="DejaVuSans-Bold-4b" d="M 588 4666 
 L 1791 4666 
@@ -1670,7 +1670,7 @@ z
   </g>
   <g id="text_14">
    <!-- Primary metric: equal-study donor/sample macro F1. The historical ensemble differs from the live demonstration model. -->
-   <g transform="translate(9.36 228.384) scale(0.09 -0.09)">
+   <g transform="translate(5.76 224.784) scale(0.09 -0.09)">
     <defs>
      <path id="DejaVuSans-3a" d="M 750 794 
 L 1409 794 
