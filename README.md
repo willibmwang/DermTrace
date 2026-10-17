@@ -2,6 +2,12 @@
 
 Encoder-decoder modeling for keloid fibrotic biology from gene-expression data, with spheroid assays used as phenotype grounding and downstream validation.
 
+## NeurIPS GenAI4Health
+
+KeloidBench has been accepted to NeurIPS GenAI4Health.
+
+[View the poster (PDF)](KeloidBench%20Poster_WW.pdf)
+
 ## Interactive demonstration
 
 The five-screen research demo covers expression quality control, program-score
