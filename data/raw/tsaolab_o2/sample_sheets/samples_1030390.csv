@@ -1,0 +1,25 @@
+sample_id,qb_id,sample_name,project,species,cell_line,cell_type,disease_label,group,oxygen,collection_date
+A1,1030390-1,ATCC Keloid -1-20%,1030390,human,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
+A2,1030390-2,ATCC Keloid -2-20%,1030390,human,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
+A3,1030390-3,ATCC Keloid -3-20%,1030390,human,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
+A4,1030390-4,ATCC Keloid -4-20%-1%,1030390,human,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
+A5,1030390-5,ATCC Keloid -5-20%-1%,1030390,human,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
+A6,1030390-6,ATCC Keloid -6-20%-1%,1030390,human,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
+A7,1030390-7,ATCC Keloid -7- 1%,1030390,human,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17
+A8,1030390-8,ATCC Keloid -8-1%,1030390,human,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17
+A9,1030390-9,ATCC Keloid -9-1%,1030390,human,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17
+A10,1030390-10,ATCC Keloid -10-1%-20%,1030390,human,ATCC_keloid,fibroblast,keloid,4,1%->20%,2025-05-17
+A11,1030390-11,ATCC Keloid -11-1%-20%,1030390,human,ATCC_keloid,fibroblast,keloid,4,1%->20%,2025-05-17
+A12,1030390-12,ATCC Keloid -12-1%-20%,1030390,human,ATCC_keloid,fibroblast,keloid,4,1%->20%,2025-05-17
+A13,1030390-13,AC16 -13-20%,1030390,human,AC16,cardiomyocyte,normal,5,20%,2025-05-09
+A14,1030390-14,AC16-14-20%,1030390,human,AC16,cardiomyocyte,normal,5,20%,2025-05-09
+A15,1030390-15,AC16-15-20%,1030390,human,AC16,cardiomyocyte,normal,5,20%,2025-05-09
+A16,1030390-16,AC16-16-20%-1%,1030390,human,AC16,cardiomyocyte,normal,6,20%->1%,2025-05-09
+A17,1030390-17,AC16-17-20%-1%,1030390,human,AC16,cardiomyocyte,normal,6,20%->1%,2025-05-09
+A18,1030390-18,AC16-18-20%-1%,1030390,human,AC16,cardiomyocyte,normal,6,20%->1%,2025-05-09
+A19,1030390-19,AC16-19- 1%,1030390,human,AC16,cardiomyocyte,normal,7,1%,2025-05-09
+A20,1030390-20,AC16-20--1%,1030390,human,AC16,cardiomyocyte,normal,7,1%,2025-05-09
+A21,1030390-21,AC16-21-1%,1030390,human,AC16,cardiomyocyte,normal,7,1%,2025-05-09
+A22,1030390-22,AC16-22-1%-20%,1030390,human,AC16,cardiomyocyte,normal,8,1%->20%,2025-05-09
+A23,1030390-23,AC16-23-1%-20%,1030390,human,AC16,cardiomyocyte,normal,8,1%->20%,2025-05-09
+A24,1030390-24,AC16-24-1%-20%,1030390,human,AC16,cardiomyocyte,normal,8,1%->20%,2025-05-09
