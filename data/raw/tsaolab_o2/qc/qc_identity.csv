@@ -1,0 +1,61 @@
+sample_id,qb_id,species,cell_line,ad5_e1_per_million,xist_tpm,chrY_tpm,hek_admixture_est_pct,sex_inferred,chrY_present,qc_flag,qc_note
+Q1,0013831748-1,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q2,0013831748-2,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q3,0013831748-3,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q4,0013831748-4,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q5,0013831748-5,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q6,0013831748-6,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q7,0013831748-7,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q8,0013831748-8,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q9,0013831748-9,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q10,0013831748-10,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q11,0013831748-11,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q12,0013831748-12,mouse,HL-1,0.0,,,,not_assessed,False,ok,
+Q13,0013831748-13,human,HEK293-like,1445.0,441.3,0.1,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q14,0013831748-14,human,HEK293-like,1061.0,346.6,0.1,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q15,0013831748-15,human,HEK293-like,1636.0,555.4,0.3,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q16,0013831748-16,human,HEK293-like,2401.0,547.1,0.7,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q17,0013831748-17,human,HEK293-like,1175.0,483.2,0.2,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q18,0013831748-18,human,HEK293-like,1037.0,372.5,0.3,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q19,0013831748-19,human,HEK293-like,967.0,207.3,7.4,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like); trace chrY in chrY- line (7.4 TPM, ~1.4% male-cell admixture)"
+Q20,0013831748-20,human,HEK293-like,2088.0,186.1,0.5,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q21,0013831748-21,human,HEK293-like,1871.0,211.9,0.4,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q22,0013831748-22,human,HEK293-like,1258.0,312.7,7.4,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like); trace chrY in chrY- line (7.4 TPM, ~1.4% male-cell admixture)"
+Q23,0013831748-23,human,HEK293-like,1837.0,306.0,1.0,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q24,0013831748-24,human,HEK293-like,1825.0,478.2,0.5,,female,False,ok,"submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)"
+Q25,0013831748-25,human,BJ,270.0,126.5,377.2,17.5,mixed,True,suspect,"~18% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q26,0013831748-26,human,BJ,220.0,61.4,368.0,14.3,mixed,True,suspect,"~14% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q27,0013831748-27,human,BJ,0.0,0.5,527.7,0.0,male,True,ok,
+Q28,0013831748-28,human,BJ,112.0,60.9,445.2,7.3,mixed,True,suspect,"~7% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q29,0013831748-29,human,BJ,145.0,29.5,411.8,9.4,mixed,True,suspect,"~9% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q30,0013831748-30,human,BJ,221.0,57.8,353.3,14.3,mixed,True,suspect,"~14% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q31,0013831748-31,human,BJ,193.0,30.0,336.9,12.5,mixed,True,suspect,"~12% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q32,0013831748-32,human,BJ,160.0,29.3,352.9,10.4,mixed,True,suspect,"~10% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q33,0013831748-33,human,BJ,184.0,27.5,356.7,11.9,mixed,True,suspect,"~12% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q34,0013831748-34,human,BJ,213.0,37.9,381.1,13.8,mixed,True,suspect,"~14% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+Q35,0013831748-35,human,BJ,17.0,2.1,495.3,1.1,male,True,ok,
+Q36,0013831748-36,human,BJ,186.0,31.0,382.9,12.1,mixed,True,suspect,"~12% HEK293-like admixture (Ad5 E1 reads, XIST in male line)"
+A1,1030390-1,human,ATCC_keloid,0.0,0.1,417.0,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A2,1030390-2,human,ATCC_keloid,0.0,0.1,423.5,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A3,1030390-3,human,ATCC_keloid,0.0,0.1,420.7,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A4,1030390-4,human,ATCC_keloid,0.0,0.1,376.6,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A5,1030390-5,human,ATCC_keloid,0.0,0.0,380.4,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A6,1030390-6,human,ATCC_keloid,0.0,0.0,386.9,0.0,male,True,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY+: Y loss or different stock"
+A7,1030390-7,human,ATCC_keloid,0.0,1.1,0.2,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A8,1030390-8,human,ATCC_keloid,0.0,3.9,0.1,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A9,1030390-9,human,ATCC_keloid,0.0,1.0,0.0,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A10,1030390-10,human,ATCC_keloid,0.0,1.2,0.2,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A11,1030390-11,human,ATCC_keloid,0.0,1.4,0.2,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A12,1030390-12,human,ATCC_keloid,0.0,7.7,0.3,0.0,no_Y_no_XIST,False,ok,"line split by chrY expression (6 chrY+ / 6 chrY- samples), this sample chrY-: Y loss or different stock"
+A13,1030390-13,human,AC16,0.0,11.9,0.4,0.0,female,False,ok,
+A14,1030390-14,human,AC16,0.0,6.5,0.3,0.0,no_Y_no_XIST,False,ok,
+A15,1030390-15,human,AC16,0.0,18.2,0.6,0.0,female,False,ok,
+A16,1030390-16,human,AC16,0.0,10.6,0.6,0.0,female,False,ok,
+A17,1030390-17,human,AC16,0.0,8.6,0.7,0.0,no_Y_no_XIST,False,ok,
+A18,1030390-18,human,AC16,0.0,13.3,0.5,0.0,female,False,ok,
+A19,1030390-19,human,AC16,0.0,11.8,0.5,0.0,female,False,ok,
+A20,1030390-20,human,AC16,0.0,15.0,0.3,0.0,female,False,ok,
+A21,1030390-21,human,AC16,0.0,15.5,0.5,0.0,female,False,ok,
+A22,1030390-22,human,AC16,0.0,22.0,0.6,0.0,female,False,ok,
+A23,1030390-23,human,AC16,0.0,25.5,0.8,0.0,female,False,ok,
+A24,1030390-24,human,AC16,0.0,21.2,0.8,0.0,female,False,ok,

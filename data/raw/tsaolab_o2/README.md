@@ -40,9 +40,13 @@ the identity the RNA supports. Sample 17 is mis-typed as "27" in both forms; the
   Because the level varies by sample, and two samples from the same run are clean, this points to contamination in
   culture or RNA prep rather than index hopping. Affected samples get `quality_flag=suspect` and
   `eligible_for_keloid_pretraining=False`.
-- **Keloid line sex markers change between groups.** Samples 1–6 (passage 13) express chrY genes. Samples 7–8
-  (passage 7) have no chrY transcripts and no XIST. This could be loss of Y in culture or a different stock;
-  `qc_note` records it per sample. All 1030390 and HL-1 samples have 0 Ad5 reads.
+- **The keloid line splits by chrY, exactly along the oxygen arms.** Samples 1–6 (groups 1–2, start at 20% O₂, passage 13)
+  express chrY genes (about 380–420 TPM). Samples 7–12 (groups 3–4, start at 1% O₂, passage 7) have none (≤0.3 TPM),
+  and XIST is off as well. Possible causes are Y loss in culture or a different stock or donor. Either way, the
+  20%-start vs 1%-start contrast within the keloid line is confounded with this difference. `qc_note` records it per sample.
+- HEK293-like samples 19 and 22 carry trace chrY (7.4 TPM, about 1.4% male-cell material, likely BJ). This is noted but not flagged.
+- AC16 is chrY-negative with low XIST (6–26 TPM), consistent with a female line whose XIST has eroded in culture.
+- All 1030390 and HL-1 samples have 0 Ad5 reads. `qc/qc_identity.csv` has every per-sample value.
 
 ## Sequencing
 
@@ -69,6 +73,13 @@ Quintara's `md5sum.txt` and the 1030390 FASTQs against Google Drive's MD5s.
 
 Within a sample, TPM values from duplicated gene symbols are summed. Genes with no reads in any sample are dropped.
 Human and mouse are kept separate because no ortholog mapping has been applied.
+
+| Species | Samples | Gene symbols | Mapping rate | `quality_flag` |
+|---|---|---|---|---|
+| human | 48: keloid 12, BJ 12, AC16 12, HEK293-like 12 | 43,478 | 86–97% | 38 ok, 10 suspect (BJ admixture) |
+| mouse | 12: HL-1 | 34,195 | 92–94% | 12 ok |
+
+Only 14 samples have `eligible_for_keloid_pretraining=True`: the 12 keloid samples and the clean BJ samples Q27 and Q35.
 
 ## Labelling and caveats
 

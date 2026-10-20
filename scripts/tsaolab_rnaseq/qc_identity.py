@@ -53,8 +53,13 @@ def main(out, runs):
         return "mixed" if x and y else "female" if x else "male" if y else "no_Y_no_XIST"
     df["sex_inferred"] = df.apply(sex, axis=1)
 
-    # Each cell line should have one sex; a sample that disagrees with its line's majority is noted.
-    line_sex = df[df.sex_inferred != "mixed"].groupby("cell_line").sex_inferred.agg(lambda v: v.mode().iloc[0])
+    # A cell line should be uniformly chrY+ or chrY-. XIST is unreliable in cultured lines (erosion), so
+    # line consistency is judged on chrY only, and a split line is noted on every one of its samples.
+    df["chrY_present"] = df.chrY_tpm >= 20
+    has_y = df[df.chrY_tpm.notna()].groupby("cell_line").chrY_present.agg(["sum", "count"])
+    split = has_y[(has_y["sum"] > 0) & (has_y["sum"] < has_y["count"])]
+    # trace male-cell admixture in a chrY- line, scaled to clean male BJ (chrY+, no Ad5)
+    male_ref = df[(df.cell_line == "BJ") & (df.ad5_e1_per_million < 50)].chrY_tpm.median()
 
     def flag(r):
         notes = []
@@ -62,9 +67,13 @@ def main(out, runs):
             notes.append("submitted as NIH3T3 (mouse); RNA is human, female, Ad5 E1+ (HEK293-like)")
         if r.get("hek_admixture_est_pct", 0) > ADMIX_SUSPECT_PCT:
             notes.append(f"~{r.hek_admixture_est_pct:.0f}% HEK293-like admixture (Ad5 E1 reads, XIST in male line)")
-        if r.cell_line in line_sex and r.sex_inferred not in (line_sex[r.cell_line], "mixed", "not_assessed"):
-            notes.append(f"sex markers {r.sex_inferred} vs {line_sex[r.cell_line]} for rest of line "
-                         "(possible Y loss or different stock)")
+        if r.cell_line in split.index:
+            s = split.loc[r.cell_line]
+            notes.append(f"line split by chrY expression ({int(s['sum'])} chrY+ / {int(s['count'] - s['sum'])} chrY- "
+                         f"samples), this sample chrY{'+' if r.chrY_present else '-'}: Y loss or different stock")
+        elif r.cell_line in has_y.index and has_y.loc[r.cell_line, "sum"] == 0 and r.chrY_tpm >= 5:
+            notes.append(f"trace chrY in chrY- line ({r.chrY_tpm:.1f} TPM, ~{r.chrY_tpm / male_ref * 100:.1f}% "
+                         "male-cell admixture)")
         suspect = r.get("hek_admixture_est_pct", 0) > ADMIX_SUSPECT_PCT
         return pd.Series(dict(qc_flag="suspect" if suspect else "ok", qc_note="; ".join(notes)))
     df[["qc_flag", "qc_note"]] = df.apply(flag, axis=1)
