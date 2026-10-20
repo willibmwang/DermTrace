@@ -1,0 +1,22 @@
+{
+    "read_files": "[ [ <LAB>/datasets/processed/quant_0013831748/tmp/Q2_L001_R1.fq.gz, <LAB>/datasets/processed/quant_0013831748/tmp/Q2_L001_R2.fq.gz], [ <LAB>/datasets/processed/quant_0013831748/tmp/Q2_L002_R1.fq.gz, <LAB>/datasets/processed/quant_0013831748/tmp/Q2_L002_R2.fq.gz] ]",
+    "expected_format": "ISR",
+    "compatible_fragment_ratio": 1.0,
+    "num_compatible_fragments": 22144762,
+    "num_assigned_fragments": 22144762,
+    "num_frags_with_concordant_consistent_mappings": 21523766,
+    "num_frags_with_inconsistent_or_orphan_mappings": 678481,
+    "strand_mapping_bias": 0.00003493690311671555,
+    "MSF": 0,
+    "OSF": 0,
+    "ISF": 752,
+    "MSR": 0,
+    "OSR": 0,
+    "ISR": 21523766,
+    "SF": 276862,
+    "SR": 400867,
+    "MU": 0,
+    "OU": 0,
+    "IU": 0,
+    "U": 0
+}

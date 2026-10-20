@@ -11,7 +11,8 @@ Outputs, per species, in <dest>/:
   tsaolab_o2_<species>_sample_metadata.csv   KeloidBench METADATA_COLUMNS + experiment/QC columns
   tsaolab_o2_<species>_genes.tsv             ensembl_gene_id, gene_symbol, gene_type
 
-Usage: python -I build_keloidbench.py <dest_dir> [--qc qc_identity.csv] <sample_sheet.csv>=<quant_dir> [...]
+Usage: python -I build_keloidbench.py <dest_dir> [--qc qc_identity.csv] [--runqc run_qc.tsv]
+                                      <sample_sheet.csv>=<quant_dir> [...]
 """
 import json
 import sys
@@ -46,7 +47,7 @@ def kb_metadata(r, qc):
         sample_id=r.qb_id,
         accession=f"TSAO_QB{r.project}",
         sample_title=r.sample_name,
-        platform_id="Element_AVITI",
+        platform_id=qc.pop("instrument", "Element_AVITI"),
         modality="bulk_rnaseq",
         source_dataset=f"Tsao_lab_Quintara_{r.project}",
         disease_domain="keloid" if keloid else "unknown",
@@ -72,9 +73,10 @@ def kb_metadata(r, qc):
     )
 
 
-def main(dest, runs, qc_path=None):
+def main(dest, runs, qc_path=None, runqc_path=None):
     dest.mkdir(parents=True, exist_ok=True)
     qc = pd.read_csv(qc_path, dtype={"sample_id": str}).set_index("qb_id") if qc_path else None
+    runqc = pd.read_csv(runqc_path, sep="\t").set_index("qb_id") if runqc_path else None
     qc_cols = ["xist_tpm", "chrY_tpm", "ad5_e1_per_million", "hek_admixture_est_pct", "sex_inferred"]
     samples = []
     for sheet, qdir in runs:
@@ -107,6 +109,9 @@ def main(dest, runs, qc_path=None):
                 if isinstance(q.qc_note, str) and q.qc_note:
                     notes.append(q.qc_note)
                 extra = {c: q.get(c) for c in qc_cols}
+            if runqc is not None:
+                extra["instrument"] = runqc.loc[r.qb_id, "instrument"]
+                extra["sequencing_run"] = runqc.loc[r.qb_id, "sequencing_run"]
             meta.append(kb_metadata(r, dict(
                 num_fragments=info["num_processed"], mapping_rate_pct=round(rate, 2),
                 quality_flag="suspect" if "suspect" in flags else "ok", qc_notes="; ".join(notes), **extra,
@@ -139,8 +144,8 @@ def main(dest, runs, qc_path=None):
 
 
 if __name__ == "__main__":
-    args = sys.argv[2:]
-    qc_path = None
-    if args[:1] == ["--qc"]:
-        qc_path, args = Path(args[1]), args[2:]
-    main(Path(sys.argv[1]), [tuple(map(Path, a.split("=", 1))) for a in args], qc_path)
+    args, opts = sys.argv[2:], {}
+    while args[:1] in (["--qc"], ["--runqc"]):
+        opts[args[0][2:]], args = Path(args[1]), args[2:]
+    main(Path(sys.argv[1]), [tuple(map(Path, a.split("=", 1))) for a in args],
+         opts.get("qc"), opts.get("runqc"))

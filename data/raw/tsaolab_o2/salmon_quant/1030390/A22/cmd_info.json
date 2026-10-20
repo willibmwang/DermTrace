@@ -1,0 +1,13 @@
+{
+    "salmon_version": "1.10.3",
+    "index": "<LAB>/references/gencode_human_v46/salmon_index",
+    "libType": "A",
+    "mates1": "<LAB>/datasets/processed/quant_1030390/tmp/A22_L001_R1.fq.gz",
+    "mates2": "<LAB>/datasets/processed/quant_1030390/tmp/A22_L001_R2.fq.gz",
+    "threads": "8",
+    "validateMappings": [],
+    "gcBias": [],
+    "seqBias": [],
+    "output": "<LAB>/datasets/processed/quant_1030390/quant/A22",
+    "auxDir": "aux_info"
+}

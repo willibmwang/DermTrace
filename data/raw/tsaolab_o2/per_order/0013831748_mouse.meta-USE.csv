@@ -1,0 +1,13 @@
+sample_id,qb_id,sample_name,project,species,submitted_as,cell_line,cell_type,disease_label,group,oxygen,collection_date,num_fragments,num_mapped,mapping_rate_pct,library_type,quality_flag,notes
+Q1,0013831748-1,HL-1-1-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30,30725526,28856094,93.92,ISR,ok,
+Q2,0013831748-2,HL-1-2-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30,23716280,22144762,93.37,ISR,ok,
+Q3,0013831748-3,HL-1-3-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30,36837457,34139409,92.68,ISR,ok,
+Q4,0013831748-4,HL-1-4-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30,31904973,29550905,92.62,ISR,ok,
+Q5,0013831748-5,HL-1-5-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30,26200930,24105869,92.0,ISR,ok,
+Q6,0013831748-6,HL-1-6-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30,32284490,29832108,92.4,ISR,ok,
+Q7,0013831748-7,HL-1-7-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30,27055013,25176589,93.06,ISR,ok,
+Q8,0013831748-8,HL-1-8-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30,29084892,27063953,93.05,ISR,ok,
+Q9,0013831748-9,HL-1-9-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30,35525749,33156164,93.33,ISR,ok,
+Q10,0013831748-10,HL-1-10-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30,27998567,26092505,93.19,ISR,ok,
+Q11,0013831748-11,HL-1-11-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30,33110864,30973246,93.54,ISR,ok,
+Q12,0013831748-12,HL-1-12-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30,26297098,24818394,94.38,ISR,ok,

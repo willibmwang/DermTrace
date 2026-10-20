@@ -1,0 +1,22 @@
+{
+    "read_files": "[ <LAB>/datasets/processed/quant_1030390/tmp/A20_L001_R1.fq.gz, <LAB>/datasets/processed/quant_1030390/tmp/A20_L001_R2.fq.gz]",
+    "expected_format": "ISR",
+    "compatible_fragment_ratio": 1.0,
+    "num_compatible_fragments": 37098475,
+    "num_assigned_fragments": 37098475,
+    "num_frags_with_concordant_consistent_mappings": 34884117,
+    "num_frags_with_inconsistent_or_orphan_mappings": 2387644,
+    "strand_mapping_bias": 0.000006908540498294393,
+    "MSF": 0,
+    "OSF": 0,
+    "ISF": 241,
+    "MSR": 0,
+    "OSR": 0,
+    "ISR": 34884117,
+    "SF": 773354,
+    "SR": 1614049,
+    "MU": 0,
+    "OU": 0,
+    "IU": 0,
+    "U": 0
+}
