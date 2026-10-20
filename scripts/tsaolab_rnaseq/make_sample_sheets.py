@@ -24,15 +24,19 @@ def sheet_0013831748(datasets):
     rows = []
     for r in key.itertuples():
         n = int(r.qb_id.split("-")[1])
-        cell_line = "HL-1" if n <= 12 else "NIH3T3" if n <= 24 else "BJ"
+        submitted_as = "HL-1" if n <= 12 else "NIH3T3" if n <= 24 else "BJ"
+        # RNA-seq shows samples 13-24 are not mouse NIH3T3: ~93% of reads map to human, they are female,
+        # fibroblast genes are off, and every sample carries adenovirus-5 E1A/E1B transcripts (HEK293 signature).
+        cell_line = "HEK293-like" if submitted_as == "NIH3T3" else submitted_as
         rows.append(dict(
             sample_id=f"Q{n}",
             qb_id=r.qb_id,
             sample_name=r.sample_name.strip(),
             project="0013831748",
-            species=r.species.strip().lower(),
+            species="human" if cell_line == "HEK293-like" else r.species.strip().lower(),
+            submitted_as=submitted_as,
             cell_line=cell_line,
-            cell_type={"HL-1": "cardiomyocyte", "NIH3T3": "fibroblast", "BJ": "fibroblast"}[cell_line],
+            cell_type={"HL-1": "cardiomyocyte", "HEK293-like": "HEK293_like", "BJ": "fibroblast"}[cell_line],
             disease_label="normal",
             group=r.group.replace("Group_", ""),
             oxygen=OXYGEN_ARMS[(n - 1) // 3 % 4],
@@ -56,6 +60,7 @@ def sheet_1030390(datasets):
             sample_name=name,
             project="1030390",
             species="human",
+            submitted_as=cell_line,
             cell_line=cell_line,
             cell_type="fibroblast" if n <= 12 else "cardiomyocyte",
             disease_label="keloid" if n <= 12 else "normal",

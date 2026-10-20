@@ -1,37 +1,37 @@
-sample_id,qb_id,sample_name,project,species,cell_line,cell_type,disease_label,group,oxygen,collection_date
-Q1,0013831748-1,HL-1-1-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
-Q2,0013831748-2,HL-1-2-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
-Q3,0013831748-3,HL-1-3-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
-Q4,0013831748-4,HL-1-4-20%-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
-Q5,0013831748-5,HL-1-5-20%-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
-Q6,0013831748-6,HL-1-6-20%-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
-Q7,0013831748-7,HL-1-7-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
-Q8,0013831748-8,HL-1-8-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
-Q9,0013831748-9,HL-1-9-1%,0013831748,mouse,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
-Q10,0013831748-10,HL-1-10-1%-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
-Q11,0013831748-11,HL-1-11-1%-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
-Q12,0013831748-12,HL-1-12-1%-20%,0013831748,mouse,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
-Q13,0013831748-13,NIH3T3-13-20%,0013831748,mouse,NIH3T3,fibroblast,normal,E,20%,2024-07-30
-Q14,0013831748-14,NIH3T3-14-20%,0013831748,mouse,NIH3T3,fibroblast,normal,E,20%,2024-07-30
-Q15,0013831748-15,NIH3T3-15-20%,0013831748,mouse,NIH3T3,fibroblast,normal,E,20%,2024-07-30
-Q16,0013831748-16,NIH3T3-16-20%-1%,0013831748,mouse,NIH3T3,fibroblast,normal,F,20%->1%,2024-07-30
-Q17,0013831748-17,NIH3T3-17-20%-1%,0013831748,mouse,NIH3T3,fibroblast,normal,F,20%->1%,2024-07-30
-Q18,0013831748-18,NIH3T3-18-20%-1%,0013831748,mouse,NIH3T3,fibroblast,normal,F,20%->1%,2024-07-30
-Q19,0013831748-19,NIH3T3-19-1%,0013831748,mouse,NIH3T3,fibroblast,normal,G,1%,2024-07-30
-Q20,0013831748-20,NIH3T3-20-1%,0013831748,mouse,NIH3T3,fibroblast,normal,G,1%,2024-07-30
-Q21,0013831748-21,NIH3T3-21-1%,0013831748,mouse,NIH3T3,fibroblast,normal,G,1%,2024-07-30
-Q22,0013831748-22,NIH3T3-22-1%-20%,0013831748,mouse,NIH3T3,fibroblast,normal,H,1%->20%,2024-07-30
-Q23,0013831748-23,NIH3T3-23-1%-20%,0013831748,mouse,NIH3T3,fibroblast,normal,H,1%->20%,2024-07-30
-Q24,0013831748-24,NIH3T3-24-1%-20%,0013831748,mouse,NIH3T3,fibroblast,normal,H,1%->20%,2024-07-30
-Q25,0013831748-25,BJ Fibroblasts 25-20%,0013831748,human,BJ,fibroblast,normal,I,20%,2024-07-30
-Q26,0013831748-26,BJ Fibroblasts 26-20%,0013831748,human,BJ,fibroblast,normal,I,20%,2024-07-30
-Q27,0013831748-27,BJ Fibroblasts 27-20%,0013831748,human,BJ,fibroblast,normal,I,20%,2024-07-30
-Q28,0013831748-28,BJ Fibroblasts 28-20%-1%,0013831748,human,BJ,fibroblast,normal,J,20%->1%,2024-07-30
-Q29,0013831748-29,BJ Fibroblasts 29-20%-1%,0013831748,human,BJ,fibroblast,normal,J,20%->1%,2024-07-30
-Q30,0013831748-30,BJ Fibroblasts 30-20%-1%,0013831748,human,BJ,fibroblast,normal,J,20%->1%,2024-07-30
-Q31,0013831748-31,BJ Fibroblasts -31-1%,0013831748,human,BJ,fibroblast,normal,K,1%,2024-07-30
-Q32,0013831748-32,BJ Fibroblasts -32-1%,0013831748,human,BJ,fibroblast,normal,K,1%,2024-07-30
-Q33,0013831748-33,BJ Fibroblasts -33-1%,0013831748,human,BJ,fibroblast,normal,K,1%,2024-07-30
-Q34,0013831748-34,BJ Fibroblasts -34-1%-20%,0013831748,human,BJ,fibroblast,normal,L,1%->20%,2024-07-30
-Q35,0013831748-35,BJ Fibroblasts -35-1%-20%,0013831748,human,BJ,fibroblast,normal,L,1%->20%,2024-07-30
-Q36,0013831748-36,BJ Fibroblasts -36-1%-20%,0013831748,human,BJ,fibroblast,normal,L,1%->20%,2024-07-30
+sample_id,qb_id,sample_name,project,species,submitted_as,cell_line,cell_type,disease_label,group,oxygen,collection_date
+Q1,0013831748-1,HL-1-1-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
+Q2,0013831748-2,HL-1-2-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
+Q3,0013831748-3,HL-1-3-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,A,20%,2024-07-30
+Q4,0013831748-4,HL-1-4-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
+Q5,0013831748-5,HL-1-5-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
+Q6,0013831748-6,HL-1-6-20%-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,B,20%->1%,2024-07-30
+Q7,0013831748-7,HL-1-7-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
+Q8,0013831748-8,HL-1-8-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
+Q9,0013831748-9,HL-1-9-1%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,C,1%,2024-07-30
+Q10,0013831748-10,HL-1-10-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
+Q11,0013831748-11,HL-1-11-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
+Q12,0013831748-12,HL-1-12-1%-20%,0013831748,mouse,HL-1,HL-1,cardiomyocyte,normal,D,1%->20%,2024-07-30
+Q13,0013831748-13,NIH3T3-13-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,E,20%,2024-07-30
+Q14,0013831748-14,NIH3T3-14-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,E,20%,2024-07-30
+Q15,0013831748-15,NIH3T3-15-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,E,20%,2024-07-30
+Q16,0013831748-16,NIH3T3-16-20%-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,F,20%->1%,2024-07-30
+Q17,0013831748-17,NIH3T3-17-20%-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,F,20%->1%,2024-07-30
+Q18,0013831748-18,NIH3T3-18-20%-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,F,20%->1%,2024-07-30
+Q19,0013831748-19,NIH3T3-19-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,G,1%,2024-07-30
+Q20,0013831748-20,NIH3T3-20-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,G,1%,2024-07-30
+Q21,0013831748-21,NIH3T3-21-1%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,G,1%,2024-07-30
+Q22,0013831748-22,NIH3T3-22-1%-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,H,1%->20%,2024-07-30
+Q23,0013831748-23,NIH3T3-23-1%-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,H,1%->20%,2024-07-30
+Q24,0013831748-24,NIH3T3-24-1%-20%,0013831748,human,NIH3T3,HEK293-like,HEK293_like,normal,H,1%->20%,2024-07-30
+Q25,0013831748-25,BJ Fibroblasts 25-20%,0013831748,human,BJ,BJ,fibroblast,normal,I,20%,2024-07-30
+Q26,0013831748-26,BJ Fibroblasts 26-20%,0013831748,human,BJ,BJ,fibroblast,normal,I,20%,2024-07-30
+Q27,0013831748-27,BJ Fibroblasts 27-20%,0013831748,human,BJ,BJ,fibroblast,normal,I,20%,2024-07-30
+Q28,0013831748-28,BJ Fibroblasts 28-20%-1%,0013831748,human,BJ,BJ,fibroblast,normal,J,20%->1%,2024-07-30
+Q29,0013831748-29,BJ Fibroblasts 29-20%-1%,0013831748,human,BJ,BJ,fibroblast,normal,J,20%->1%,2024-07-30
+Q30,0013831748-30,BJ Fibroblasts 30-20%-1%,0013831748,human,BJ,BJ,fibroblast,normal,J,20%->1%,2024-07-30
+Q31,0013831748-31,BJ Fibroblasts -31-1%,0013831748,human,BJ,BJ,fibroblast,normal,K,1%,2024-07-30
+Q32,0013831748-32,BJ Fibroblasts -32-1%,0013831748,human,BJ,BJ,fibroblast,normal,K,1%,2024-07-30
+Q33,0013831748-33,BJ Fibroblasts -33-1%,0013831748,human,BJ,BJ,fibroblast,normal,K,1%,2024-07-30
+Q34,0013831748-34,BJ Fibroblasts -34-1%-20%,0013831748,human,BJ,BJ,fibroblast,normal,L,1%->20%,2024-07-30
+Q35,0013831748-35,BJ Fibroblasts -35-1%-20%,0013831748,human,BJ,BJ,fibroblast,normal,L,1%->20%,2024-07-30
+Q36,0013831748-36,BJ Fibroblasts -36-1%-20%,0013831748,human,BJ,BJ,fibroblast,normal,L,1%->20%,2024-07-30

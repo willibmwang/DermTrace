@@ -11,7 +11,7 @@ Outputs, per species, in <dest>/:
   tsaolab_o2_<species>_sample_metadata.csv   KeloidBench METADATA_COLUMNS + experiment/QC columns
   tsaolab_o2_<species>_genes.tsv             ensembl_gene_id, gene_symbol, gene_type
 
-Usage: python -I build_keloidbench.py <dest_dir> <sample_sheet.csv>=<quant_dir> [...]
+Usage: python -I build_keloidbench.py <dest_dir> [--qc qc_identity.csv] <sample_sheet.csv>=<quant_dir> [...]
 """
 import json
 import sys
@@ -40,7 +40,8 @@ KB_COLUMNS = [
 
 def kb_metadata(r, qc):
     keloid = r.disease_label == "keloid"
-    human_fib = r.species == "human" and r.cell_type == "fibroblast"
+    # skin fibroblasts that passed identity QC are the only samples offered to keloid pretraining
+    human_fib = r.species == "human" and r.cell_type == "fibroblast" and qc["quality_flag"] == "ok"
     return dict(
         sample_id=r.qb_id,
         accession=f"TSAO_QB{r.project}",
@@ -65,13 +66,16 @@ def kb_metadata(r, qc):
         allow_accession_level_grouping=False,
         lockbox=False,
         # experiment + QC (extra columns; KeloidBench ignores them)
-        species=r.species, cell_line=r.cell_line, group=f"{r.project}_{r.group}", oxygen=r.oxygen,
+        species=r.species, submitted_as=r.submitted_as, cell_line=r.cell_line,
+        group=f"{r.project}_{r.group}", oxygen=r.oxygen,
         collection_date=r.collection_date, order_id=r.project, **qc,
     )
 
 
-def main(dest, runs):
+def main(dest, runs, qc_path=None):
     dest.mkdir(parents=True, exist_ok=True)
+    qc = pd.read_csv(qc_path, dtype={"sample_id": str}).set_index("qb_id") if qc_path else None
+    qc_cols = ["xist_tpm", "chrY_tpm", "ad5_e1_per_million", "hek_admixture_est_pct", "sex_inferred"]
     samples = []
     for sheet, qdir in runs:
         s = pd.read_csv(sheet, dtype=str)
@@ -93,9 +97,19 @@ def main(dest, runs):
             counts[r.qb_id] = q.NumReads.groupby(gene).sum()
             info = json.loads((qd / "aux_info" / "meta_info.json").read_text())
             rate = info["percent_mapped"]
+            flags, notes = ["ok" if rate >= MIN_MAPPING_RATE else "suspect"], []
+            if rate < MIN_MAPPING_RATE:
+                notes.append(f"low mapping rate ({rate:.1f}%)")
+            extra = {}
+            if qc is not None:
+                q = qc.loc[r.qb_id]
+                flags.append(q.qc_flag)
+                if isinstance(q.qc_note, str) and q.qc_note:
+                    notes.append(q.qc_note)
+                extra = {c: q.get(c) for c in qc_cols}
             meta.append(kb_metadata(r, dict(
                 num_fragments=info["num_processed"], mapping_rate_pct=round(rate, 2),
-                quality_flag="ok" if rate >= MIN_MAPPING_RATE else "suspect",
+                quality_flag="suspect" if "suspect" in flags else "ok", qc_notes="; ".join(notes), **extra,
             )))
         if skipped:
             print(f"{species}: not quantified yet, left out: {', '.join(skipped)}")
@@ -125,4 +139,8 @@ def main(dest, runs):
 
 
 if __name__ == "__main__":
-    main(Path(sys.argv[1]), [tuple(map(Path, a.split("=", 1))) for a in sys.argv[2:]])
+    args = sys.argv[2:]
+    qc_path = None
+    if args[:1] == ["--qc"]:
+        qc_path, args = Path(args[1]), args[2:]
+    main(Path(sys.argv[1]), [tuple(map(Path, a.split("=", 1))) for a in args], qc_path)
