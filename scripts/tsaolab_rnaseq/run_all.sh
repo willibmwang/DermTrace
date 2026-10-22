@@ -17,7 +17,7 @@ ENV="${RNASEQ_ENV:-/opt/anaconda3/envs/rnaseq}/bin"  # conda env with salmon 1.1
 PY="${PYTHON:-python3}"  # needs pandas
 RC="$ENV/rclone"
 export PATH="$ENV:$PATH"
-SHEETS="$(cd "$HERE/../../data/raw/tsaolab_o2/sample_sheets" && pwd)"
+SHEETS="$(cd "$HERE/../../data/processed/tsaolab_o2/sample_sheets" && pwd)"
 mkdir -p "$OUT"
 status() { echo "$(date '+%F %T') $*" | tee "$OUT/STATUS_$ID"; }
 fail() { status "FAILED: $*"; exit 1; }

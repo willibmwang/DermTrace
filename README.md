@@ -47,7 +47,7 @@ See [demo/README.md](demo/README.md) for input formats and narrative endpoint co
 
 ### Tsao lab oxygen-tension RNA-seq
 
-The processed Tsao lab bulk RNA-seq is in [`data/raw/tsaolab_o2/`](data/raw/tsaolab_o2/). Although the folder is under `raw`, these are processed expression tables. The dataset has 60 samples (48 human, 12 mouse) covering the ATCC keloid fibroblast line, BJ, AC16, HL-1 and HEK293-like cells. Each line was grown at 20% O₂, at 1% O₂, or switched between the two, in triplicate.
+The processed Tsao lab bulk RNA-seq is in [`data/processed/tsaolab_o2/`](data/processed/tsaolab_o2/). The dataset has 60 samples (48 human, 12 mouse) covering the ATCC keloid fibroblast line, BJ, AC16, HL-1 and HEK293-like cells. Each line was grown at 20% O₂, at 1% O₂, or switched between the two, in triplicate.
 
 | File | Contents |
 |---|---|
@@ -61,12 +61,12 @@ The processed Tsao lab bulk RNA-seq is in [`data/raw/tsaolab_o2/`](data/raw/tsao
 ```python
 import pandas as pd
 
-tsao = "data/raw/tsaolab_o2"
+tsao = "data/processed/tsaolab_o2"
 tpm = pd.read_csv(f"{tsao}/tsaolab_o2_human_tpm_symbol.tsv.gz", sep="\t", index_col="gene_symbol")
 meta = pd.read_csv(f"{tsao}/tsaolab_o2_human_sample_metadata.csv", index_col="sample_id")
 ```
 
-Read the [dataset README](data/raw/tsaolab_o2/README.md) before analysis. Samples 13–24 of order 0013831748 were submitted as NIH3T3 but are HEK293-like human cells. Ten of the 12 BJ samples carry HEK293-like admixture. All 12 keloid samples come from a single cell line.
+Read the [dataset README](data/processed/tsaolab_o2/README.md) before analysis. Samples 13–24 of order 0013831748 were submitted as NIH3T3 but are HEK293-like human cells. Ten of the 12 BJ samples carry HEK293-like admixture. All 12 keloid samples come from a single cell line.
 
 The raw FASTQs (about 258 GB) are too large for GitHub. They are on the lab Google Drive in the folders `0013831748-2024 Raw_Data` and `1030390-2025 Raw_Data`; ask William for access. [`scripts/tsaolab_rnaseq/`](scripts/tsaolab_rnaseq/) rebuilds every file above from those FASTQs.
 
