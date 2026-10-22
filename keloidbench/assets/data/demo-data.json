@@ -476,7 +476,8 @@
       "accession": "E-MTAB-4945",
       "accuracy": 0.7,
       "coverage_055": 0.6,
-      "macro_f1": 0.5581014729950899,
+      "macro_f1": 0.7619047619047619,
+      "metric_grain": "donor",
       "predictions": [
         {
           "confidence": 0.5807277684487293,
@@ -749,14 +750,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 0.5581014729950899,
       "threshold": 0.5,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "GSE158395": {
       "accession": "GSE158395",
       "accuracy": 0.8461538461538461,
       "coverage_055": 0.8461538461538461,
       "macro_f1": 0.8375,
+      "metric_grain": "sample_mixed_donor",
       "predictions": [
         {
           "confidence": 0.7167306370729198,
@@ -876,14 +879,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 0.8375,
       "threshold": 0.5,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "GSE173900": {
       "accession": "GSE173900",
       "accuracy": 0.2222222222222222,
       "coverage_055": 0.8888888888888888,
-      "macro_f1": 0.1818181818181818,
+      "macro_f1": 0.18181818181818182,
+      "metric_grain": "donor",
       "predictions": [
         {
           "confidence": 0.8992638181076047,
@@ -967,14 +972,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 0.1818181818181818,
       "threshold": 0.4906141813319206,
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     "GSE181297": {
       "accession": "GSE181297",
       "accuracy": 1.0,
       "coverage_055": 0.6666666666666666,
       "macro_f1": 1.0,
+      "metric_grain": "donor",
       "predictions": [
         {
           "confidence": 0.5585752350846469,
@@ -1031,14 +1038,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 1.0,
       "threshold": 0.5,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "GSE181316": {
       "accession": "GSE181316",
       "accuracy": 1.0,
       "coverage_055": 1.0,
       "macro_f1": 1.0,
+      "metric_grain": "donor",
       "predictions": [
         {
           "confidence": 0.7172862831001829,
@@ -1086,14 +1095,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 1.0,
       "threshold": 0.4354576318952971,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "GSE190626": {
       "accession": "GSE190626",
       "accuracy": 1.0,
       "coverage_055": 1.0,
       "macro_f1": 1.0,
+      "metric_grain": "donor",
       "predictions": [
         {
           "confidence": 0.7100595972139256,
@@ -1150,14 +1161,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 1.0,
       "threshold": 0.5,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "GSE92566": {
       "accession": "GSE92566",
       "accuracy": 1.0,
       "coverage_055": 0.7142857142857143,
       "macro_f1": 1.0,
+      "metric_grain": "sample_mixed_donor",
       "predictions": [
         {
           "confidence": 0.8172843308354827,
@@ -1223,14 +1236,16 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 1.0,
       "threshold": 0.5216586815410849,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     "Sun_Burns": {
       "accession": "Sun_Burns",
       "accuracy": 0.84,
       "coverage_055": 0.8,
       "macro_f1": 0.8263888888888888,
+      "metric_grain": "sample",
       "predictions": [
         {
           "confidence": 0.6176343394610523,
@@ -1458,21 +1473,25 @@
           "true_label": "keloid"
         }
       ],
+      "sample_macro_f1": 0.8263888888888888,
       "threshold": 0.4952199603590005,
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     }
   },
   "generated_from": "versioned repository artifacts",
   "headline": {
     "confidence_threshold": 0.55,
-    "donors": 39,
-    "loso_macro_f1": 0.9179705215419501,
-    "pooled_accuracy": 0.8369565217391305,
-    "pooled_accuracy_count": "77/92",
-    "profiles": 92,
-    "selective_coverage": 0.8038723181580324,
-    "selective_macro_f1": 0.9286593931755223,
-    "transferable_studies": 7
+    "donors": 48,
+    "loso_macro_f1": 0.825951479076479,
+    "narrative_validation": "LLM narratives (Qwen3-8B writes the explanatory prose; code inserts every number, the decision, the QC note, and the disclaimer): 290/303 outputs passed all automated checks (96/101 profiles on every repeat; profile-cluster interval [0.917, 0.990]). All failures were contribution-direction errors. 215/303 were also English-only; the demo shows generated prose only when it passes every check and is English-only, and otherwise shows the template. The format and checks were developed on these same development profiles, so this is not independent validation. Independent human rating was not performed.",
+    "pooled_accuracy": 0.7821782178217822,
+    "pooled_accuracy_count": "79/101",
+    "post_hoc_subset_macro_f1": 0.9179705215419501,
+    "profiles": 101,
+    "selective_coverage": 0.8144993894993895,
+    "status": "All eight studies primary; seven-study subset selected after observing outcomes.",
+    "studies": 8,
+    "worst_macro_f1": 0.18181818181818182
   },
   "pca": [
     {
@@ -1481,7 +1500,7 @@
       "pc2": 2.3326481753933415,
       "reference_label": "non_keloid",
       "sample_id": "GSM2432365",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1489,7 +1508,7 @@
       "pc2": -0.14417821920968477,
       "reference_label": "keloid",
       "sample_id": "GSM2432366",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1497,7 +1516,7 @@
       "pc2": 1.4556327709974055,
       "reference_label": "non_keloid",
       "sample_id": "GSM2432367",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1505,7 +1524,7 @@
       "pc2": -1.4543095089786022,
       "reference_label": "keloid",
       "sample_id": "GSM2432368",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1513,7 +1532,7 @@
       "pc2": -0.27762349630251637,
       "reference_label": "keloid",
       "sample_id": "GSM2432369",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1521,7 +1540,7 @@
       "pc2": 0.055533853663534326,
       "reference_label": "non_keloid",
       "sample_id": "GSM2432370",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE92566",
@@ -1529,7 +1548,7 @@
       "pc2": -1.000642339538097,
       "reference_label": "keloid",
       "sample_id": "GSM2432371",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1537,7 +1556,7 @@
       "pc2": -0.42435001629333824,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_29",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1545,7 +1564,7 @@
       "pc2": 0.08429598751284154,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_30",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1553,7 +1572,7 @@
       "pc2": 0.06795862512571309,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_31",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1561,7 +1580,7 @@
       "pc2": 0.7659009047239054,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_32",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1569,7 +1588,7 @@
       "pc2": -0.09471842546552899,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1577,7 +1596,7 @@
       "pc2": -1.204858046384254,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1585,7 +1604,7 @@
       "pc2": 0.13575276448304419,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1593,7 +1612,7 @@
       "pc2": 0.31509091546227885,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_4",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1601,7 +1620,7 @@
       "pc2": 1.421822074167194,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_5",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1609,7 +1628,7 @@
       "pc2": 2.1873899425535313,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_6",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1617,7 +1636,7 @@
       "pc2": -0.9517157837025898,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_7",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1625,7 +1644,7 @@
       "pc2": 0.770625530472027,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_8",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1633,7 +1652,7 @@
       "pc2": -0.15986851537147534,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_9",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1641,7 +1660,7 @@
       "pc2": -1.3609991561835049,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_10",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1649,7 +1668,7 @@
       "pc2": -2.038561637418259,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_11",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1657,7 +1676,7 @@
       "pc2": 0.43899158816442013,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_12",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1665,7 +1684,7 @@
       "pc2": -0.6421394745714726,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_13",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1673,7 +1692,7 @@
       "pc2": 1.4753770153479524,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_14",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1681,7 +1700,7 @@
       "pc2": -0.07743157357208247,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_15",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1689,7 +1708,7 @@
       "pc2": 1.1903500325916943,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_16",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1697,7 +1716,7 @@
       "pc2": -0.594744638682199,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_21",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1705,7 +1724,7 @@
       "pc2": 1.4662744470653577,
       "reference_label": "non_keloid",
       "sample_id": "E-MTAB-4945_Sample_22",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1713,7 +1732,7 @@
       "pc2": 0.7853048452527139,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_33",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1721,7 +1740,7 @@
       "pc2": 0.03197013127525707,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_34",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1729,7 +1748,7 @@
       "pc2": 0.6033308505296072,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_35",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1737,7 +1756,7 @@
       "pc2": -0.18922879734926984,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_36",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1745,7 +1764,7 @@
       "pc2": -0.2765659324413629,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_37",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1753,7 +1772,7 @@
       "pc2": 0.028981246124177098,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_38",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1761,7 +1780,7 @@
       "pc2": 0.13708987283310797,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_39",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "E-MTAB-4945",
@@ -1769,7 +1788,7 @@
       "pc2": 0.7446154385585315,
       "reference_label": "keloid",
       "sample_id": "E-MTAB-4945_Sample_40",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1777,7 +1796,7 @@
       "pc2": -0.8987685159259633,
       "reference_label": "non_keloid",
       "sample_id": "JKR491-163/BA_Normal_Normal_410",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1785,7 +1804,7 @@
       "pc2": 0.17910122199475947,
       "reference_label": "keloid",
       "sample_id": "JKR782-003_Keloid_LS_K5",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1793,7 +1812,7 @@
       "pc2": 0.47269127883501266,
       "reference_label": "keloid",
       "sample_id": "JKR782-003_Keloid_LS_K4",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1801,7 +1820,7 @@
       "pc2": 1.1042835618127171,
       "reference_label": "non_keloid",
       "sample_id": "JKR782-004_Keloid_NL_K6",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1809,7 +1828,7 @@
       "pc2": -0.017624300780697735,
       "reference_label": "keloid",
       "sample_id": "JKR782-001_Keloid_LS_K2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1817,7 +1836,7 @@
       "pc2": 0.869283313816304,
       "reference_label": "non_keloid",
       "sample_id": "N2_Normal_Normal_N2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1825,7 +1844,7 @@
       "pc2": 1.0482255921947792,
       "reference_label": "non_keloid",
       "sample_id": "JKR782-003_Keloid_NL_K3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1833,7 +1852,7 @@
       "pc2": -0.2885292617641749,
       "reference_label": "non_keloid",
       "sample_id": "N20_Normal_Normal_N20",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1841,7 +1860,7 @@
       "pc2": -1.5536649926622796,
       "reference_label": "non_keloid",
       "sample_id": "N3_Normal_Normal_N3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1849,7 +1868,7 @@
       "pc2": 0.4236547741253427,
       "reference_label": "non_keloid",
       "sample_id": "N19_Normal_Normal_N19",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1857,7 +1876,7 @@
       "pc2": 1.6263834714173746,
       "reference_label": "non_keloid",
       "sample_id": "N1_Normal_Normal_N1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1865,7 +1884,7 @@
       "pc2": -0.10588045514871261,
       "reference_label": "keloid",
       "sample_id": "JKR782-004_Keloid_LS_K7",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE158395",
@@ -1873,7 +1892,7 @@
       "pc2": 1.37693448081092,
       "reference_label": "non_keloid",
       "sample_id": "JKR782-001_Keloid_NL_K1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1881,7 +1900,7 @@
       "pc2": 2.429305610944768,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1889,7 +1908,7 @@
       "pc2": 2.2260888870113287,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1897,7 +1916,7 @@
       "pc2": 3.7231948749660475,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1905,7 +1924,7 @@
       "pc2": 0.5754979929685174,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_4",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1913,7 +1932,7 @@
       "pc2": 0.20152957327366952,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_5",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1921,7 +1940,7 @@
       "pc2": 0.4430755005000595,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_6",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1929,7 +1948,7 @@
       "pc2": 0.8619412263244036,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_7",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1937,7 +1956,7 @@
       "pc2": 2.326496905511768,
       "reference_label": "non_keloid",
       "sample_id": "Control_N_8",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1945,7 +1964,7 @@
       "pc2": -1.2558657572503469,
       "reference_label": "keloid",
       "sample_id": "Treat_K_1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1953,7 +1972,7 @@
       "pc2": -1.7803521308878807,
       "reference_label": "keloid",
       "sample_id": "Treat_K_2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1961,7 +1980,7 @@
       "pc2": 2.754991490222166,
       "reference_label": "keloid",
       "sample_id": "Treat_K_3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1969,7 +1988,7 @@
       "pc2": -0.6114329606835901,
       "reference_label": "keloid",
       "sample_id": "Treat_K_4",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1977,7 +1996,7 @@
       "pc2": -2.65423428436333,
       "reference_label": "keloid",
       "sample_id": "Treat_K_5",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1985,7 +2004,7 @@
       "pc2": -3.1152453375682523,
       "reference_label": "keloid",
       "sample_id": "Treat_K_6",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -1993,7 +2012,7 @@
       "pc2": 3.009130031096095,
       "reference_label": "keloid",
       "sample_id": "Treat_K_7",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2001,7 +2020,7 @@
       "pc2": -0.478192754119994,
       "reference_label": "keloid",
       "sample_id": "Treat_K_8",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2009,7 +2028,7 @@
       "pc2": -1.6772982439043926,
       "reference_label": "keloid",
       "sample_id": "Treat_K_9",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2017,7 +2036,7 @@
       "pc2": 0.5362277710178085,
       "reference_label": "keloid",
       "sample_id": "Treat_K_10",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2025,7 +2044,7 @@
       "pc2": -3.3210744546701183,
       "reference_label": "keloid",
       "sample_id": "Treat_K_11",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2033,7 +2052,7 @@
       "pc2": -1.7600522945301678,
       "reference_label": "keloid",
       "sample_id": "Treat_K_12",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2041,7 +2060,7 @@
       "pc2": -2.7030447471815116,
       "reference_label": "keloid",
       "sample_id": "Treat_K_13",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2049,7 +2068,7 @@
       "pc2": 1.6927057258607123,
       "reference_label": "keloid",
       "sample_id": "Treat_K_14",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2057,7 +2076,7 @@
       "pc2": -2.5151333191185326,
       "reference_label": "keloid",
       "sample_id": "Treat_K_15",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2065,7 +2084,7 @@
       "pc2": 0.555913685942919,
       "reference_label": "keloid",
       "sample_id": "Treat_K_16",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "Sun_Burns",
@@ -2073,7 +2092,7 @@
       "pc2": -1.7805761382507357,
       "reference_label": "keloid",
       "sample_id": "Treat_K_17",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2081,7 +2100,7 @@
       "pc2": -1.3327996301479146,
       "reference_label": "keloid",
       "sample_id": "GSE181297_Ke01_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2089,7 +2108,7 @@
       "pc2": -0.07449668595070053,
       "reference_label": "keloid",
       "sample_id": "GSE181297_Ke02_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2097,7 +2116,7 @@
       "pc2": -3.725275785564686,
       "reference_label": "keloid",
       "sample_id": "GSE181297_Pt1_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2105,7 +2124,7 @@
       "pc2": -1.3888180020261751,
       "reference_label": "keloid",
       "sample_id": "GSE181297_Pt2_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2113,7 +2132,7 @@
       "pc2": 2.122057029798993,
       "reference_label": "non_keloid",
       "sample_id": "GSE181297_NSV1_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181297",
@@ -2121,7 +2140,7 @@
       "pc2": 2.609647309049117,
       "reference_label": "non_keloid",
       "sample_id": "GSE181297_NSV2_all_barcodes",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE173900",
@@ -2129,7 +2148,7 @@
       "pc2": 0.6753211782458133,
       "reference_label": "non_keloid",
       "sample_id": "KC1",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2137,7 +2156,7 @@
       "pc2": 0.3383396283557098,
       "reference_label": "non_keloid",
       "sample_id": "KC2",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2145,7 +2164,7 @@
       "pc2": -6.32841377373491,
       "reference_label": "non_keloid",
       "sample_id": "KC3",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2153,7 +2172,7 @@
       "pc2": -0.48535808770087774,
       "reference_label": "non_keloid",
       "sample_id": "KC4",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2161,7 +2180,7 @@
       "pc2": 3.0445589786630536,
       "reference_label": "keloid",
       "sample_id": "KL3",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2169,7 +2188,7 @@
       "pc2": 1.5968298530430642,
       "reference_label": "keloid",
       "sample_id": "KL5",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2177,7 +2196,7 @@
       "pc2": 1.9203217293217374,
       "reference_label": "keloid",
       "sample_id": "KL6",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2185,7 +2204,7 @@
       "pc2": -2.3336713222338514,
       "reference_label": "keloid",
       "sample_id": "KL7",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE173900",
@@ -2193,7 +2212,7 @@
       "pc2": 2.1234179042174226,
       "reference_label": "keloid",
       "sample_id": "KL9",
-      "transfer_group": "non-transferable platform"
+      "transfer_group": "observed study failure"
     },
     {
       "accession": "GSE190626",
@@ -2201,7 +2220,7 @@
       "pc2": -1.2516028826762238,
       "reference_label": "keloid",
       "sample_id": "Keloid1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE190626",
@@ -2209,7 +2228,7 @@
       "pc2": -4.592840770636835,
       "reference_label": "keloid",
       "sample_id": "Keloid2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE190626",
@@ -2217,7 +2236,7 @@
       "pc2": -0.0910354286401067,
       "reference_label": "keloid",
       "sample_id": "Keloid3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE190626",
@@ -2225,7 +2244,7 @@
       "pc2": -0.22870892987701663,
       "reference_label": "non_keloid",
       "sample_id": "Normal1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE190626",
@@ -2233,7 +2252,7 @@
       "pc2": 2.698155155594432,
       "reference_label": "non_keloid",
       "sample_id": "Normal2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE190626",
@@ -2241,7 +2260,7 @@
       "pc2": 0.9715104403182202,
       "reference_label": "non_keloid",
       "sample_id": "Normal3",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181316",
@@ -2249,7 +2268,7 @@
       "pc2": 0.7589045304545701,
       "reference_label": "non_keloid",
       "sample_id": "GSE181316_GSM5494683_skin_7",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181316",
@@ -2257,7 +2276,7 @@
       "pc2": -0.07502524017009465,
       "reference_label": "keloid",
       "sample_id": "GSE181316_GSM5494684_keloid_1",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181316",
@@ -2265,7 +2284,7 @@
       "pc2": -1.801764748358108,
       "reference_label": "keloid",
       "sample_id": "GSE181316_GSM5494685_keloid_2",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181316",
@@ -2273,7 +2292,7 @@
       "pc2": -2.0111417696242078,
       "reference_label": "keloid",
       "sample_id": "GSE181316_GSM5494686_keloid_3L",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     },
     {
       "accession": "GSE181316",
@@ -2281,7 +2300,7 @@
       "pc2": -0.6607991523906173,
       "reference_label": "keloid",
       "sample_id": "GSE181316_GSM5494687_keloid_3R",
-      "transfer_group": "transferable subset"
+      "transfer_group": "included development study"
     }
   ],
   "profiles": [

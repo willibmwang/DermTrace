@@ -112,7 +112,7 @@ function updateDecision() {
 
   const transfer = $("#transfer-badge");
   transfer.className = `status-badge ${represented ? "" : "warning"}`;
-  transfer.textContent = represented ? "represented transfer subset" : transferStatus === "non-transferable" ? "non-transferable platform" : "uploaded · transfer unverified";
+  transfer.textContent = represented ? "included development study" : transferStatus === "non-transferable" ? "observed study failure" : "uploaded · transfer unverified";
 
   $("#probability-value").textContent = pct(profile.prob_keloid);
   $("#probability-gauge").style.setProperty("--angle", `${profile.prob_keloid * 360}deg`);
@@ -195,7 +195,7 @@ function renderPca(profile) {
   points.forEach((point) => {
     const selected = point.sample_id === profile.sample_id;
     const fill = point.reference_label === "keloid" ? COLORS.coral : point.reference_label === "non_keloid" ? COLORS.teal : COLORS.gold;
-    const shape = point.transfer_group === "non-transferable platform" ? "rect" : "circle";
+    const shape = point.transfer_group === "observed study failure" ? "rect" : "circle";
     const attrs = shape === "circle"
       ? { cx: x(point.pc1), cy: y(point.pc2), r: selected ? 7 : 4, fill, opacity: selected ? 1 : .58 }
       : { x: x(point.pc1) - (selected ? 7 : 4), y: y(point.pc2) - (selected ? 7 : 4), width: selected ? 14 : 8, height: selected ? 14 : 8, fill: COLORS.gold, opacity: selected ? 1 : .65 };
@@ -241,7 +241,7 @@ function selectFold(accession) {
   state.fold = fold;
   $("#fold-select").value = accession;
   const transfer = $("#fold-transfer");
-  const warning = fold.transfer_group === "non-transferable platform";
+  const warning = fold.transfer_group === "observed study failure";
   transfer.className = `status-badge ${warning ? "warning" : ""}`;
   transfer.textContent = fold.transfer_group;
   $("#fold-f1").textContent = fmt(fold.macro_f1);
@@ -579,9 +579,16 @@ function wireControls() {
 
 async function init() {
   try {
-    const response = await fetch("assets/data/demo-data.json?v=20260802-upload");
+    const response = await fetch("assets/data/demo-data.json?v=20261017-review");
     if (!response.ok) throw new Error(`Data request failed (${response.status})`);
     state.data = await response.json();
+    document.querySelectorAll("[data-narrative-status]").forEach((node) => {
+      node.textContent = state.data.headline.narrative_validation;
+    });
+    document.querySelectorAll("[data-result]").forEach((node) => {
+      const value = state.data.headline[node.dataset.result];
+      node.textContent = Number.isInteger(value) ? String(value) : fmt(value);
+    });
     buildStories();
     populateProfiles();
     buildEvidence();

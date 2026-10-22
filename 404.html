@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found</title>
+  <script>
+    // Old links pointed at the site root (e.g. /DermTrace/assets/...); forward them to /DermTrace/keloidbench/.
+    (function () {
+      var base = "/DermTrace/";
+      var path = location.pathname;
+      if (path.indexOf(base) === 0 && path.indexOf(base + "keloidbench/") !== 0) {
+        location.replace(base + "keloidbench/" + path.slice(base.length) + location.search + location.hash);
+      }
+    })();
+  </script>
+  <style>
+    body { margin: 0; padding: 48px 16px; background: #f6f3ec; color: #102635; font: 16px/1.55 system-ui, sans-serif; text-align: center; }
+    a { color: #3d806e; }
+  </style>
+</head>
+<body>
+  <p>Page not found. The KeloidBench site is at <a href="/DermTrace/keloidbench/">willibmwang.github.io/DermTrace/keloidbench/</a>.</p>
+</body>
+</html>
