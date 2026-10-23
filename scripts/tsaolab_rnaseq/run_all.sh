@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Unattended run for ONE Quintara order: finish Drive download -> verify MD5 -> salmon quant -> per-order tables.
-# When every order is quantified, the last one to finish builds the combined KeloidBench dataset.
+# When every order is quantified, the last one to finish builds the combined DermTrace dataset.
 # Safe to re-run: rclone skips finished files, run_quant.sh skips quantified samples.
 #
 # Usage: DATA_DIR=... REF_DIR=... [OUT_DIR=...] [RNASEQ_ENV=...] [PYTHON=...] run_all.sh <order_id>
@@ -59,11 +59,11 @@ grep -q incomplete "$OUT/quant_$ID/sample_status.tsv" && fail "incomplete sample
 touch "$OUT/quant_$ID/.complete"
 status "quantified"
 
-# 4. combined KeloidBench/DermTrace dataset, built once by whichever order finishes last
+# 4. combined DermTrace dataset, built once by whichever order finishes last
 for o in "${ALL_ORDERS[@]}"; do [ -e "$OUT/quant_$o/.complete" ] || { status "DONE (waiting on order $o for combined build)"; exit 0; }; done
 mkdir "$OUT/.build_lock" 2>/dev/null || { status "DONE (other order is building combined dataset)"; exit 0; }
-status "building KeloidBench dataset"
+status "building DermTrace dataset"
 args=(); for o in "${ALL_ORDERS[@]}"; do args+=("$SHEETS/samples_$o.csv=$OUT/quant_$o"); done
-"$PY" -I "$HERE/build_keloidbench.py" "$OUT/tsaolab_o2_keloidbench" "${args[@]}" || { rmdir "$OUT/.build_lock"; fail "build_keloidbench"; }
+"$PY" -I "$HERE/build_dermtrace.py" "$OUT/tsaolab_o2_dermtrace" "${args[@]}" || { rmdir "$OUT/.build_lock"; fail "build_dermtrace"; }
 rmdir "$OUT/.build_lock"
-status "DONE -> $OUT/tsaolab_o2_keloidbench"
+status "DONE -> $OUT/tsaolab_o2_dermtrace"

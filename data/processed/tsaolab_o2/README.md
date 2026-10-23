@@ -7,7 +7,7 @@ Two sequencing orders from Quintara Biosciences, 60 samples in total, all in tri
 
 Every cell line went through the same four oxygen arms, three replicates each:
 
-| Arm | `oxygen` | `treatment` (KeloidBench) |
+| Arm | `oxygen` | `treatment` (DermTrace) |
 |---|---|---|
 | 20% O₂ throughout (baseline) | `20%` | `none` |
 | 20% → 1% O₂ | `20%->1%` | `normoxia_to_hypoxia_1pct` |
@@ -72,21 +72,21 @@ Quintara's `md5sum.txt` and the 1030390 FASTQs against Google Drive's MD5s.
 2. `salmon quant` 1.10.3 (`-l A --validateMappings --gcBias --seqBias`), with both lanes pooled per sample, against
    GENCODE human v46 or mouse vM35 transcriptomes (transcriptome-only index, k=31).
 3. Transcripts are summed to genes, using Ensembl gene IDs without version.
-4. `build_keloidbench.py` writes the KeloidBench/DermTrace inputs, one set per species:
+4. `build_dermtrace.py` writes the DermTrace inputs, one set per species:
 
 | File | Contents |
 |---|---|
-| `tsaolab_o2_<species>_tpm_symbol.tsv.gz` | gene symbol × sample, TPM, **not logged** (KeloidBench applies `log1p` itself) |
+| `tsaolab_o2_<species>_tpm_symbol.tsv.gz` | gene symbol × sample, TPM, **not logged** (the DermTrace loaders apply `log1p` themselves) |
 | `tsaolab_o2_<species>_counts_symbol.tsv.gz` | gene symbol × sample, salmon estimated counts |
 | `tsaolab_o2_<species>_tpm_ensembl.tsv.gz`, `_counts_ensembl.tsv.gz` | same, keyed by Ensembl gene ID |
-| `tsaolab_o2_<species>_sample_metadata.csv` | KeloidBench `METADATA_COLUMNS` plus `species, submitted_as, cell_line, group, oxygen, collection_date, order_id, num_fragments, mapping_rate_pct, quality_flag, qc_notes, xist_tpm, chrY_tpm, ad5_e1_per_million, hek_admixture_est_pct, sex_inferred, sequencing_run` (`platform_id` is the instrument) |
+| `tsaolab_o2_<species>_sample_metadata.csv` | `METADATA_COLUMNS` (`keloidbench/scripts/expression_processing.py`) plus `species, submitted_as, cell_line, group, oxygen, collection_date, order_id, num_fragments, mapping_rate_pct, quality_flag, qc_notes, xist_tpm, chrY_tpm, ad5_e1_per_million, hek_admixture_est_pct, sex_inferred, sequencing_run` (`platform_id` is the instrument) |
 | `tsaolab_o2_<species>_genes.tsv.gz` | Ensembl gene ID → gene symbol and gene type |
 
 Further outputs:
 
 | Path | Contents |
 |---|---|
-| `per_order/<order>_<species>_harmonizable-USE.tsv.gz` | Ensembl gene ID × sample, **log2(TPM+1)**, one table per order and species. Same layout as the lab's Korean keloid `-USE` files, for use outside KeloidBench |
+| `per_order/<order>_<species>_harmonizable-USE.tsv.gz` | Ensembl gene ID × sample, **log2(TPM+1)**, one table per order and species. Same layout as the lab's Korean keloid `-USE` files, for use outside DermTrace |
 | `per_order/<order>_<species>_counts.tsv.gz`, `_genes.tsv.gz`, `.meta-USE.csv` | Matching counts, gene annotation and basic sample metadata (no identity-QC columns; see `qc/`) |
 | `salmon_quant/<order>/<sample>/quant.sf.gz` | Transcript-level salmon output (gzipped `quant.sf`), with `cmd_info.json`, `lib_format_counts.json` and `aux_info/meta_info.json`. Readable by tximport. Local paths are replaced with `<LAB>` |
 | `qc/run_qc.tsv` | Per sample: instrument, run, raw and trimmed reads, % adapter-trimmed, % Q30, duplication, mapping rate, library type, fragment length (`run_qc_summary.py`) |
