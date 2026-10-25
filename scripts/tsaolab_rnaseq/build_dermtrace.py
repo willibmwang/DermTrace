@@ -77,7 +77,8 @@ def main(dest, runs, qc_path=None, runqc_path=None):
     dest.mkdir(parents=True, exist_ok=True)
     qc = pd.read_csv(qc_path, dtype={"sample_id": str}).set_index("qb_id") if qc_path else None
     runqc = pd.read_csv(runqc_path, sep="\t").set_index("qb_id") if runqc_path else None
-    qc_cols = ["xist_tpm", "chrY_tpm", "ad5_e1_per_million", "hek_admixture_est_pct", "sex_inferred"]
+    qc_cols = ["xist_tpm", "chrY_tpm", "ad5_e1_per_million", "hek_admixture_est_pct", "mouse_admixture_est_pct",
+               "sex_inferred"]
     samples = []
     for sheet, qdir in runs:
         s = pd.read_csv(sheet, dtype=str)

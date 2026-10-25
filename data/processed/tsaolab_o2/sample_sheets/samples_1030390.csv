@@ -1,10 +1,10 @@
 sample_id,qb_id,sample_name,project,species,submitted_as,cell_line,cell_type,disease_label,group,oxygen,collection_date
-A1,1030390-1,ATCC Keloid -1-20%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
-A2,1030390-2,ATCC Keloid -2-20%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
-A3,1030390-3,ATCC Keloid -3-20%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,1,20%,2025-05-17
-A4,1030390-4,ATCC Keloid -4-20%-1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
-A5,1030390-5,ATCC Keloid -5-20%-1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
-A6,1030390-6,ATCC Keloid -6-20%-1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,2,20%->1%,2025-05-17
+A1,1030390-1,ATCC Keloid -1-20%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,1,20%,2025-05-17
+A2,1030390-2,ATCC Keloid -2-20%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,1,20%,2025-05-17
+A3,1030390-3,ATCC Keloid -3-20%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,1,20%,2025-05-17
+A4,1030390-4,ATCC Keloid -4-20%-1%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,2,20%->1%,2025-05-17
+A5,1030390-5,ATCC Keloid -5-20%-1%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,2,20%->1%,2025-05-17
+A6,1030390-6,ATCC Keloid -6-20%-1%,1030390,human,ATCC_keloid,BJ,fibroblast,normal,2,20%->1%,2025-05-17
 A7,1030390-7,ATCC Keloid -7- 1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17
 A8,1030390-8,ATCC Keloid -8-1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17
 A9,1030390-9,ATCC Keloid -9-1%,1030390,human,ATCC_keloid,ATCC_keloid,fibroblast,keloid,3,1%,2025-05-17

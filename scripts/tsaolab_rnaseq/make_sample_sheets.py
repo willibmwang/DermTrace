@@ -53,17 +53,20 @@ def sheet_1030390(datasets):
     for i, r in enumerate(raw.itertuples(index=False)):
         n = i + 1  # column 2 has a typo (17 entered as 27); row order is authoritative
         name = str(r[3]).strip()
-        cell_line = "ATCC_keloid" if n <= 12 else "AC16"
+        submitted_as = "ATCC_keloid" if n <= 12 else "AC16"
+        # SNP genotypes (genotype.py, qc/genotype_match.tsv) show samples 1-6 are BJ: they match the BJ
+        # samples of 0013831748, not public RNA-seq of ATCC CRL-1762 (KEL FIB). Samples 7-12 match CRL-1762.
+        cell_line = "BJ" if n <= 6 else submitted_as
         rows.append(dict(
             sample_id=f"A{n}",
             qb_id=f"1030390-{n}",  # assumed: same Quintara folder naming as 0013831748
             sample_name=name,
             project="1030390",
             species="human",
-            submitted_as=cell_line,
+            submitted_as=submitted_as,
             cell_line=cell_line,
             cell_type="fibroblast" if n <= 12 else "cardiomyocyte",
-            disease_label="keloid" if n <= 12 else "normal",
+            disease_label="keloid" if cell_line == "ATCC_keloid" else "normal",
             group=str(r[0]).replace("Group ", ""),
             oxygen=OXYGEN_ARMS[(n - 1) // 3 % 4],
             collection_date=pd.Timestamp(r[15]).date().isoformat(),
