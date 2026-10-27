@@ -1,9 +1,14 @@
 # DermTrace
 
+[![Paper](https://img.shields.io/badge/paper-NeurIPS%202026%20GenAI4Health-bf684f)](https://neurips.cc/virtual/2026/loc/sydney/177621)
 [![Site](https://img.shields.io/badge/site-willibmwang.github.io%2FDermTrace-3d806e)](https://willibmwang.github.io/DermTrace/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-d7a34b)](LICENSE)
 
 DermTrace is a shared home for processed skin and fibrosis transcriptomic data: the datasets, the pipelines that build them, and the analysis code that uses them. It grew out of [KeloidBench](keloidbench/), the keloid-only predecessor, which is kept here as published.
+
+> **KeloidBench: Interpretable machine learning on fibroblast program features for keloid detection.**
+> William Wang, Joshua Tam, Hensin Tsao.
+> [NeurIPS 2026 Workshop on Generative AI for Health](https://neurips.cc/virtual/2026/loc/sydney/177621), Sydney.
 
 **New here? Start with the [Quickstart](QUICKSTART.md)** — it takes you from `git clone` to a loaded expression matrix in about five minutes.
 
@@ -12,7 +17,7 @@ DermTrace is a shared home for processed skin and fibrosis transcriptomic data: 
 | 🚀 **[Quickstart](QUICKSTART.md)** | Load data, reproduce KeloidBench, rebuild the RNA-seq pipeline |
 | 🧬 **[Data catalog](#data)** | What is in the repository, and what is not |
 | 🔬 **[Tsao lab O₂ RNA-seq](data/processed/tsaolab_o2/)** | The in-house dataset: 60 samples, four oxygen arms |
-| 📄 **[KeloidBench](keloidbench/)** | NeurIPS GenAI4Health 2026 poster and paper |
+| 📄 **[NeurIPS paper](https://neurips.cc/virtual/2026/loc/sydney/177621)** | KeloidBench at GenAI4Health 2026 — also as [PDF](keloidbench/KeloidBench_NeurIPS_GenAI4Health_2026_.pdf) and [poster](keloidbench/KeloidBench%20Poster_WW.pdf) |
 
 ## Repository layout
 

@@ -245,6 +245,7 @@ python3 -m http.server 8765 --directory keloidbench/website
 | You want to... | Go to |
 |---|---|
 | Understand a dataset's caveats | [`data/processed/tsaolab_o2/README.md`](data/processed/tsaolab_o2/README.md) |
+| Read the paper | [NeurIPS 2026 GenAI4Health](https://neurips.cc/virtual/2026/loc/sydney/177621) · [PDF](keloidbench/KeloidBench_NeurIPS_GenAI4Health_2026_.pdf) |
 | See KeloidBench's results and limits | [`keloidbench/README.md`](keloidbench/README.md) |
 | Reproduce the published numbers | [`keloidbench/REPRODUCIBILITY.md`](keloidbench/REPRODUCIBILITY.md) |
 | Find a removed matrix | [`data/processed/archive/README.md`](data/processed/archive/README.md) |
