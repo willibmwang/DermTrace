@@ -276,8 +276,9 @@ PY</code></pre>
       </div>
       <div class="note">
         <h3>Read this before interpreting anything</h3>
-        <p>SNP genotyping against a 1,500-transcript mini-reference found three identities that differ from the submission forms: twelve samples submitted as NIH3T3 mouse fibroblasts are HEK293-like <strong>human</strong> cells; ten of twelve BJ samples in the 2024 order carry HEK293-like admixture; and six samples submitted as the ATCC keloid line are <strong>BJ</strong> by genotype.</p>
+        <p>Three identities differ from the submission forms. Twelve samples submitted as NIH3T3 mouse fibroblasts are HEK293-like <strong>human</strong> cells, from their mapping, adenovirus-5 E1 reads and sex markers — the HEK293 call itself still awaits STR profiling. Ten of twelve BJ samples in the 2024 order carry HEK293-like admixture, estimated from Ad5 E1 read fractions. And six samples submitted as the ATCC keloid line are <strong>BJ</strong> by SNP genotyping against a 1,500-transcript mini-reference.</p>
         <p>In practice that means <strong>six real keloid samples, not twelve</strong>, keloid versus BJ confounded with sequencing order, and keloid samples present in only two of the four oxygen arms.</p>
+        <p>The cardiomyocyte lines need the same scepticism: <strong>AC16 carries essentially no cardiomyocyte identity here</strong> (TNNT2 ≈ 0.1 TPM, MYH6/MYH7/TTN/NKX2-5 ≈ 0, against COL1A1 ≈ 1,990), so treat it as fibroblast-like. HL-1 does show the expected markers, but it is mouse, so cell identity is fully confounded with species and batch.</p>
       </div>
     </div>
   </section>

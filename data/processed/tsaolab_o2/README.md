@@ -14,6 +14,10 @@ Every submitted line went through the same four oxygen arms, three replicates ea
 | 1% O₂ throughout | `1%` | `hypoxia_1pct` |
 | 1% → 20% O₂ | `1%->20%` | `hypoxia_1pct_to_normoxia` |
 
+**How long each phase lasted is not recorded anywhere in this repository**, and it is not in the submission forms
+either. Any kinetic interpretation — how much of the acute-versus-chronic difference is dose and how much is
+adaptation, or how complete the reoxygenation recovery is — needs those durations from the lab first.
+
 Three groups of samples are not what the submission form says (see QC):
 
 | Order | Collected | Samples | Submitted as | Actual identity (from RNA) | Species | Groups |
@@ -142,6 +146,12 @@ BJ samples (1030390-1 to -6, Q27 and Q35).
 - Only human skin fibroblasts get a keloid label: the ATCC keloid line is `keloid` and BJ is `normal`. HEK293-like samples get no disease label.
   Cardiomyocytes, HEK293-like and mouse samples are `unknown`; they and QC-suspect samples have `eligible_for_keloid_pretraining=False`.
 - **All 6 keloid samples come from a single cell line (ATCC CRL-1762), so there is one donor.** Replicates are not independent donors.
+- **AC16 does not express a cardiomyocyte programme in this dataset.** Median TPM is 0.1 for `TNNT2` and ~0 for
+  `MYH6`, `MYH7`, `TTN` and `NKX2-5`, against `COL1A1` ≈ 1,990 and `VIM` ≈ 6,660; only `NPPB` (≈ 239) is high.
+  That is consistent with its origin as a fusion of adult ventricular cells with SV40-transformed fibroblasts.
+  Treat it as a fibroblast-like line. HL-1 does carry the expected markers (`Tnnt2` 938, `Myl7` 3,610,
+  `Nkx2-5` 311, `Actc1` 833), but it is mouse, so cardiomyocyte identity is fully confounded with species,
+  sequencing order and collection year. No human-versus-mouse cardiomyocyte comparison is identifiable here.
 - **Keloid vs normal is confounded with oxygen arm and with sequencing order.** In 1030390 the keloid line is only in
   the 1%-start arms and BJ only in the 20%-start arms. The only arm with both clean keloid and clean BJ is 1%→20%
   (keloid 10–12 against BJ Q35, which is from the 2024 order). BJ is also neonatal foreskin, not adult skin.

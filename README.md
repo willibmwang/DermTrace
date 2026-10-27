@@ -124,13 +124,15 @@ meta = pd.read_csv(f"{tsao}/tsaolab_o2_human_sample_metadata.csv", index_col="sa
 
 #### Read this before analysing
 
-Read the [dataset README](data/processed/tsaolab_o2/README.md) first. Three cell-line identities differ from the submission forms, confirmed by SNP genotyping against a 1,500-transcript mini-reference:
+Read the [dataset README](data/processed/tsaolab_o2/README.md) first. Three cell-line identities differ from the submission forms, each established by a different method:
 
-- **Order 0013831748, samples 13–24** — all twelve submitted as NIH3T3 mouse fibroblasts — are HEK293-like **human** cells.
-- **In the same order, 10 of the 12 BJ samples** carry HEK293-like admixture (samples 27 and 35 are clean).
-- **Order 1030390, samples 1–6** were submitted as the ATCC keloid line but are **BJ** by genotype. Only samples 7–12 are genuinely keloid (ATCC CRL-1762, a single donor), and they were grown **only in the two arms that start at 1% O₂**.
+- **Order 0013831748, samples 13–24** — all twelve submitted as NIH3T3 mouse fibroblasts — are HEK293-like **human** cells. Evidence: they map to the human transcriptome, carry adenovirus-5 E1 reads (967–2,401 per million), and are XIST-high with no real chrY signal. The HEK293 identity itself is an inference from those markers and still awaits STR profiling.
+- **In the same order, 10 of the 12 BJ samples** carry HEK293-like admixture, estimated from their Ad5 E1 read fraction relative to the HEK-like samples (samples 27 and 35 are clean).
+- **Order 1030390, samples 1–6** were submitted as the ATCC keloid line but are **BJ**. This one *is* from SNP genotyping against a 1,500-transcript mini-reference: they cluster with the BJ samples at 1.6–2.5% discordance and sit 72–77% from samples 7–12. Only samples 7–12 are genuinely keloid (ATCC CRL-1762, a single donor), and they were grown **only in the two arms that start at 1% O₂**.
 
 The practical consequences: there are **6 real keloid samples, not 12**; keloid versus BJ is confounded with sequencing order; and the keloid samples do not span all four oxygen arms. 36 of the 48 human samples are flagged `ok` and 12 `suspect`; 14 are marked `eligible_for_keloid_pretraining`.
+
+**The cardiomyocyte lines need the same scepticism.** AC16 is a fusion of adult ventricular cells with SV40-transformed fibroblasts, and in this dataset it carries essentially no cardiomyocyte identity: median TPM is 0.1 for TNNT2 and ~0 for MYH6, MYH7, TTN and NKX2-5, against COL1A1 ≈ 1,990 and VIM ≈ 6,660. Treat it as a fibroblast-like line, not a cardiomyocyte. HL-1 (mouse) does show the expected markers (Tnnt2 938, Myl7 3,610, Nkx2-5 311). Because AC16 is human and HL-1 mouse, cell identity is fully confounded with species, sequencing order and collection year — no cross-line comparison is identifiable here.
 
 The raw FASTQs (about 258 GB) are too large for GitHub. They are on the lab Google Drive in `0013831748-2024 Raw_Data` and `1030390-2025 Raw_Data` — ask William for access. [`scripts/tsaolab_rnaseq/`](scripts/tsaolab_rnaseq/) rebuilds every file above from those FASTQs; see the [Quickstart](QUICKSTART.md#rebuild-the-tsao-lab-dataset).
 
