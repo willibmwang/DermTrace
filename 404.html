@@ -3,23 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page not found</title>
+  <title>Page not found · DermTrace</title>
+  <meta name="theme-color" content="#102635">
   <script>
-    // Old links pointed at the site root (e.g. /DermTrace/assets/...); forward them to /DermTrace/keloidbench/.
+    // The KeloidBench site used to be served from the site root, so its deep links
+    // look like /DermTrace/assets/... . Forward only those to the archived copy;
+    // everything else gets the notice below.
     (function () {
       var base = "/DermTrace/";
       var path = location.pathname;
-      if (path.indexOf(base) === 0 && path.indexOf(base + "keloidbench/") !== 0) {
+      if (path.indexOf(base + "assets/") === 0) {
         location.replace(base + "keloidbench/" + path.slice(base.length) + location.search + location.hash);
       }
     })();
   </script>
+  <link rel="icon" href="/DermTrace/favicon.svg" type="image/svg+xml">
   <style>
-    body { margin: 0; padding: 48px 16px; background: #f6f3ec; color: #102635; font: 16px/1.55 system-ui, sans-serif; text-align: center; }
-    a { color: #3d806e; }
+    :root { --ink: #102635; --paper: #f6f3ec; --teal: #3d806e; --muted: #68757a; }
+    body { margin: 0; min-height: 100vh; display: grid; place-content: center; gap: 18px;
+           padding: 48px 16px; background: var(--paper); color: var(--ink);
+           font: 16px/1.55 system-ui, -apple-system, sans-serif; text-align: center; }
+    h1 { margin: 0; font-size: 22px; letter-spacing: -.02em; }
+    p { margin: 0; color: var(--muted); }
+    a { color: var(--teal); }
+    nav { margin-top: 6px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; font-weight: 600; }
   </style>
 </head>
 <body>
-  <p>Page not found. The KeloidBench site is at <a href="/DermTrace/keloidbench/">willibmwang.github.io/DermTrace/keloidbench/</a>.</p>
+  <h1>Page not found</h1>
+  <p>That page isn’t part of the DermTrace site.</p>
+  <nav>
+    <a href="/DermTrace/">DermTrace home</a>
+    <a href="/DermTrace/keloidbench/">KeloidBench archive</a>
+    <a href="https://github.com/willibmwang/DermTrace">Repository</a>
+  </nav>
 </body>
 </html>
