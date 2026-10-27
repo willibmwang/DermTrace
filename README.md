@@ -133,7 +133,7 @@ The raw FASTQs (about 258 GB) are too large for GitHub. They are on the lab Goog
 
 [`keloidbench/`](keloidbench/) is the original keloid-only project, kept as published: an interpretable pipeline for keloid-versus-unaffected-skin transcriptomic classification, accepted as a poster at **NeurIPS GenAI4Health 2026**.
 
-- [Accepted poster](keloidbench/KeloidBench%20Poster_WW.pdf) · [Paper](keloidbench/KeloidBench_NeurIPS_GenAI4Health_2026_.pdf)
+- [Paper on the NeurIPS site](https://neurips.cc/virtual/2026/loc/sydney/177621) · [PDF](keloidbench/KeloidBench_NeurIPS_GenAI4Health_2026_.pdf) · [Accepted poster](keloidbench/KeloidBench%20Poster_WW.pdf)
 - [Archived interactive site](https://willibmwang.github.io/DermTrace/keloidbench/)
 - [KeloidBench README](keloidbench/README.md) for results, caveats and reproduction
 
@@ -155,8 +155,9 @@ If you use DermTrace or KeloidBench, please cite the KeloidBench paper:
                Features for Keloid Detection},
   author    = {Wang, William and Tam, Joshua and Tsao, Hensin},
   booktitle = {NeurIPS Workshop on Generative AI for Health (GenAI4Health)},
+  address   = {Sydney, Australia},
   year      = {2026},
-  url       = {https://willibmwang.github.io/DermTrace/keloidbench/}
+  url       = {https://neurips.cc/virtual/2026/loc/sydney/177621}
 }
 ```
 

@@ -109,7 +109,11 @@ pre code{background:none;padding:0;color:inherit}
 .archive .section-head .eyebrow{color:var(--teal-light)}
 .archive h2{color:#fff}
 .archive .section-head p{color:rgba(255,255,255,.72)}
-.archive-links{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.archive-links{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
+.paper-cite{padding:18px 22px;border-left:3px solid var(--teal-light);border-radius:0 4px 4px 0;background:rgba(139,212,189,.1);font-size:15px}
+.archive .paper-cite{color:rgba(255,255,255,.86)}
+.paper-cite em{color:#fff;font-style:italic}
+.paper-cite a{color:var(--teal-light);font-weight:600}
 
 /* footer */
 footer{padding:48px 0;background:var(--deep);color:rgba(255,255,255,.62);border-top:1px solid rgba(255,255,255,.12);font-size:13.5px}
@@ -283,11 +287,14 @@ PY</code></pre>
       <div class="section-head">
         <p class="eyebrow">Predecessor project</p>
         <h2>KeloidBench, kept as published.</h2>
-        <p>KeloidBench is the keloid-only project DermTrace grew out of: an interpretable pipeline for keloid-versus-unaffected-skin transcriptomic classification, accepted as a poster at NeurIPS GenAI4Health 2026. Its site is preserved here as an archive, and its code and results live in the repository under <code>keloidbench/</code>.</p>
+        <p>KeloidBench is the keloid-only project DermTrace grew out of: an interpretable pipeline for keloid-versus-unaffected-skin transcriptomic classification. Its site is preserved here as an archive, and its code and results live in the repository under <code>keloidbench/</code>.</p>
+        <p class="paper-cite"><em>KeloidBench: Interpretable machine learning on fibroblast program features for keloid detection.</em><br>William Wang, Joshua Tam, Hensin Tsao · <a href="https://neurips.cc/virtual/2026/loc/sydney/177621">NeurIPS 2026 Workshop on Generative AI for Health</a>, Sydney.</p>
         <p>It is a research demonstration. Its development results do not establish clinical performance, and the reported numbers carry caveats that are worth reading in full.</p>
       </div>
       <div class="archive-links">
-        <a class="button primary" href="keloidbench/">Open the archived site</a>
+        <a class="button primary" href="https://neurips.cc/virtual/2026/loc/sydney/177621">Read the paper ↗</a>
+        <a class="button ghost" href="keloidbench/">Open the archived site</a>
+        <a class="button ghost" href="https://github.com/willibmwang/DermTrace/blob/main/keloidbench/KeloidBench%20Poster_WW.pdf">Poster (PDF)</a>
         <a class="button ghost" href="https://github.com/willibmwang/DermTrace/tree/main/keloidbench">Code and results</a>
       </div>
     </div>
@@ -303,6 +310,7 @@ PY</code></pre>
     <div>
       <a href="https://github.com/willibmwang/DermTrace">Repository</a> ·
       <a href="https://github.com/willibmwang/DermTrace/blob/main/QUICKSTART.md">Quickstart</a> ·
+      <a href="https://neurips.cc/virtual/2026/loc/sydney/177621">NeurIPS paper</a> ·
       <a href="keloidbench/">KeloidBench archive</a>
     </div>
   </div>
