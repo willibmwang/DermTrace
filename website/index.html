@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DermTrace</title>
+<meta name="description" content="Processed skin and fibrosis transcriptomic data, the pipelines that build it, and the archived KeloidBench project.">
+<meta name="theme-color" content="#102635">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=DM+Serif+Display&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#102635; --ink-2:#183947; --paper:#f6f3ec; --paper-2:#eee9df;
+  --teal:#3d806e; --teal-light:#8bd4bd; --coral:#bf684f; --gold:#d7a34b;
+  --muted:#68757a; --line:rgba(16,38,53,.15); --white:#fffef9;
+  --surface:var(--white); --deep:#081b26;
+  --serif:"DM Serif Display",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#eaf1ee; --ink-2:#cfdcd7; --paper:#0c1d28; --paper-2:#102733;
+    --muted:#93a5ac; --line:rgba(234,241,238,.16); --white:#102733;
+    --surface:#13303d; --teal:#8bd4bd; --deep:#07161f;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#eaf1ee; --ink-2:#cfdcd7; --paper:#0c1d28; --paper-2:#102733;
+  --muted:#93a5ac; --line:rgba(234,241,238,.16); --white:#102733;
+  --surface:#13303d; --teal:#8bd4bd; --deep:#07161f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
+
+/* header */
+.site-header{position:fixed;z-index:100;inset:0 0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,4vw,34px);color:#fff;background:rgba(10,29,40,.9);border-bottom:1px solid rgba(255,255,255,.12);backdrop-filter:blur(16px)}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:17px;font-weight:700;letter-spacing:-.02em}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border:1px solid rgba(139,212,189,.65);border-radius:50%;color:var(--teal-light);font-size:11px;font-weight:700;letter-spacing:.04em}
+.site-header nav{display:flex;gap:clamp(12px,2.4vw,26px);flex-wrap:wrap;justify-content:flex-end}
+.site-header nav a{color:rgba(255,255,255,.78);text-decoration:none;font-size:13.5px;font-weight:600;white-space:nowrap}
+.site-header nav a:hover{color:#fff}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:var(--deep)}
+.hero-art{position:absolute;inset:0;background:
+  radial-gradient(900px 520px at 78% 18%,rgba(61,128,110,.5),transparent 62%),
+  radial-gradient(680px 420px at 96% 76%,rgba(191,104,79,.32),transparent 60%),
+  linear-gradient(90deg,rgba(6,21,34,.97) 0%,rgba(6,21,34,.84) 40%,rgba(6,21,34,.3) 72%,rgba(6,21,34,.45) 100%)}
+.hero-grid{position:absolute;inset:0;opacity:.5}
+.hero-copy{position:relative;z-index:2;padding:clamp(126px,17vw,186px) 0 clamp(60px,8vw,92px)}
+.eyebrow{margin:0 0 18px;color:var(--teal-light);font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.hero h1{max-width:14ch;margin:0;font-family:var(--serif);font-size:clamp(46px,8.4vw,98px);font-weight:400;line-height:.94;letter-spacing:-.045em}
+.hero-lede{max-width:56ch;margin:26px 0 0;color:rgba(255,255,255,.84);font-size:clamp(17px,2.1vw,21px)}
+.hero-actions{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
+.button{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border:1px solid transparent;border-radius:3px;text-decoration:none;font-size:14px;font-weight:700;transition:transform .18s}
+.button.primary{color:#102635;background:var(--teal-light)}
+.button.ghost{color:#fff;border-color:rgba(255,255,255,.38);background:rgba(255,255,255,.05)}
+.button:hover{transform:translateY(-1px)}
+.hero-stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.16)}
+.hero-stats div{padding:22px 24px 26px 0;border-right:1px solid rgba(255,255,255,.14)}
+.hero-stats div:last-child{border-right:0}
+.hero-stats strong{display:block;font-family:var(--serif);font-size:clamp(28px,3.6vw,40px);font-weight:400;color:var(--teal-light);line-height:1}
+.hero-stats span{display:block;margin-top:7px;color:rgba(255,255,255,.7);font-size:12.5px}
+
+/* sections */
+.section{padding:clamp(64px,9vw,104px) 0}
+.section-head{max-width:70ch}
+.section-head .eyebrow{color:var(--teal)}
+.section h2{margin:0;font-family:var(--serif);font-size:clamp(34px,5vw,58px);font-weight:400;line-height:1.03;letter-spacing:-.035em}
+.section-head p{margin:20px 0 0;color:var(--muted);font-size:17px}
+.alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:12px;margin-top:44px}
+.card{padding:24px;border:1px solid var(--line);border-radius:5px;background:var(--surface);text-decoration:none;display:block;transition:transform .18s,border-color .18s}
+.card:hover{transform:translateY(-2px);border-color:var(--teal)}
+.card span{color:var(--teal);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card h3{margin:16px 0 8px;font-size:18px;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:14px}
+
+/* table */
+.table-scroll{margin-top:40px;overflow-x:auto;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+.table-scroll th{padding:14px 18px;text-align:left;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.table-scroll td{padding:14px 18px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top}
+.table-scroll tr:last-child td{border-bottom:0}
+.table-scroll td code{font-size:13px}
+.yes{color:var(--teal);font-weight:700}
+.no{color:var(--muted)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(61,128,110,.1);padding:.14em .42em;border-radius:3px}
+
+/* code block */
+pre{margin:28px 0 0;padding:22px;overflow-x:auto;border:1px solid var(--line);border-radius:5px;background:var(--deep);color:#dfeae6;font-size:13.5px;line-height:1.65}
+pre code{background:none;padding:0;color:inherit}
+.c-key{color:#8bd4bd}.c-str{color:#d7a34b}.c-com{color:#7b8f97}
+
+/* note */
+.note{margin-top:36px;padding:20px 24px;border-left:3px solid var(--gold);border-radius:0 4px 4px 0;background:rgba(215,163,75,.09)}
+.note h3{margin:0 0 8px;font-size:15px}
+.note p{margin:0;color:var(--muted);font-size:14.5px}
+.note p+p{margin-top:10px}
+
+/* archive strip */
+.archive{background:var(--deep);color:#fff}
+.archive .section-head .eyebrow{color:var(--teal-light)}
+.archive h2{color:#fff}
+.archive .section-head p{color:rgba(255,255,255,.72)}
+.archive-links{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+
+/* footer */
+footer{padding:48px 0;background:var(--deep);color:rgba(255,255,255,.62);border-top:1px solid rgba(255,255,255,.12);font-size:13.5px}
+footer a{color:var(--teal-light)}
+.foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-stats div:nth-child(2){border-right:0}
+  .hero-stats div{padding-right:16px}
+  .site-header{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap;gap:8px}
+  html{scroll-padding-top:118px}
+  .hero-grid{opacity:.22}
+  .hero-art{background:
+    radial-gradient(760px 460px at 82% 14%,rgba(61,128,110,.42),transparent 64%),
+    linear-gradient(180deg,rgba(6,21,34,.82) 0%,rgba(6,21,34,.93) 62%)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">DT</span><span>DermTrace</span></a>
+  <nav aria-label="Primary">
+    <a href="#data">Data</a>
+    <a href="#start">Quickstart</a>
+    <a href="#tsao">Oxygen RNA-seq</a>
+    <a href="#keloidbench">KeloidBench</a>
+    <a href="https://github.com/willibmwang/DermTrace">GitHub&nbsp;↗</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-art"></div>
+    <svg class="hero-grid" aria-hidden="true" preserveAspectRatio="xMaxYMid slice" viewBox="0 0 1200 760">
+      <defs>
+        <linearGradient id="t" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8bd4bd" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#3d806e" stop-opacity=".1"/>
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#t)" stroke-width="1.1">
+        <path d="M690 745C690 600 742 560 806 520s112-78 112-186"/>
+        <path d="M745 760C745 620 800 572 866 534s116-74 116-180"/>
+        <path d="M800 760C800 640 858 586 924 548s120-70 120-174"/>
+        <path d="M855 760C855 660 916 600 982 562s124-66 124-168"/>
+        <path d="M612 760c0-180 66-236 140-282s128-96 128-212"/>
+      </g>
+      <g fill="#8bd4bd">
+        <circle cx="806" cy="520" r="3.6" opacity=".9"/><circle cx="866" cy="534" r="3" opacity=".7"/>
+        <circle cx="924" cy="548" r="3.4" opacity=".8"/><circle cx="982" cy="562" r="2.8" opacity=".6"/>
+        <circle cx="752" cy="478" r="2.6" opacity=".55"/><circle cx="1044" cy="388" r="3.2" opacity=".65"/>
+      </g>
+    </svg>
+    <div class="hero-copy wrap">
+      <p class="eyebrow">Tsao Lab · research use only</p>
+      <h1>Skin and fibrosis data, traced to its source.</h1>
+      <p class="hero-lede">DermTrace is a shared home for processed skin and fibrosis transcriptomic data: the datasets, the pipelines that build them, and the analysis code that uses them.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#start">Start in five minutes</a>
+        <a class="button ghost" href="https://github.com/willibmwang/DermTrace">View the repository</a>
+      </div>
+    </div>
+    <div class="hero-stats wrap">
+      <div><strong>963</strong><span>profiles in the training corpus</span></div>
+      <div><strong>60</strong><span>in-house RNA-seq samples</span></div>
+      <div><strong>18</strong><span>precomputed feature views</span></div>
+      <div><strong>16</strong><span>public GEO keloid accessions</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="data">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What is in the repository</p>
+        <h2>Two folders ship matrices. The rest ship labels.</h2>
+        <p>Large matrices were either removed from tracking or never committed, so it is worth knowing what a clone actually gives you before planning an analysis.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Folder</th><th>Matrices</th><th>What is committed</th></tr></thead>
+          <tbody>
+            <tr><td><code>tsaolab_o2/</code></td><td class="yes">Yes</td><td>Full TPM and count matrices, sample metadata, QC, salmon output</td></tr>
+            <tr><td><code>training/</code></td><td class="yes">Yes</td><td>18 feature-view parquets, profile manifest, splits, coverage audits</td></tr>
+            <tr><td><code>public_keloid/</code></td><td class="no">No</td><td>Encoder labels, sample metadata, gene vocabulary, cohort roles</td></tr>
+            <tr><td><code>bulk_rnaseq/</code></td><td class="no">No</td><td>Encoder labels and a summary</td></tr>
+            <tr><td><code>microarray/</code></td><td class="no">No</td><td>Encoder labels, summary, one signature summary</td></tr>
+            <tr><td><code>scrna_spatial/</code></td><td class="no">No</td><td>Encoder labels, summary, metadata inventories</td></tr>
+            <tr><td><code>spheroid/</code></td><td class="no">No</td><td>Three extraction and morphology summaries</td></tr>
+            <tr><td><code>archive/</code></td><td class="yes">Historical</td><td>Matrices removed from tracking, restored from git history</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <h3>Two different reasons a matrix is missing</h3>
+        <p>The public-cohort matrices were <strong>never committed</strong> and are gitignored.</p>
+        <p>The bulk, microarray, single-cell and spheroid tables <em>were</em> committed until 2026&#8209;07&#8209;09, when commit <code>e625f2f</code> stopped tracking them. Those versions are preserved under <code>data/processed/archive/2026-07-09/</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="start">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Quickstart</p>
+        <h2>From clone to a loaded matrix.</h2>
+        <p>Reading the data needs only pandas and pyarrow. Everything heavier — reproducing KeloidBench, rebuilding the RNA-seq pipeline — is optional and documented separately.</p>
+      </div>
+<pre><code><span class="c-com"># 1. get the repository</span>
+git clone https://github.com/willibmwang/DermTrace.git
+cd DermTrace
+python3 -m pip install pandas pyarrow
+
+<span class="c-com"># 2. load the in-house oxygen-tension dataset</span>
+python3 - <span class="c-str">&lt;&lt;'PY'</span>
+import pandas as pd
+
+tsao = <span class="c-str">"data/processed/tsaolab_o2"</span>
+tpm  = pd.read_csv(f<span class="c-str">"{tsao}/tsaolab_o2_human_tpm_symbol.tsv.gz"</span>, sep=<span class="c-str">"\t"</span>, index_col=<span class="c-str">"gene_symbol"</span>)
+meta = pd.read_csv(f<span class="c-str">"{tsao}/tsaolab_o2_human_sample_metadata.csv"</span>, index_col=<span class="c-str">"sample_id"</span>)
+
+print(tpm.shape)   <span class="c-com"># (43478, 48)</span>
+print(meta.shape)  <span class="c-com"># (48, 40)</span>
+PY</code></pre>
+      <div class="cards">
+        <a class="card" href="https://github.com/willibmwang/DermTrace/blob/main/QUICKSTART.md">
+          <span>Guide</span><h3>Full quickstart</h3>
+          <p>Loading data, reproducing KeloidBench, rebuilding the pipeline, working on this site.</p>
+        </a>
+        <a class="card" href="https://github.com/willibmwang/DermTrace/blob/main/README.md">
+          <span>Reference</span><h3>README</h3>
+          <p>Repository layout, the full dataset catalog, licensing and citation.</p>
+        </a>
+        <a class="card" href="https://github.com/willibmwang/DermTrace/tree/main/data/processed/training">
+          <span>Modelling</span><h3>Training corpus</h3>
+          <p>963 profiles, 18 feature views and predefined study-held-out splits.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tsao">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">In-house dataset</p>
+        <h2>Oxygen-tension RNA-seq, with its identities checked.</h2>
+        <p>Sixty bulk RNA-seq samples — 48 human, 12 mouse — across two Quintara orders. Five submitted cell lines, four oxygen arms, triplicate.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Arm</th><th><code>oxygen</code></th><th><code>treatment</code></th><th>Human</th><th>Mouse</th></tr></thead>
+          <tbody>
+            <tr><td>20% O₂ throughout</td><td><code>20%</code></td><td><code>none</code></td><td>12</td><td>3</td></tr>
+            <tr><td>1% O₂ throughout</td><td><code>1%</code></td><td><code>hypoxia_1pct</code></td><td>12</td><td>3</td></tr>
+            <tr><td>20% → 1% O₂</td><td><code>20%-&gt;1%</code></td><td><code>normoxia_to_hypoxia_1pct</code></td><td>12</td><td>3</td></tr>
+            <tr><td>1% → 20% O₂</td><td><code>1%-&gt;20%</code></td><td><code>hypoxia_1pct_to_normoxia</code></td><td>12</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <h3>Read this before interpreting anything</h3>
+        <p>SNP genotyping against a 1,500-transcript mini-reference found three identities that differ from the submission forms: twelve samples submitted as NIH3T3 mouse fibroblasts are HEK293-like <strong>human</strong> cells; ten of twelve BJ samples in the 2024 order carry HEK293-like admixture; and six samples submitted as the ATCC keloid line are <strong>BJ</strong> by genotype.</p>
+        <p>In practice that means <strong>six real keloid samples, not twelve</strong>, keloid versus BJ confounded with sequencing order, and keloid samples present in only two of the four oxygen arms.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section archive" id="keloidbench">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Predecessor project</p>
+        <h2>KeloidBench, kept as published.</h2>
+        <p>KeloidBench is the keloid-only project DermTrace grew out of: an interpretable pipeline for keloid-versus-unaffected-skin transcriptomic classification, accepted as a poster at NeurIPS GenAI4Health 2026. Its site is preserved here as an archive, and its code and results live in the repository under <code>keloidbench/</code>.</p>
+        <p>It is a research demonstration. Its development results do not establish clinical performance, and the reported numbers carry caveats that are worth reading in full.</p>
+      </div>
+      <div class="archive-links">
+        <a class="button primary" href="keloidbench/">Open the archived site</a>
+        <a class="button ghost" href="https://github.com/willibmwang/DermTrace/tree/main/keloidbench">Code and results</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>
+      <strong>DermTrace</strong> · Tsao Lab · research use only<br>
+      MIT licensed. Public cohorts remain subject to their original terms.
+    </div>
+    <div>
+      <a href="https://github.com/willibmwang/DermTrace">Repository</a> ·
+      <a href="https://github.com/willibmwang/DermTrace/blob/main/QUICKSTART.md">Quickstart</a> ·
+      <a href="keloidbench/">KeloidBench archive</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
