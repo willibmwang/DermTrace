@@ -12,7 +12,7 @@ mutations (TERT) are invisible, A>G can be ADAR editing, and low-fraction C>T / 
 deamination, so those are flagged rather than dropped.
 
 Usage: python -I variants.py ref  <MANE summary.txt.gz> <gencode pc_transcripts.fa.gz> <gencode transcripts.fa.gz> <out_dir>
-       python -I variants.py call <ref_dir> <sites.tsv from bcftools query> <sample_sheet.csv> <out_dir>
+       python -I variants.py call <ref_dir> <sites_dedup.tsv> <sites_raw.tsv> <sample_sheet.csv> <out_dir>   (via call_variants.sh)
 """
 import gzip
 import re
@@ -38,8 +38,10 @@ DECOYS = ["ARAF", "RRAS", "RRAS2", "MRAS", "RALA", "RALB", "RAP1A", "RAP1B", "RA
           "RAC2", "RAC3", "RHOG", "GNA14", "GNA15", "GNAI1", "GNAI2", "GNAS", "ERBB3", "ERBB4", "PIK3CB",
           "PIK3CD", "ARID1B", "DDX3Y", "SMARCA2", "CSF1R", "PDGFRA", "FLT3", "RAF1", "MAP2K2", "IDH3A"]
 PSEUDO = re.compile(r"^(" + "|".join(DRIVERS) + r")P\d*$")  # e.g. PTENP1, BRAFP1, KRASP1
-MIN_DEPTH = 10
-MIN_ALT_READS = 3
+MIN_DEPTH = 8  # unique molecules at a site, per sample
+MIN_ALT_READS = 5  # duplicate-containing reads
+MIN_ALT_MOLECULES = 2  # after duplicate removal
+WT_MIN_MOLECULES = 20  # unique molecules over a hotspot codon to call it wild-type with some confidence
 MIN_VAF_HOTSPOT = 0.02
 MIN_VAF = 0.05
 GERMLINE_FRAC = 0.25  # present at >= 30% VAF in this share of samples -> likely polymorphism
@@ -127,107 +129,127 @@ def annotate(seq, cds_start, cds_end, pos, ref, alt):
     return codon_no, f"p.{codon_no}{'ins' if d > 0 else 'del'}{abs(d)}{'fs' if kind == 'frameshift' else ''}", f"{kind}_{'insertion' if d > 0 else 'deletion'}"
 
 
-def call(ref_dir, sites_path, sheet, out):
+def load_sites(path, core2sid):
+    """sites.tsv from bcftools query -H -> dict (chrom, pos, ref, alt) -> (depth, alt_reads) arrays, plus sample names."""
+    df = pd.read_csv(path, sep="\t", dtype=str)
+    df.columns = [re.sub(r"^\[\d+\]", "", c.lstrip("# ")).replace(":AD", "") for c in df.columns]
+    snames = [core2sid.get(c, c) for c in df.columns if c not in ("CHROM", "POS", "REF", "ALT", "INDEL")]
+    sites, cover = {}, {}
+    for r in df.itertuples(index=False):
+        ad = np.array([[float(x) if x != "." else 0.0 for x in v.split(",")] for v in r[5:]])
+        depth = ad.sum(axis=1)
+        cover[(r.CHROM, int(r.POS))] = np.maximum(cover.get((r.CHROM, int(r.POS)), 0), depth)
+        for j, alt in enumerate(a for a in r.ALT.split(",") if a != "<*>"):
+            sites[(r.CHROM, int(r.POS), r.REF, alt)] = (depth, ad[:, j + 1])
+    return snames, sites, cover
+
+
+def call(ref_dir, dedup_sites, raw_sites, sheet, out):
     out.mkdir(parents=True, exist_ok=True)
     refs = pd.read_csv(ref_dir / "driver_ref.tsv", sep="\t").set_index("name")
-    seqs = {}
-    for n, s in read_fasta_plain(ref_dir / "driver_ref.fa").items():
-        seqs[n] = s
+    seqs = read_fasta_plain(ref_dir / "driver_ref.fa")
     samples = pd.read_csv(sheet, dtype=str)
     core2sid = dict(zip(samples.core_id, samples.sample_id))
+    snames, uniq, ucov = load_sites(dedup_sites, core2sid)
+    snames_raw, raw, rcov = load_sites(raw_sites, core2sid)
+    assert snames == snames_raw, (snames, snames_raw)
+    n = len(snames)
 
-    # sites.tsv: CHROM POS REF ALT INDEL then one AD column per sample (header from bcftools query -H)
-    df = pd.read_csv(sites_path, sep="\t", dtype=str)
-    df.columns = [re.sub(r"^\[\d+\]", "", c).replace("# ", "").replace(":AD", "") for c in df.columns]
-    snames = [c for c in df.columns if c not in ("CHROM", "POS", "REF", "ALT", "INDEL")]
-    snames_out = [core2sid.get(s, s) for s in snames]
-    df["POS"] = df.POS.astype(int)
-    recs = []
-    for r in df.itertuples(index=False):
-        alts = [a for a in r.ALT.split(",") if a != "<*>"]
-        if not alts:
-            continue
-        ad = np.array([[float(x) if x != "." else 0.0 for x in getattr(r, s).split(",")] for s in snames])  # samples x alleles
-        depth = ad.sum(axis=1)
-        for j, alt in enumerate(alts, start=1):
-            altc = ad[:, j]
-            vaf = np.divide(altc, depth, out=np.zeros_like(altc), where=depth > 0)
-            if (altc >= MIN_ALT_READS).sum() == 0:
-                continue
-            recs.append((r.CHROM, r.POS, r.REF, alt, r.INDEL == "1", depth, altc, vaf))
     rows = []
-    for chrom, pos, ref, alt, is_indel, depth, altc, vaf in recs:
+    for (chrom, pos, ref, alt), (udep, ualt) in uniq.items():
+        if (ualt >= MIN_ALT_MOLECULES).sum() == 0:
+            continue
+        rdep, ralt = raw.get((chrom, pos, ref, alt), (np.zeros(n), np.zeros(n)))
         gene, tx = chrom.split("|")
         info = refs.loc[chrom]
+        is_indel = len(ref) != len(alt)
         codon_no, hgvsp, cons = annotate(seqs[chrom], info.cds_start, info.cds_end, pos, ref, alt)
         hot = DRIVERS.get(gene)
-        is_hot = bool(hot) and codon_no in hot and cons not in ("synonymous",)
-        ts = f"{ref}>{alt}" if not is_indel else "indel"
-        artefact = ("possible_RNA_editing" if ts == "A>G" else
-                    "possible_deamination" if ts in ("C>T", "G>A") else "")
-        n_called = int(((depth >= MIN_DEPTH) & (altc >= MIN_ALT_READS) & (vaf >= (MIN_VAF_HOTSPOT if is_hot else MIN_VAF))).sum())
-        n_high = int(((depth >= MIN_DEPTH) & (vaf >= 0.3)).sum())
-        n_cov = int((depth >= MIN_DEPTH).sum())
-        germline = n_cov > 0 and n_high / max(n_cov, 1) >= GERMLINE_FRAC and n_high >= 3
-        if n_called == 0:
+        is_hot = bool(hot) and codon_no in hot and cons != "synonymous"
+        ts = "indel" if is_indel else f"{ref}>{alt}"
+        artefact = ("possible_RNA_editing" if ts == "A>G" else "possible_deamination" if ts in ("C>T", "G>A") else "")
+        if is_indel and in_repeat(seqs[chrom], pos, ref, alt):
+            artefact = "repeat_context_indel"
+        uvaf = np.divide(ualt, udep, out=np.zeros(n), where=udep > 0)
+        rvaf = np.divide(ralt, rdep, out=np.zeros(n), where=rdep > 0)
+        called = (ualt >= MIN_ALT_MOLECULES) & (ralt >= MIN_ALT_READS) & (rvaf >= (MIN_VAF_HOTSPOT if is_hot else MIN_VAF)) & (udep >= MIN_DEPTH)
+        n_cov = int((udep >= MIN_DEPTH).sum())
+        n_high = int(((udep >= MIN_DEPTH) & (uvaf >= 0.3)).sum())
+        germline = n_high >= 3 and n_high / max(n_cov, 1) >= GERMLINE_FRAC
+        if called.sum() == 0:
             continue
         rows.append(dict(
-            gene=gene, transcript=tx, role=info.role, tx_pos=pos, ref=ref, alt=alt, change=ts,
-            codon=codon_no, hgvsp=hgvsp, consequence=cons, hotspot=is_hot,
-            n_samples_called=n_called, n_samples_covered=n_cov,
+            gene=gene, transcript=tx, role=info.role, tx_pos=pos, ref=ref, alt=alt, change=ts, codon=codon_no,
+            hgvsp=hgvsp, consequence=cons, hotspot=is_hot, n_samples_called=int(called.sum()), n_samples_covered=n_cov,
             likely_polymorphism=germline, artefact_class=artefact,
-            **{f"{s}_vaf": round(v, 3) for s, v in zip(snames_out, vaf)},
-            **{f"{s}_alt": int(a) for s, a in zip(snames_out, altc)},
-            **{f"{s}_depth": int(d) for s, d in zip(snames_out, depth)},
+            **{f"{s}_vaf": round(v, 3) for s, v in zip(snames, uvaf)},
+            **{f"{s}_alt": int(a) for s, a in zip(snames, ualt)},
+            **{f"{s}_depth": int(d) for s, d in zip(snames, udep)},
+            **{f"{s}_raw_alt": int(a) for s, a in zip(snames, ralt)},
+            **{f"{s}_raw_depth": int(d) for s, d in zip(snames, rdep)},
+            called_mask=called,
         ))
-    allv = pd.DataFrame(rows)
-    if allv.empty:
+    if not rows:
         print("no variants")
         return
-    allv.to_csv(out / "driver_variants_all.tsv", sep="\t", index=False)
+    allv = pd.DataFrame(rows)
+    allv.drop(columns="called_mask").to_csv(out / "driver_variants_all.tsv", sep="\t", index=False)
 
-    # long table: one row per sample x variant actually called in that sample
     long = []
     for r in allv.itertuples(index=False):
         d = r._asdict()
-        for s in snames_out:
-            vaf, alt_n, dep = d[f"{s}_vaf"], d[f"{s}_alt"], d[f"{s}_depth"]
-            thr = MIN_VAF_HOTSPOT if r.hotspot else MIN_VAF
-            if dep >= MIN_DEPTH and alt_n >= MIN_ALT_READS and vaf >= thr:
+        for i, s in enumerate(snames):
+            if d["called_mask"][i]:
                 long.append(dict(sample_id=s, gene=r.gene, hgvsp=r.hgvsp, consequence=r.consequence, change=r.change,
-                                 tx_pos=r.tx_pos, ref=r.ref, alt=r.alt, vaf=vaf, alt_reads=alt_n, depth=dep,
+                                 tx_pos=r.tx_pos, ref=r.ref, alt=r.alt, vaf=d[f"{s}_vaf"], alt_molecules=d[f"{s}_alt"],
+                                 depth_molecules=d[f"{s}_depth"], raw_alt_reads=d[f"{s}_raw_alt"], raw_depth=d[f"{s}_raw_depth"],
                                  hotspot=r.hotspot, likely_polymorphism=r.likely_polymorphism, artefact_class=r.artefact_class))
     long = pd.DataFrame(long)
     long.to_csv(out / "driver_variants_by_sample.tsv", sep="\t", index=False)
-
-    # somatic candidates: coding, non-synonymous, driver gene, not a cohort-wide polymorphism
-    som = long[(long.consequence.isin(["missense", "stop_gained", "stop_lost"]) | long.consequence.str.contains("frameshift|inframe"))
-               & ~long.likely_polymorphism & long.gene.isin(DRIVERS)]
+    coding = long.consequence.isin(["missense", "stop_gained", "stop_lost"]) | long.consequence.str.contains("frameshift|inframe")
+    som = long[coding & ~long.likely_polymorphism & long.gene.isin(DRIVERS)]
     som.to_csv(out / "driver_variants_somatic_candidates.tsv", sep="\t", index=False)
 
-    # per-sample summary of hotspot status + coverage at the key hotspots
-    key = [("BRAF", 600), ("NRAS", 61), ("NRAS", 12), ("NRAS", 13), ("KIT", 576), ("KIT", 642), ("KIT", 816),
-           ("GNAQ", 209), ("GNA11", 209), ("MAP2K1", 124), ("RAC1", 29), ("CTNNB1", 45), ("IDH1", 132), ("SF3B1", 625)]
+    # per-sample hotspot status with unique-molecule and raw depth over each key codon
+    key = [("BRAF", 600), ("BRAF", 601), ("NRAS", 61), ("NRAS", 12), ("NRAS", 13), ("KRAS", 12), ("HRAS", 61), ("KIT", 576),
+           ("KIT", 642), ("KIT", 816), ("GNAQ", 209), ("GNA11", 209), ("MAP2K1", 124), ("RAC1", 29), ("CTNNB1", 45),
+           ("IDH1", 132), ("SF3B1", 625), ("PPP6C", 264), ("TP53", 273), ("CDKN2A", 80)]
+    drv = refs[refs.role == "driver"].reset_index().set_index("gene")
     summ = []
-    cov = depth_at_codons(ref_dir, sites_path, snames, key)
-    for i, s in enumerate(snames_out):
+    for i, s in enumerate(snames):
         mine = som[som.sample_id == s]
         hs = mine[mine.hotspot]
-        summ.append(dict(
-            sample_id=s,
-            hotspot_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%}, {r.alt_reads}/{r.depth})" for r in hs.itertuples()) or "none",
-            other_driver_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%})" for r in mine[~mine.hotspot].itertuples()) or "none",
-            n_somatic_candidates=len(mine),
-            **{f"depth_{g}_{c}": cov[(g, c)][i] for g, c in key},
-        ))
+        row = dict(sample_id=s,
+                   hotspot_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%}, {r.alt_molecules}/{r.depth_molecules} molecules, {r.raw_alt_reads}/{r.raw_depth} reads)" for r in hs.itertuples()) or "none",
+                   other_driver_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%}, {r.alt_molecules}/{r.depth_molecules})" for r in mine[~mine.hotspot].itertuples()) or "none",
+                   n_somatic_candidates=len(mine))
+        for g, c in key:
+            info = drv.loc[g]
+            ps = [(info["name"], info.cds_start + (c - 1) * 3 + k) for k in range(3)]
+            row[f"{g}_{c}_molecules"] = int(max(ucov.get(p, np.zeros(n))[i] if np.ndim(ucov.get(p, 0)) else 0 for p in ps))
+            row[f"{g}_{c}_reads"] = int(max(rcov.get(p, np.zeros(n))[i] if np.ndim(rcov.get(p, 0)) else 0 for p in ps))
+        summ.append(row)
     summ = pd.DataFrame(summ)
-    for g, c in (("BRAF", 600), ("NRAS", 61)):
-        col = f"depth_{g}_{c}"
-        summ[f"{g}_{c}_status"] = np.where(summ.hotspot_calls.str.contains(f"{g} p.[A-Z*]{c}"), "mutant",
-                                 np.where(summ[col] >= 30, "wild-type", np.where(summ[col] >= MIN_DEPTH, "wild-type (low depth)", "not covered")))
+    for g, c in (("BRAF", 600), ("NRAS", 61), ("KIT", 576), ("GNAQ", 209), ("GNA11", 209)):
+        m, rd = summ[f"{g}_{c}_molecules"], summ[f"{g}_{c}_reads"]
+        mutant = summ.hotspot_calls.str.contains(rf"{g} p\.[A-Z*]{c}[A-Z*]")
+        summ[f"{g}_{c}_status"] = np.select([mutant, m >= WT_MIN_MOLECULES, m >= MIN_DEPTH], ["mutant", "wild-type", "wild-type (low depth)"], "not covered")
     summ.to_csv(out / "hotspot_summary.tsv", sep="\t", index=False)
     print(f"{len(allv)} variant sites, {len(som)} somatic-candidate calls in {som.sample_id.nunique()} samples")
-    print(summ[["sample_id", "BRAF_600_status", "NRAS_61_status", "hotspot_calls"]].to_string(index=False))
+    print(summ[["sample_id", "BRAF_600_status", "BRAF_600_molecules", "NRAS_61_status", "NRAS_61_molecules", "hotspot_calls"]].to_string(index=False))
+
+
+def in_repeat(seq, pos, ref, alt):
+    """True when an indel's inserted/deleted unit is one copy of a tandem repeat (>= 3 units at the site), where
+    alignment of short, damaged reads slips."""
+    unit = (alt[1:] if len(alt) > len(ref) else ref[1:])
+    if not unit or len(unit) > 12:
+        return False
+    k = 0
+    i = pos  # 0-based index right after the shared anchor base
+    while seq[i + k * len(unit): i + (k + 1) * len(unit)] == unit:
+        k += 1
+    return k >= 3
 
 
 def read_fasta_plain(path):
@@ -239,28 +261,6 @@ def read_fasta_plain(path):
         else:
             seqs[name].append(line)
     return {k: "".join(v) for k, v in seqs.items()}
-
-
-def depth_at_codons(ref_dir, sites_path, snames, key):
-    """Max depth per sample over the three bases of each hotspot codon (0 if the site has no pileup line)."""
-    refs = pd.read_csv(ref_dir / "driver_ref.tsv", sep="\t")
-    refs = refs[refs.role == "driver"].set_index("gene")
-    want = {}
-    for g, c in key:
-        info = refs.loc[g]
-        start = info.cds_start + (c - 1) * 3
-        for p in (start, start + 1, start + 2):
-            want[(info.name, p)] = (g, c)
-    out = {k: np.zeros(len(snames), dtype=int) for k in key}
-    with open(sites_path) as fh:
-        header = fh.readline().rstrip("\n").split("\t")
-        for line in fh:
-            f = line.rstrip("\n").split("\t")
-            k = (f[0], int(f[1]))
-            if k in want:
-                dep = np.array([sum(float(x) for x in c.split(",") if x != ".") for c in f[5:]])
-                out[want[k]] = np.maximum(out[want[k]], dep.astype(int))
-    return out
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Trim (fastp) + quantify (salmon, GENCODE v46) + align to the melanoma driver reference (minimap2) for every
+# Trim (fastp), align to the melanoma driver reference (minimap2, fast) and quantify (salmon, GENCODE v46) every
 # sample of the 20088-11 sheet whose two FASTQs are downloaded and match md5.txt. One lane per sample, flat folder.
 # Re-runnable: finished samples are skipped. While an rclone download is still running, samples that are not
 # ready yet are retried every 5 minutes; otherwise they are reported as incomplete.
@@ -45,15 +45,15 @@ while :; do
     "$RNASEQ/fastp" -i "$RAW/$r1" -I "$RAW/$r2" -o "$t1" -O "$t2" --detect_adapter_for_pe -l 25 -w "$THREADS" \
       -j "$OUT/fastp/$sid.json" -h "$OUT/fastp/$sid.html" 2> "$OUT/fastp/$sid.log" < /dev/null \
       || { log "[$sid] fastp FAILED"; printf "%s\t%s\tfailed\tfastp\n" "$sid" "$core" >> "$STATUS"; continue; }
-    log "[$sid] salmon + minimap2"
-    "$RNASEQ/salmon" quant -i "$IDX" -l A -1 "$t1" -2 "$t2" -p $((THREADS - 2)) --validateMappings --gcBias --seqBias \
-      -o "$OUT/quant/$sid" > "$OUT/quant/$sid.log" 2>&1 < /dev/null &
-    sp=$!
-    "$VARCALL/minimap2" -t 3 -ax sr --secondary=no -R "@RG\tID:$sid\tSM:$sid" "$OUT/driver_ref.mmi" "$t1" "$t2" 2> "$OUT/driver_bam/$sid.minimap2.log" \
+    log "[$sid] minimap2 (driver reference)"
+    "$VARCALL/minimap2" -t "$THREADS" -ax sr --secondary=no -R "@RG\tID:$sid\tSM:$sid" "$OUT/driver_ref.mmi" "$t1" "$t2" 2> "$OUT/driver_bam/$sid.minimap2.log" \
       | "$VARCALL/samtools" view -u -q 20 -F 0x904 - | "$VARCALL/samtools" sort -@ 2 -o "$OUT/driver_bam/$sid.bam" - 2>/dev/null \
       && "$VARCALL/samtools" index "$OUT/driver_bam/$sid.bam"
     mm=$?
-    wait $sp; sm=$?
+    log "[$sid] salmon"
+    "$RNASEQ/salmon" quant -i "$IDX" -l A -1 "$t1" -2 "$t2" -p $((THREADS + 2)) --validateMappings --gcBias --seqBias \
+      -o "$OUT/quant/$sid" > "$OUT/quant/$sid.log" 2>&1 < /dev/null
+    sm=$?
     rm -f "$t1" "$t2"
     if [ $sm -ne 0 ] || [ $mm -ne 0 ] || [ ! -s "$OUT/quant/$sid/quant.sf" ]; then
       log "[$sid] FAILED (salmon=$sm minimap2=$mm)"; printf "%s\t%s\tfailed\tsalmon=%s minimap2=%s\n" "$sid" "$core" "$sm" "$mm" >> "$STATUS"
