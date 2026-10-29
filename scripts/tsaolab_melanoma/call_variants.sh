@@ -29,7 +29,7 @@ one() {  # <bam>: writes bam/<sid>.dedup.bam and bam/<sid>.raw.bam (both identit
   "$BIN/samtools" index "$OUT/bam/$sid.raw.bam"
 }
 export -f one; export BIN OUT FILTER
-ls "$QDIR"/driver_bam/*.bam | sort -V | xargs -P "${JOBS:-4}" -n 1 bash -c 'one "$0"'
+ls "$QDIR"/driver_bam/*.bam | sort -V | tr '\n' '\0' | xargs -0 -P "${JOBS:-4}" -n 1 bash -c 'one "$0"'
 
 for kind in dedup raw; do
   ls "$OUT"/bam/*.$kind.bam | sort -V > "$OUT/bams_$kind.txt"
