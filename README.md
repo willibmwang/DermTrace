@@ -39,6 +39,7 @@ Not every dataset ships its expression matrix. Large matrices were either remove
 | Folder | Expression matrices | What is committed |
 |---|---|---|
 | [`tsaolab_o2/`](data/processed/tsaolab_o2/) | ✅ **Yes** | Full TPM and count matrices, sample metadata, QC, salmon output |
+| [`tsaolab_melanoma/`](data/processed/tsaolab_melanoma/) | ✅ **Yes** (growing) | TPM and count matrices, sample metadata, read QC, driver-gene variant and hotspot tables, salmon output — **being processed, samples are added as they finish** |
 | [`training/`](data/processed/training/) | ✅ **Yes** (feature views) | 18 feature-view parquets, profile manifest, splits, coverage audits |
 | [`public_keloid/`](data/processed/public_keloid/) | ❌ No | Encoder labels, sample metadata, gene vocabulary, cohort roles, summary |
 | [`bulk_rnaseq/`](data/processed/bulk_rnaseq/) | ❌ No | Encoder labels and a summary JSON |
@@ -59,6 +60,7 @@ Anything not committed is rebuilt by the script in the **Built by** column below
 | Folder | Contents | Built by |
 |---|---|---|
 | [`tsaolab_o2/`](data/processed/tsaolab_o2/) | Tsao lab oxygen-tension bulk RNA-seq, 60 samples ([details below](#tsao-lab-oxygen-tension-rna-seq)) | [`scripts/tsaolab_rnaseq/`](scripts/tsaolab_rnaseq/) |
+| [`tsaolab_melanoma/`](data/processed/tsaolab_melanoma/) | Tsao lab Greek melanoma FFPE bulk RNA-seq, 48 tumours, with RNA-derived BRAF/NRAS/KIT hotspot status ([dataset README](data/processed/tsaolab_melanoma/README.md)) | [`scripts/tsaolab_melanoma/`](scripts/tsaolab_melanoma/) |
 | [`public_keloid/`](data/processed/public_keloid/) | 169 samples across 16 public GEO keloid accessions: 123 development, 46 lockbox | `keloidbench/scripts/preprocess_public_keloid.py` |
 | [`bulk_rnaseq/`](data/processed/bulk_rnaseq/) | Bulk RNA-seq, 50 samples: GSE158395 (13), GSE188952 (12), Sun et al. *Burns* (25) | `keloidbench/scripts/preprocess_bulk_rnaseq.py` |
 | [`microarray/`](data/processed/microarray/) | Six GEO microarray studies, 154 samples: GSE7890 (19), GSE92566 (7), GSE90051 (7), GSE44270 (32), GSE3189 (70), GSE145725 (19) | `keloidbench/scripts/preprocess_microarray.py`, `build_keloid_signature.py` |
