@@ -1,0 +1,31 @@
+sample_id	gene	hgvsp	consequence	change	tx_pos	ref	alt	vaf	alt_molecules	depth_molecules	raw_alt_reads	raw_depth	hotspot	likely_polymorphism	artefact_class
+GM02	MTOR	p.2276del3	inframe_deletion	indel	6947	GACCAC	GAC	0.083	2	24	5	36	False	False	
+GM02	ARID1A	p.Q420*	stop_gained	C>T	1647	C	T	0.067	2	30	5	42	False	False	possible_deamination
+GM02	ARID1A	p.1180del3	inframe_deletion	indel	3926	GAGCAG	GAG	0.421	16	38	20	43	False	False	
+GM02	ARID1A	p.1401del3	inframe_deletion	indel	4589	TCAGCAGCAGCAG	TCAGCAGCAG	0.156	5	32	7	44	False	False	
+GM02	NRAS	p.Q61R	missense	A>G	313	A	G	0.156	7	45	10	56	True	False	possible_RNA_editing
+GM02	SF3B1	p.213ins1fs	frameshift_insertion	indel	665	CAAAAAA	CAAAAAAA	0.05	5	101	7	137	False	False	
+GM02	SETD2	p.R1592*	stop_gained	C>T	4963	C	T	0.125	4	32	6	40	False	False	possible_deamination
+GM02	SETD2	p.P1962L	missense	C>T	6074	C	T	0.484	30	62	37	78	False	False	possible_deamination
+GM02	RASA2	p.645ins3	inframe_insertion	indel	1990	GG	GGTAG	0.367	11	30	20	46	False	False	
+GM02	KIT	p.714del3	inframe_deletion	indel	2198	TGCAGC	TGC	0.429	9	21	9	22	False	False	
+GM02	FBXW7	p.250del4fs	frameshift_deletion	indel	1925	ATTGCTTGCTT	ATTGCTT	0.111	2	18	6	25	False	False	
+GM02	MAP3K1	p.D806N	missense	G>A	2441	G	A	0.414	12	29	18	38	False	False	possible_deamination
+GM02	MAP3K1	p.V906I	missense	G>A	2741	G	A	0.453	24	53	35	72	False	False	possible_deamination
+GM02	RAC1	p.S83F	missense	C>T	457	C	T	0.048	3	63	5	87	False	False	possible_deamination
+GM02	KMT2C	p.83ins3	inframe_insertion	indel	464	ACAG	ACAGCAG	0.143	7	49	13	67	False	False	
+GM02	KMT2C	p.L797R	missense	T>G	2607	T	G	0.044	2	45	5	58	False	False	
+GM02	ARID2	p.T824I	missense	C>T	2602	C	T	0.056	2	36	5	48	False	False	possible_deamination
+GM01	KMT2D	p.P786S	missense	C>T	3575	C	T	0.182	2	11	118	339	False	False	possible_deamination
+GM02	KMT2D	p.P813L	missense	C>T	3657	C	T	0.36	18	50	23	59	False	False	possible_deamination
+GM02	KMT2D	p.1340del3	inframe_deletion	indel	5236	GGTAGT	GGT	0.667	28	42	34	50	False	False	
+GM02	CDK4	p.A33V	missense	C>T	253	C	T	0.069	4	58	5	89	False	False	possible_deamination
+GM02	AKT1	p.Q404*	stop_gained	C>T	1732	C	T	0.042	2	48	6	66	False	False	possible_deamination
+GM02	IDH2	p.92del3	inframe_deletion	indel	353	CTGATGA	CTGA	0.077	3	39	5	52	False	False	
+GM02	TP53	p.P72R	missense	C>G	357	C	G	0.977	42	43	55	57	False	False	
+GM02	NF1	p.Q1835*	stop_gained	C>T	5836	C	T	0.065	3	46	5	60	False	False	possible_deamination
+GM02	ERBB2	p.782del2fs	frameshift_deletion	indel	2519	GTCTC	GTC	0.087	2	23	10	39	False	False	
+GM02	ERBB2	p.P1170A	missense	C>G	3683	C	G	1.0	34	34	46	46	False	False	
+GM02	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.395	15	38	16	47	False	False	
+GM02	EIF1AX	p.K7N	missense	A>C	219	A	C	0.42	42	100	55	151	True	False	
+GM02	DDX3X	p.590del3	inframe_deletion	indel	1858	GAGTAG	GAG	0.198	21	106	32	139	False	False	

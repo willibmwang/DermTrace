@@ -1,0 +1,617 @@
+sample_id	gene	hgvsp	consequence	change	tx_pos	ref	alt	vaf	alt_molecules	depth_molecules	raw_alt_reads	raw_depth	hotspot	likely_polymorphism	artefact_class
+GM02	PIK3CD	p.Y936Y	synonymous	C>T	3017	C	T	0.381	8	21	11	27	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	T>C	3748	T	C	1.0	13	13	16	16	False	False	
+GM02	PIK3CD		3'UTR	G>T	4080	G	T	0.625	5	8	6	11	False	False	
+GM02	PIK3CD		3'UTR	G>A	4128	G	A	0.375	3	8	5	14	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>G	4134	C	G	0.333	3	9	7	15	False	False	
+GM02	PIK3CD		3'UTR	T>C	4163	T	C	0.143	7	49	8	69	False	False	
+GM02	PIK3CD		3'UTR	A>G	4166	A	G	0.118	6	51	10	71	False	False	possible_RNA_editing
+GM02	PIK3CD		3'UTR	T>C	4171	T	C	0.115	7	61	9	83	False	False	
+GM01	PIK3CD		3'UTR	T>C	4181	T	C	0.727	8	11	86	192	False	False	
+GM02	PIK3CD		3'UTR	T>C	4181	T	C	0.703	45	64	61	87	False	False	
+GM01	PIK3CD		3'UTR	C>T	4188	C	T	0.167	2	12	29	217	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>T	4188	C	T	0.045	3	67	5	92	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	G>A	4189	G	A	0.132	9	68	12	93	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>T	4195	C	T	0.059	4	68	6	97	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	A>G	4196	A	G	0.104	7	67	9	91	False	False	possible_RNA_editing
+GM01	PIK3CD		3'UTR	T>G	4205	T	G	0.625	5	8	21	151	False	False	
+GM02	PIK3CD		3'UTR	T>C	4205	T	C	0.088	5	57	7	81	False	False	
+GM02	PIK3CD		3'UTR	T>C	4212	T	C	0.382	21	55	29	77	False	False	
+GM02	PIK3CD		3'UTR	T>C	4240	T	C	0.079	3	38	6	54	False	False	
+GM02	PIK3CD		3'UTR	T>C	4311	T	C	0.25	4	16	7	27	False	False	
+GM02	PIK3CD		3'UTR	G>A	4312	G	A	0.35	7	20	10	32	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>T	4322	C	T	0.068	8	118	13	185	False	False	possible_deamination
+GM01	PIK3CD		3'UTR	C>T	4349	C	T	0.188	3	16	57	433	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>T	4349	C	T	0.154	24	156	37	246	False	False	possible_deamination
+GM01	PIK3CD		3'UTR	G>A	4350	G	A	0.125	2	16	63	432	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	G>A	4350	G	A	0.115	18	156	33	246	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	G>T	4350	G	T	0.083	13	156	15	246	False	False	
+GM01	PIK3CD		3'UTR	G>C	4354	G	C	0.562	9	16	279	433	False	False	
+GM02	PIK3CD		3'UTR	G>C	4354	G	C	0.721	111	154	171	244	False	False	
+GM01	PIK3CD		3'UTR	G>T	4354	G	T	0.438	7	16	154	433	False	False	
+GM02	PIK3CD		3'UTR	G>T	4354	G	T	0.169	26	154	47	244	False	False	
+GM01	PIK3CD		3'UTR	A>G	4355	A	G	0.125	2	16	51	432	False	False	possible_RNA_editing
+GM02	PIK3CD		3'UTR	A>G	4355	A	G	0.156	24	154	47	239	False	False	possible_RNA_editing
+GM02	PIK3CD		3'UTR	A>G	4383	A	G	0.104	14	135	22	209	False	False	possible_RNA_editing
+GM02	PIK3CD		3'UTR	C>T	4392	C	T	0.053	5	95	9	151	False	False	possible_deamination
+GM02	PIK3CD		3'UTR	C>T	5390	C	T	0.417	5	12	7	16	False	False	possible_deamination
+GM02	MTOR	p.D479D	synonymous	T>C	1558	T	C	1.0	10	10	13	13	False	False	
+GM02	MTOR	p.N999N	synonymous	C>T	3118	C	T	1.0	31	31	37	37	False	False	possible_deamination
+GM02	MTOR	p.A1577A	synonymous	G>A	4852	G	A	1.0	16	16	23	23	False	False	possible_deamination
+GM02	MTOR	p.2276del3	inframe_deletion	indel	6947	GACCAC	GAC	0.083	2	24	5	36	False	False	
+GM02	ARID1A	p.Q420*	stop_gained	C>T	1647	C	T	0.067	2	30	5	42	False	False	possible_deamination
+GM02	ARID1A	p.1180del3	inframe_deletion	indel	3926	GAGCAG	GAG	0.421	16	38	20	43	False	False	
+GM02	ARID1A	p.1401del3	inframe_deletion	indel	4589	TCAGCAGCAGCAG	TCAGCAGCAG	0.156	5	32	7	44	False	False	
+GM02	ARID1A		UTR_indel	indel	7650	TAAAAAAAAAAAAAAAAAA	TAAAAAAAAAAAAAAAAAAA	0.25	9	36	10	44	False	False	
+GM02	ARID1A		UTR_indel	indel	7650	TAAAAAAAAAAAAAAAAAA	TAAAAAAAAAAAAAAAAA	0.139	5	36	8	44	False	False	
+GM02	ARID1A		UTR_indel	indel	7950	GAAAAAAAAAAAA	GAAAAAAAAAAAAA	0.178	8	45	11	59	False	False	
+GM02	ARID1A		UTR_indel	indel	7950	GAAAAAAAAAAAA	GAAAAAAAAAAA	0.044	2	45	6	59	False	False	
+GM02	RAP1A		3'UTR	T>C	3524	T	C	0.556	5	9	8	15	False	False	
+GM02	RAP1A		3'UTR	T>C	3527	T	C	0.5	5	10	9	18	False	False	
+GM02	RAP1A		3'UTR	G>A	3548	G	A	0.048	3	63	7	119	False	False	possible_deamination
+GM02	RAP1A		3'UTR	A>G	3550	A	G	0.127	8	63	14	119	False	False	possible_RNA_editing
+GM02	RAP1A		3'UTR	C>G	3552	C	G	0.065	4	62	6	117	False	False	
+GM02	RAP1A		3'UTR	G>A	3554	G	A	0.092	6	65	13	121	False	False	possible_deamination
+GM02	RAP1A		3'UTR	C>T	3561	C	T	0.028	2	71	7	128	False	False	possible_deamination
+GM02	RAP1A		3'UTR	G>A	3562	G	A	0.254	18	71	25	128	False	False	possible_deamination
+GM02	RAP1A		3'UTR	G>A	3594	G	A	0.063	4	63	9	119	False	False	possible_deamination
+GM02	RAP1A		3'UTR	T>C	3603	T	C	0.423	11	26	21	46	False	False	
+GM02	RAP1A		3'UTR	G>C	3613	G	C	0.5	10	20	15	33	False	False	
+GM02	RAP1A		3'UTR	C>T	3694	C	T	0.5	4	8	6	10	False	False	possible_deamination
+GM02	RAP1A		3'UTR	A>G	3957	A	G	0.462	6	13	7	16	False	False	possible_RNA_editing
+GM02	RAP1A		3'UTR	G>T	4250	G	T	0.364	4	11	5	15	False	False	
+GM02	NRAS	p.Q61R	missense	A>G	313	A	G	0.156	7	45	10	56	True	False	possible_RNA_editing
+GM02	NRAS		3'UTR	C>T	1573	C	T	0.558	24	43	34	56	False	False	possible_deamination
+GM02	NRAS		3'UTR	C>G	3077	C	G	0.2	4	20	5	30	False	False	
+GM02	NRAS		UTR_indel	indel	3659	GTTTTTTT	GTTTTTT	0.5	13	26	15	32	False	False	
+GM02	AKT3		UTR_indel	indel	2104	GTTTTT	GTTT	0.125	3	24	6	36	False	False	
+GM02	AKT3		3'UTR	A>G	2217	A	G	0.567	17	30	25	44	False	False	possible_RNA_editing
+GM02	RALB		3'UTR	T>A	950	T	A	1.0	44	44	52	52	False	False	
+GM02	RALB		UTR_indel	indel	2215	CTTTTTTTTT	CTTTTTTTTTT	0.143	5	35	5	43	False	False	
+GM02	RALB		3'UTR	A>T	2229	A	T	1.0	33	33	40	40	False	False	
+GM02	SF3B1	p.K141K	synonymous	A>G	452	A	G	0.48	48	100	58	124	False	False	possible_RNA_editing
+GM02	SF3B1	p.213ins1fs	frameshift_insertion	indel	665	CAAAAAA	CAAAAAAA	0.05	5	101	7	137	False	False	
+GM01	SF3B1	p.G877G	synonymous	T>C	2660	T	C	1.0	9	9	279	279	False	False	
+GM02	SF3B1	p.G877G	synonymous	T>C	2660	T	C	0.464	115	248	161	339	False	False	
+GM02	SF3B1	p.V1219V	synonymous	A>G	3686	A	G	0.4	62	155	79	200	False	False	possible_RNA_editing
+GM01	SF3B1		3'UTR	G>A	5351	G	A	0.2	3	15	94	597	False	False	possible_deamination
+GM01	SF3B1		3'UTR	T>C	5354	T	C	0.2	3	15	161	598	False	False	
+GM02	SF3B1		3'UTR	T>C	5354	T	C	0.118	12	102	19	173	False	False	
+GM02	SF3B1		3'UTR	T>C	5356	T	C	0.061	9	148	17	265	False	False	
+GM02	SF3B1		3'UTR	T>C	5366	T	C	0.069	22	319	69	582	False	False	
+GM01	SF3B1		3'UTR	G>A	5367	G	A	0.104	5	48	152	1781	False	False	possible_deamination
+GM01	SF3B1		3'UTR	T>C	5394	T	C	0.122	6	49	166	1838	False	False	
+GM02	SF3B1		3'UTR	T>C	5394	T	C	0.11	43	390	89	690	False	False	
+GM01	SF3B1		3'UTR	C>T	5399	C	T	0.18	9	50	275	1840	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5399	C	T	0.097	38	390	75	690	False	False	possible_deamination
+GM01	SF3B1		3'UTR	G>A	5400	G	A	0.1	5	50	157	1840	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5400	G	A	0.09	35	390	65	691	False	False	possible_deamination
+GM01	SF3B1		3'UTR	C>T	5403	C	T	0.08	4	50	291	1840	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5403	C	T	0.207	80	387	129	687	False	False	possible_deamination
+GM01	SF3B1		3'UTR	G>A	5404	G	A	0.12	6	50	156	1840	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5404	G	A	0.189	73	387	140	688	False	False	possible_deamination
+GM01	SF3B1		3'UTR	C>T	5410	C	T	0.043	2	47	135	1771	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5410	C	T	0.1	38	379	68	676	False	False	possible_deamination
+GM01	SF3B1		3'UTR	G>A	5411	G	A	0.227	10	44	293	1676	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5411	G	A	0.143	50	350	84	630	False	False	possible_deamination
+GM01	SF3B1		3'UTR	A>G	5417	A	G	0.047	2	43	108	1636	False	False	possible_RNA_editing
+GM01	SF3B1		3'UTR	C>T	5424	C	T	0.095	4	42	93	1557	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5424	C	T	0.096	28	291	42	519	False	False	possible_deamination
+GM01	SF3B1		3'UTR	G>A	5425	G	A	0.071	3	42	154	1556	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5425	G	A	0.064	18	283	44	506	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5443	G	A	0.831	49	59	82	94	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5485	C	T	0.143	4	28	8	52	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5493	C	T	0.207	6	29	8	53	False	False	possible_deamination
+GM01	SF3B1		3'UTR	G>A	5494	G	A	0.25	2	8	9	115	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5494	G	A	0.103	3	29	6	53	False	False	possible_deamination
+GM01	SF3B1		3'UTR	C>T	5497	C	T	0.25	2	8	27	115	False	False	possible_deamination
+GM02	SF3B1		3'UTR	C>T	5497	C	T	0.071	2	28	6	52	False	False	possible_deamination
+GM02	SF3B1		3'UTR	G>A	5498	G	A	0.172	5	29	10	53	False	False	possible_deamination
+GM02	SF3B1		3'UTR	A>C	5517	A	C	0.379	11	29	21	51	False	False	
+GM02	SF3B1		3'UTR	A>T	5517	A	T	0.138	4	29	11	51	False	False	
+GM02	SF3B1		3'UTR	A>C	5531	A	C	0.206	7	34	8	52	False	False	
+GM02	IDH1		3'UTR	G>T	1960	G	T	1.0	31	31	38	38	False	False	
+GM02	RAF1	p.N298N	synonymous	C>T	1225	C	T	0.058	4	69	5	96	False	False	possible_deamination
+GM02	CTNNB1		UTR_indel	indel	3139	ATTTTTTTTTTTTTTTTTTT	ATTTTTTTTTTTTTTTTTTTT	0.328	38	116	49	153	False	False	
+GM02	CTNNB1		UTR_indel	indel	3139	ATTTTTTTTTTTTTTTTTTT	ATTTTTTTTTTTTTTTTTTTTT	0.207	24	116	34	153	False	False	
+GM02	CTNNB1		UTR_indel	indel	3139	ATTTTTTTTTTTTTTTTTTT	ATTTTTTTTTTTTTTTTTTTTTT	0.069	8	116	9	153	False	False	
+GM02	SETD2	p.N1155N	synonymous	T>C	3654	T	C	0.564	22	39	31	51	False	False	
+GM02	SETD2	p.R1592*	stop_gained	C>T	4963	C	T	0.125	4	32	6	40	False	False	possible_deamination
+GM02	SETD2	p.P1962L	missense	C>T	6074	C	T	0.484	30	62	37	78	False	False	possible_deamination
+GM02	SETD2		3'UTR	T>C	8410	T	C	1.0	11	11	12	12	False	False	
+GM02	GNAI2		3'UTR	C>T	1386	C	T	0.036	3	84	6	105	False	False	possible_deamination
+GM02	BAP1	p.D664D	synonymous	C>T	2122	C	T	0.053	2	38	5	51	False	False	possible_deamination
+GM02	BAP1		3'UTR	C>T	2764	C	T	0.455	5	11	5	11	False	False	possible_deamination
+GM02	MITF		UTR_indel	indel	2120	GAAAAAAAAAAA	GAAAAAAAAAAAA	0.152	12	79	22	113	False	False	
+GM02	MITF		UTR_indel	indel	2120	GAAAAAAAAAAA	GAAAAAAAAAA	0.051	4	79	6	113	False	False	
+GM02	MITF		UTR_indel	indel	2281	GAAAAAAAAAA	GAAAAAAAAAAAA	0.278	22	79	31	114	False	False	
+GM02	MITF		UTR_indel	indel	2281	GAAAAAAAAAA	GAAAAAAAAAAA	0.114	9	79	14	114	False	False	
+GM02	MITF		3'UTR	C>T	3783	C	T	0.28	28	100	37	149	False	False	possible_deamination
+GM02	MITF		3'UTR	C>T	4220	C	T	0.48	59	123	81	164	False	False	possible_deamination
+GM02	MRAS		3'UTR	C>T	1845	C	T	0.667	8	12	11	15	False	False	possible_deamination
+GM02	MRAS		3'UTR	C>T	3465	C	T	0.5	5	10	7	13	False	False	possible_deamination
+GM02	RASA2	p.645ins3	inframe_insertion	indel	1990	GG	GGTAG	0.367	11	30	20	46	False	False	
+GM02	RASA2		3'UTR	T>C	3017	T	C	1.0	35	35	42	42	False	False	
+GM02	PIK3CA	p.H1060H	synonymous	C>T	3503	C	T	0.48	12	25	16	34	False	False	possible_deamination
+GM02	PDGFRA		UTR_indel	indel	29	CAGAG	CAG	0.5	7	14	10	18	False	False	
+GM02	PDGFRA	p.P567P	synonymous	A>G	1836	A	G	1.0	25	25	29	29	False	False	possible_RNA_editing
+GM02	PDGFRA	p.D1074D	synonymous	T>C	3357	T	C	1.0	27	27	32	32	False	False	
+GM02	PDGFRA		3'UTR	A>G	3483	A	G	1.0	56	56	73	73	False	False	possible_RNA_editing
+GM02	PDGFRA		UTR_indel	indel	4500	GTTTTTTTTTTTTTTTT	GTTTTTTTTTTTTTT	0.485	16	33	21	45	False	False	
+GM02	PDGFRA		UTR_indel	indel	4500	GTTTTTTTTTTTTTTTT	GTTTTTTTTTTTTTTT	0.273	9	33	10	45	False	False	
+GM02	PDGFRA		UTR_indel	indel	4500	GTTTTTTTTTTTTTTTT	GTTTTTTTTTTTTT	0.152	5	33	8	45	False	False	
+GM02	PDGFRA		3'UTR	G>A	4542	G	A	0.529	18	34	21	46	False	False	possible_deamination
+GM02	PDGFRA		3'UTR	C>A	4916	C	A	1.0	20	20	26	26	False	False	
+GM02	PDGFRA		3'UTR	T>G	5792	T	G	0.933	28	30	33	35	False	False	
+GM02	KIT	p.714del3	inframe_deletion	indel	2198	TGCAGC	TGC	0.429	9	21	9	22	False	False	
+GM02	KIT	p.I798I	synonymous	C>T	2452	C	T	0.545	6	11	7	15	False	False	possible_deamination
+GM02	KIT	p.L862L	synonymous	G>C	2644	G	C	0.55	11	20	12	24	False	False	
+GM02	KIT		3'UTR	G>A	3206	G	A	0.353	6	17	7	21	False	False	possible_deamination
+GM02	KIT		3'UTR	G>T	4693	G	T	0.682	15	22	24	34	False	False	
+GM02	FBXW7	p.250del4fs	frameshift_deletion	indel	1925	ATTGCTTGCTT	ATTGCTT	0.111	2	18	6	25	False	False	
+GM02	MAP3K1	p.T428T	synonymous	G>A	1309	G	A	1.0	30	30	42	42	False	False	possible_deamination
+GM02	MAP3K1	p.D806N	missense	G>A	2441	G	A	0.414	12	29	18	38	False	False	possible_deamination
+GM02	MAP3K1	p.V906I	missense	G>A	2741	G	A	0.453	24	53	35	72	False	False	possible_deamination
+GM02	MAP3K1	p.R1064R	synonymous	A>C	3215	A	C	0.438	21	48	30	71	False	False	
+GM02	MAP3K1	p.G1329G	synonymous	A>G	4012	A	G	0.07	3	43	5	60	False	False	possible_RNA_editing
+GM02	MAP3K1		3'UTR	G>A	5588	G	A	1.0	20	20	27	27	False	False	possible_deamination
+GM02	MAP3K1		3'UTR	A>G	6043	A	G	0.455	10	22	12	27	False	False	possible_RNA_editing
+GM02	MAP3K1		UTR_indel	indel	6248	TTGT	TT	0.556	5	9	5	13	False	False	
+GM02	CSF1R	p.P28P	synonymous	T>C	211	T	C	0.464	13	28	18	36	False	False	
+GM02	CSF1R	p.T242T	synonymous	C>T	853	C	T	0.98	49	50	64	65	False	False	possible_deamination
+GM02	CSF1R		3'UTR	C>T	3081	C	T	0.577	15	26	22	37	False	False	possible_deamination
+GM02	CSF1R		3'UTR	A>C	3082	A	C	0.577	15	26	22	37	False	False	
+GM02	CSF1R		UTR_indel	indel	3277	C	CG	0.367	11	30	13	37	False	False	
+GM02	ARID1B	p.A794A	synonymous	G>A	2685	G	A	0.475	19	40	20	47	False	False	possible_deamination
+GM02	ARID1B	p.S2131S	synonymous	C>T	6696	C	T	0.074	2	27	5	38	False	False	possible_deamination
+GM02	RAC1	p.S83F	missense	C>T	457	C	T	0.048	3	63	5	87	False	False	possible_deamination
+GM01	RAC1		3'UTR	C>T	793	C	T	0.118	2	17	67	536	False	False	possible_deamination
+GM01	RAC1		3'UTR	C>T	795	C	T	0.118	2	17	67	535	False	False	possible_deamination
+GM01	RAC1		3'UTR	C>A	854	C	A	0.167	2	12	199	360	False	False	
+GM02	RAC1		3'UTR	C>A	854	C	A	0.344	77	224	102	286	False	False	
+GM02	RAC1		3'UTR	C>A	867	C	A	0.473	104	220	135	278	False	False	
+GM02	RAC1		3'UTR	C>A	880	C	A	0.057	11	192	13	244	False	False	
+GM01	RAC1		3'UTR	G>C	888	G	C	0.375	3	8	37	342	False	False	
+GM02	RAC1		3'UTR	G>A	1082	G	A	0.57	53	93	83	134	False	False	possible_deamination
+GM02	RAC1		3'UTR	T>C	1259	T	C	0.051	5	98	10	127	False	False	
+GM02	RALA	p.142ins1fs	frameshift_insertion	indel	716	CAAAAAA	CAAAAAAA	0.189	10	53	13	69	False	False	
+GM02	RALA		UTR_indel	indel	2268	ATTTTTTTTTTTT	ATTTTTTTTT	0.5	14	28	15	31	False	False	
+GM02	EGFR	p.N158N	synonymous	C>T	735	C	T	0.5	15	30	17	34	False	False	possible_deamination
+GM02	EGFR	p.Q787Q	synonymous	G>A	2622	G	A	1.0	26	26	31	31	False	False	possible_deamination
+GM02	EGFR	p.T903T	synonymous	T>C	2970	T	C	1.0	24	24	31	31	False	False	
+GM02	EGFR		UTR_indel	indel	4175	GAAAAAAAAAAAAA	GAAAAAAAAAAAAAA	0.163	8	49	8	62	False	False	
+GM02	EGFR		UTR_indel	indel	4175	GAAAAAAAAAAAAA	GAAAAAAAAAAAAAAA	0.102	5	49	6	62	False	False	
+GM02	EGFR		3'UTR	A>G	6594	A	G	1.0	26	26	28	28	False	False	possible_RNA_editing
+GM02	EGFR		3'UTR	C>T	7971	C	T	1.0	22	22	29	29	False	False	possible_deamination
+GM02	GNAI1		3'UTR	G>A	2880	G	A	0.545	6	11	8	13	False	False	possible_deamination
+GM02	GNAI1		3'UTR	T>C	3719	T	C	0.941	16	17	20	30	False	False	
+GM02	GNAI1		3'UTR	G>C	5652	G	C	0.909	10	11	10	12	False	False	
+GM02	GNAI1		3'UTR	G>A	5670	G	A	0.139	5	36	9	52	False	False	possible_deamination
+GM02	GNAI1		3'UTR	C>T	5693	C	T	0.147	5	34	6	50	False	False	possible_deamination
+GM02	GNAI1		3'UTR	T>C	5699	T	C	0.625	20	32	30	48	False	False	
+GM02	GNAI1		3'UTR	A>G	5702	A	G	0.125	4	32	5	47	False	False	possible_RNA_editing
+GM02	GNAI1		3'UTR	C>A	5708	C	A	0.114	4	35	6	51	False	False	
+GM02	GNAI1		3'UTR	A>G	6527	A	G	0.733	22	30	29	40	False	False	possible_RNA_editing
+GM02	GNAI1		3'UTR	C>T	6531	C	T	0.094	3	32	5	42	False	False	possible_deamination
+GM02	GNAI1		3'UTR	C>T	6540	C	T	0.094	3	32	5	42	False	False	possible_deamination
+GM02	GNAI1		3'UTR	G>T	6545	G	T	0.969	31	32	41	42	False	False	
+GM02	GNAI1		3'UTR	T>C	6568	T	C	0.138	4	29	5	38	False	False	
+GM02	CDK6		UTR_indel	indel	1854	ATGTGTGTGTGTGTGTGTGTGTGTGTGTGTGTGT	ATGTGTGTGTGTGTGTGTGTGTGTGTGTGTGT	0.205	8	39	13	50	False	False	
+GM02	CDK6		UTR_indel	indel	1854	ATGTGTGTGTGTGTGTGTGTGTGTGTGTGTGTGT	ATGTGTGTGTGTGTGTGTGTGTGTGTGTGT	0.103	4	39	5	50	False	False	
+GM02	CDK6		3'UTR	C>G	4265	C	G	0.619	13	21	14	27	False	False	
+GM02	CDK6		3'UTR	C>T	8210	C	T	0.25	3	12	5	16	False	False	possible_deamination
+GM02	CDK6		3'UTR	A>G	9734	A	G	1.0	13	13	17	17	False	False	possible_RNA_editing
+GM02	CDK6		UTR_indel	indel	9934	TAAAAAAAAAAAA	TAAAAAAAAAAAAA	0.727	8	11	13	18	False	False	
+GM01	BRAF		3'UTR	A>G	4959	A	G	0.484	305	630	3282	6199	False	False	possible_RNA_editing
+GM02	BRAF		3'UTR	A>G	4959	A	G	0.498	530	1065	1568	2862	False	False	possible_RNA_editing
+GM01	BRAF		3'UTR	C>T	4966	C	T	0.04	26	653	427	6811	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	4966	C	T	0.055	63	1146	177	3069	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	4967	G	A	0.103	67	648	751	6912	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	4967	G	A	0.077	86	1121	263	3007	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	4974	C	T	0.107	71	666	752	7381	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	4974	C	T	0.089	106	1187	260	3217	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	4975	G	A	0.072	47	654	551	7275	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	4975	G	A	0.07	82	1169	222	3158	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	4996	C	T	0.07	40	574	428	7123	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	4997	G	A	0.052	27	524	383	6681	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	4997	G	A	0.054	51	947	147	2602	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>C	4998	G	C	0.442	210	475	2675	6331	False	False	
+GM02	BRAF		3'UTR	G>C	4998	G	C	0.476	427	897	1138	2473	False	False	
+GM01	BRAF		3'UTR	G>T	4998	G	T	0.152	72	475	1024	6331	False	False	
+GM02	BRAF		3'UTR	G>T	4998	G	T	0.157	141	897	335	2473	False	False	
+GM02	BRAF		3'UTR	G>A	4999	G	A	0.066	59	900	137	2477	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5005	G	A	0.057	26	458	453	6413	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5021	C	T	0.073	29	395	332	6013	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5022	G	A	0.067	26	387	451	5891	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5028	C	T	0.078	30	387	414	6450	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5028	C	T	0.064	48	755	149	2376	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5029	G	A	0.098	38	388	550	6431	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	5029	G	A	0.07	52	742	167	2341	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5037	G	A	0.068	24	353	488	6451	False	False	possible_deamination
+GM01	BRAF		3'UTR	A>G	5061	A	G	0.341	74	217	1783	5388	False	False	possible_RNA_editing
+GM02	BRAF		3'UTR	A>G	5061	A	G	0.293	159	542	614	2008	False	False	possible_RNA_editing
+GM01	BRAF		3'UTR	C>T	5087	C	T	0.099	16	161	466	4543	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5087	C	T	0.05	25	501	112	1866	False	False	possible_deamination
+GM01	BRAF		3'UTR	T>C	5090	T	C	0.381	56	147	1473	4326	False	False	
+GM02	BRAF		3'UTR	T>C	5090	T	C	0.331	163	492	627	1812	False	False	
+GM02	BRAF		3'UTR	A>G	5091	A	G	0.038	19	498	103	1813	False	False	possible_RNA_editing
+GM01	BRAF		3'UTR	C>T	5096	C	T	0.082	12	147	333	4685	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5126	G	A	0.074	10	135	396	5088	False	False	possible_deamination
+GM01	BRAF		3'UTR	T>G	5139	T	G	0.411	37	90	1644	3995	False	False	
+GM02	BRAF		3'UTR	T>G	5139	T	G	0.438	338	771	946	2169	False	False	
+GM01	BRAF		3'UTR	G>A	5146	G	A	0.607	71	117	2650	4659	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	5146	G	A	0.536	480	896	1256	2438	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5170	C	T	0.063	17	268	704	9613	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5170	C	T	0.067	137	2059	369	5297	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5171	G	A	0.093	27	289	778	9926	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	5171	G	A	0.085	180	2129	492	5431	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5177	C	T	0.095	28	295	918	9811	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5177	C	T	0.095	209	2204	516	5539	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5178	G	A	0.143	42	294	1292	9759	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	5178	G	A	0.149	329	2201	831	5530	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5181	C	T	0.096	28	291	861	9657	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5181	C	T	0.077	169	2187	422	5476	False	False	possible_deamination
+GM01	BRAF		3'UTR	G>A	5182	G	A	0.104	30	289	899	9566	False	False	possible_deamination
+GM02	BRAF		3'UTR	G>A	5182	G	A	0.071	155	2178	375	5451	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5186	C	T	0.056	16	286	680	9448	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5186	C	T	0.075	162	2165	383	5420	False	False	possible_deamination
+GM01	BRAF		3'UTR	C>T	5224	C	T	0.058	13	226	458	7845	False	False	possible_deamination
+GM02	BRAF		3'UTR	C>T	5224	C	T	0.065	119	1827	278	4441	False	False	possible_deamination
+GM02	KMT2C	p.83ins3	inframe_insertion	indel	464	ACAG	ACAGCAG	0.143	7	49	13	67	False	False	
+GM02	KMT2C	p.L797R	missense	T>G	2607	T	G	0.044	2	45	5	58	False	False	
+GM02	PREX2	p.G606G	synonymous	A>G	2167	A	G	1.0	13	13	14	14	False	False	possible_RNA_editing
+GM02	PREX2	p.L607L	synonymous	T>C	2168	T	C	1.0	13	13	14	14	False	False	
+GM02	PREX2	p.P1599P	synonymous	A>G	5146	A	G	1.0	11	11	14	14	False	False	possible_RNA_editing
+GM02	PREX2		3'UTR	C>G	6514	C	G	0.556	5	9	7	13	False	False	
+GM02	PREX2		3'UTR	C>A	6514	C	A	0.333	3	9	5	13	False	False	
+GM02	PREX2		3'UTR	C>T	6598	C	T	0.136	3	22	7	40	False	False	possible_deamination
+GM02	PREX2		3'UTR	G>A	6599	G	A	0.174	4	23	5	41	False	False	possible_deamination
+GM02	PREX2		3'UTR	T>G	6600	T	G	0.292	7	24	11	43	False	False	
+GM02	PREX2		3'UTR	T>A	6600	T	A	0.25	6	24	10	43	False	False	
+GM02	PREX2		3'UTR	T>G	6602	T	G	0.56	14	25	30	43	False	False	
+GM02	PREX2		3'UTR	A>C	6641	A	C	0.861	31	36	51	57	False	False	
+GM02	PREX2		3'UTR	A>G	6645	A	G	0.189	7	37	8	58	False	False	possible_RNA_editing
+GM02	PREX2		3'UTR	A>G	6678	A	G	0.448	13	29	23	45	False	False	possible_RNA_editing
+GM02	PREX2		3'UTR	G>A	6690	G	A	0.222	4	18	5	26	False	False	possible_deamination
+GM02	PREX2		3'UTR	T>C	6903	T	C	1.0	9	9	14	14	False	False	
+GM02	SMARCA2	p.T59T	synonymous	G>A	271	G	A	0.611	33	54	44	69	False	False	possible_deamination
+GM02	SMARCA2		3'UTR	C>T	4869	C	T	0.053	2	38	5	53	False	False	possible_deamination
+GM02	CDKN2A		3'UTR	G>C	530	G	C	1.0	40	40	53	53	False	False	
+GM02	GNAQ		3'UTR	G>A	2607	G	A	0.571	24	42	29	52	False	False	possible_deamination
+GM02	GNAQ		3'UTR	G>A	2819	G	A	0.467	28	60	35	77	False	False	possible_deamination
+GM02	GNAQ		3'UTR	T>C	2914	T	C	0.395	15	38	20	48	False	False	
+GM02	GNAQ		UTR_indel	indel	3850	GAAAAAAAAAAAA	GAAAAAAAAAAAAA	0.106	5	47	8	61	False	False	
+GM02	GNAQ		UTR_indel	indel	4226	CAAAAAAAAAAAAAAAAAAAAAAAAAA	CAAAAAAAAAAAAAAAAAAAAAAAAAAAAA	0.167	4	24	8	30	False	False	
+GM02	GNAQ		3'UTR	C>T	4488	C	T	0.548	17	31	19	39	False	False	possible_deamination
+GM02	GNAQ		UTR_indel	indel	5234	ATTTTTTTTTTTTT	ATTTTTTTTTTTTTT	0.412	7	17	7	19	False	False	
+GM02	GNAQ		3'UTR	C>T	6599	C	T	0.333	4	12	7	16	False	False	possible_deamination
+GM02	GNAQ		3'UTR	A>G	6605	A	G	0.417	5	12	8	16	False	False	possible_RNA_editing
+GM02	PPP6C		UTR_indel	indel	1122	CTTTTTTTTTTT	CTTTTTTTTTTTT	0.172	16	93	21	121	False	False	
+GM02	PPP6C		UTR_indel	indel	1122	CTTTTTTTTTTT	CTTTTTTTTTT	0.097	9	93	13	121	False	False	
+GM02	PPP6C		UTR_indel	indel	1122	CTTTTTTTTTTT	CTTTTTTTTTTTTT	0.043	4	93	8	121	False	False	
+GM02	PPP6C		UTR_indel	indel	1316	CTTTTTTT	CTTTTTTTT	0.113	7	62	8	87	False	False	
+GM02	PPP6C		UTR_indel	indel	2169	GTTCTTCTT	GTTCTT	1.0	15	15	22	22	False	False	
+GM02	PPP6C		3'UTR	C>A	2457	C	A	1.0	23	23	33	33	False	False	
+GM02	PPP6C		3'UTR	A>C	2648	A	C	1.0	8	8	9	9	False	False	
+GM02	PPP6C		UTR_indel	indel	2857	ATTTTTTTTTTT	ATTTTTTTTTT	0.9	9	10	13	14	False	False	
+GM02	PTEN		UTR_indel	indel	479	CT	C	1.0	12	12	15	15	False	False	
+GM02	PTEN		5'UTR	G>C	520	G	C	1.0	12	12	16	16	False	False	
+GM02	PTEN		UTR_indel	indel	2121	CTTTTTTTTTTT	CTTTTTTTTTTTT	0.143	8	56	10	70	False	False	
+GM02	PTEN		UTR_indel	indel	2121	CTTTTTTTTTTT	CTTTTTTTTTT	0.107	6	56	8	70	False	False	
+GM02	PTEN		UTR_indel	indel	2121	CTTTTTTTTTTT	CTTTTTTTTT	0.054	3	56	5	70	False	False	
+GM02	PTEN		3'UTR	T>C	3573	T	C	0.386	22	57	34	84	False	False	
+GM02	PTEN		3'UTR	C>T	4242	C	T	0.543	19	35	21	44	False	False	possible_deamination
+GM02	PTEN		3'UTR	T>C	4991	T	C	0.088	5	57	6	80	False	False	
+GM02	PTEN		3'UTR	A>G	5047	A	G	0.148	4	27	5	33	False	False	possible_RNA_editing
+GM02	HRAS	p.H27H	synonymous	T>C	295	T	C	1.0	23	23	30	30	False	False	
+GM02	RRAS2	p.I47N	missense	T>A	453	T	A	0.385	5	13	6	20	False	False	
+GM02	RRAS2	p.F75L	missense	T>C	536	T	C	0.667	6	9	7	10	False	False	
+GM02	RRAS2	p.Q143R	missense	A>G	741	A	G	0.15	6	40	8	51	False	False	possible_RNA_editing
+GM02	RRAS2	p.Q143Q	synonymous	A>G	742	A	G	0.146	6	41	8	53	False	False	possible_RNA_editing
+GM02	RRAS2	p.Q148Q	synonymous	G>A	757	G	A	0.205	9	44	13	57	False	False	possible_deamination
+GM02	RRAS2		3'UTR	G>T	954	G	T	0.286	8	28	10	36	False	False	
+GM02	RRAS2		3'UTR	T>C	981	T	C	0.409	9	22	10	28	False	False	
+GM02	RRAS2		3'UTR	G>C	1052	G	C	0.769	10	13	12	19	False	False	
+GM02	RRAS2		3'UTR	G>T	1438	G	T	0.421	8	19	12	27	False	False	
+GM02	RRAS2		3'UTR	A>G	1461	A	G	0.471	8	17	12	25	False	False	possible_RNA_editing
+GM02	RRAS2		3'UTR	G>A	1483	G	A	0.35	7	20	9	29	False	False	possible_deamination
+GM02	RRAS2		3'UTR	T>C	1509	T	C	0.25	5	20	6	29	False	False	
+GM02	RRAS2		3'UTR	C>G	1516	C	G	0.25	5	20	6	29	False	False	
+GM02	RRAS2		3'UTR	T>C	2014	T	C	0.333	6	18	7	19	False	False	
+GM02	RRAS2		3'UTR	A>T	2016	A	T	0.333	6	18	7	19	False	False	
+GM02	RRAS2		3'UTR	T>C	2038	T	C	0.3	6	20	6	20	False	False	
+GM02	KRAS		3'UTR	C>T	1021	C	T	1.0	16	16	21	21	False	False	possible_deamination
+GM02	KRAS		3'UTR	T>C	1269	T	C	1.0	40	40	51	51	False	False	
+GM02	KRAS		UTR_indel	indel	1367	GAAAAAAA	GAAAAAAAA	0.125	3	24	5	32	False	False	
+GM02	KRAS		UTR_indel	indel	2372	GTTTTTTTTTTTT	GTTTTTTTTTTTTT	0.5	9	18	10	21	False	False	
+GM02	KRAS		3'UTR	A>G	2395	A	G	1.0	15	15	18	18	False	False	possible_RNA_editing
+GM02	KRAS		UTR_indel	indel	3025	CTTTTTTTTTTT	CTTTTTTTTTTTT	0.6	12	20	14	26	False	False	
+GM02	KRAS		3'UTR	G>C	3131	G	C	0.263	5	19	6	26	False	False	
+GM02	KRAS		3'UTR	G>A	3138	G	A	0.353	6	17	8	24	False	False	possible_deamination
+GM02	KRAS		3'UTR	G>T	3203	G	T	0.489	22	45	31	61	False	False	
+GM02	KRAS		3'UTR	C>T	3209	C	T	0.067	3	45	5	65	False	False	possible_deamination
+GM02	KRAS		3'UTR	G>A	3210	G	A	0.106	5	47	6	68	False	False	possible_deamination
+GM02	KRAS		3'UTR	C>A	3221	C	A	0.244	11	45	23	66	False	False	
+GM02	KRAS		3'UTR	C>G	3221	C	G	0.089	4	45	5	66	False	False	
+GM02	KRAS		3'UTR	C>T	3240	C	T	0.062	3	48	5	69	False	False	possible_deamination
+GM02	KRAS		3'UTR	A>G	3348	A	G	1.0	29	29	39	39	False	False	possible_RNA_editing
+GM02	KRAS		3'UTR	A>G	3645	A	G	1.0	11	11	12	12	False	False	possible_RNA_editing
+GM02	KRAS		UTR_indel	indel	4019	GTT	GT	0.971	34	35	41	42	False	False	
+GM02	KRAS		3'UTR	A>C	4658	A	C	1.0	14	14	20	20	False	False	
+GM02	KRAS		UTR_indel	indel	4815	GAAAAAAAA	GAAAAAA	0.949	37	39	48	50	False	False	
+GM02	KRAS		3'UTR	T>A	4836	T	A	1.0	40	40	51	51	False	False	
+GM02	KRAS		3'UTR	A>G	4970	A	G	0.115	3	26	5	34	False	False	possible_RNA_editing
+GM02	ARID2	p.T824I	missense	C>T	2602	C	T	0.056	2	36	5	48	False	False	possible_deamination
+GM01	KMT2D	p.E473E	synonymous	A>G	2638	A	G	0.167	2	12	57	421	False	False	possible_RNA_editing
+GM02	KMT2D	p.E722E	synonymous	G>A	3385	G	A	0.083	3	36	5	44	False	False	possible_deamination
+GM01	KMT2D	p.P786S	missense	C>T	3575	C	T	0.182	2	11	118	339	False	False	possible_deamination
+GM02	KMT2D	p.P813L	missense	C>T	3657	C	T	0.36	18	50	23	59	False	False	possible_deamination
+GM02	KMT2D	p.I942I	synonymous	C>T	4045	C	T	0.488	21	43	25	55	False	False	possible_deamination
+GM02	KMT2D	p.L1001L	synonymous	T>C	4222	T	C	0.045	4	89	7	118	False	False	
+GM02	KMT2D	p.1340del3	inframe_deletion	indel	5236	GGTAGT	GGT	0.667	28	42	34	50	False	False	
+GM02	KMT2D	p.G2493G	synonymous	G>T	8698	G	T	0.357	10	28	12	35	False	False	
+GM02	KMT2D	p.Q3612Q	synonymous	G>A	12055	G	A	0.5	4	8	6	13	False	False	possible_deamination
+GM02	KMT2D	p.P4170P	synonymous	A>G	13729	A	G	0.357	5	14	7	18	False	False	possible_RNA_editing
+GM02	KMT2D		UTR_indel	indel	19803	ATTTTTTTTTTTT	ATTTTTTTTTTTTT	0.111	3	27	5	36	False	False	
+GM02	KMT2D		UTR_indel	indel	20187	GTTTTTTTTTT	GTTTTTTTTTTT	0.143	5	35	5	41	False	False	
+GM02	ERBB3		3'UTR	A>T	4788	A	T	0.457	64	140	81	181	False	False	
+GM02	CDK4	p.A33V	missense	C>T	253	C	T	0.069	4	58	5	89	False	False	possible_deamination
+GM02	CDK4		3'UTR	G>T	1588	G	T	0.083	2	24	5	36	False	False	
+GM02	CDK4		3'UTR	C>G	1601	C	G	0.211	4	19	10	32	False	False	
+GM02	CDK4		3'UTR	C>T	1615	C	T	0.1	18	180	22	318	False	False	possible_deamination
+GM01	CDK4		3'UTR	C>T	1630	C	T	0.097	3	31	132	945	False	False	possible_deamination
+GM02	CDK4		3'UTR	C>T	1630	C	T	0.066	15	227	30	389	False	False	possible_deamination
+GM02	CDK4		3'UTR	G>A	1631	G	A	0.11	25	227	34	389	False	False	possible_deamination
+GM01	CDK4		3'UTR	A>G	1643	A	G	0.2	6	30	102	916	False	False	possible_RNA_editing
+GM02	CDK4		3'UTR	A>G	1643	A	G	0.284	64	225	126	383	False	False	possible_RNA_editing
+GM01	CDK4		3'UTR	T>C	1645	T	C	0.867	26	30	815	914	False	False	
+GM02	CDK4		3'UTR	T>C	1645	T	C	0.737	165	224	290	381	False	False	
+GM01	CDK4		3'UTR	T>A	1653	T	A	0.1	3	30	71	915	False	False	
+GM02	CDK4		3'UTR	T>A	1653	T	A	0.05	11	222	19	379	False	False	
+GM01	CDK4		3'UTR	T>C	1661	T	C	0.071	2	28	71	877	False	False	
+GM01	CDK4		3'UTR	C>T	1664	C	T	0.067	2	30	100	914	False	False	possible_deamination
+GM02	CDK4		3'UTR	A>G	1730	A	G	0.444	12	27	18	37	False	False	possible_RNA_editing
+GM02	CDK4		3'UTR	G>A	1743	G	A	0.659	27	41	39	56	False	False	possible_deamination
+GM02	CDK4		3'UTR	C>T	1746	C	T	0.061	3	49	5	65	False	False	possible_deamination
+GM02	CDK4		3'UTR	C>T	1756	C	T	0.159	13	82	20	112	False	False	possible_deamination
+GM02	CDK4		3'UTR	G>A	1757	G	A	0.085	7	82	8	112	False	False	possible_deamination
+GM02	CDK4		3'UTR	G>A	1761	G	A	0.123	10	81	12	111	False	False	possible_deamination
+GM02	CDK4		3'UTR	A>G	1764	A	G	0.1	8	80	12	110	False	False	possible_RNA_editing
+GM01	CDK4		3'UTR	G>A	1773	G	A	0.25	2	8	157	205	False	False	possible_deamination
+GM02	CDK4		3'UTR	G>A	1773	G	A	0.353	30	85	41	116	False	False	possible_deamination
+GM02	CDK4		3'UTR	A>G	1787	A	G	0.143	12	84	16	115	False	False	possible_RNA_editing
+GM02	CDK4		3'UTR	T>C	1788	T	C	0.186	16	86	18	116	False	False	
+GM02	CDK4		3'UTR	T>C	1793	T	C	0.071	6	84	6	115	False	False	
+GM02	RAP1B		3'UTR	T>C	4650	T	C	0.455	5	11	7	13	False	False	
+GM02	RAP1B		3'UTR	A>G	4668	A	G	0.5	5	10	7	12	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	G>A	4783	G	A	0.32	8	25	10	37	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>C	4789	G	C	0.64	16	25	24	37	False	False	
+GM02	RAP1B		3'UTR	T>G	6056	T	G	0.156	5	32	8	57	False	False	
+GM01	RAP1B		3'UTR	A>G	6066	A	G	0.128	5	39	157	873	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	C>T	6078	C	T	0.078	4	51	68	1044	False	False	possible_deamination
+GM01	RAP1B		3'UTR	A>G	6079	A	G	0.212	11	52	66	1055	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	6079	A	G	0.054	11	205	26	334	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	A>G	6101	A	G	0.05	3	60	72	1150	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	T>C	6110	T	C	0.075	4	53	93	1012	False	False	
+GM02	RAP1B		3'UTR	T>C	6110	T	C	0.181	39	215	62	346	False	False	
+GM01	RAP1B		3'UTR	C>T	6117	C	T	0.055	3	55	105	1046	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>A	6118	C	A	0.556	30	54	596	966	False	False	
+GM02	RAP1B		3'UTR	C>A	6118	C	A	0.67	138	206	210	324	False	False	
+GM01	RAP1B		3'UTR	C>G	6118	C	G	0.352	19	54	347	966	False	False	
+GM02	RAP1B		3'UTR	C>G	6118	C	G	0.301	62	206	105	324	False	False	
+GM01	RAP1B		3'UTR	T>C	6134	T	C	0.14	6	43	169	721	False	False	
+GM01	RAP1B		3'UTR	A>G	6141	A	G	0.261	6	23	81	329	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	6141	A	G	0.088	6	68	6	95	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	6143	A	G	0.062	3	48	5	62	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	T>C	6154	T	C	0.625	5	8	8	11	False	False	
+GM02	RAP1B		3'UTR	A>C	6159	A	C	0.625	5	8	7	10	False	False	
+GM02	RAP1B		3'UTR	T>A	7381	T	A	0.842	16	19	23	26	False	False	
+GM02	RAP1B		3'UTR	C>G	7502	C	G	0.367	11	30	15	39	False	False	
+GM02	RAP1B		3'UTR	C>A	7502	C	A	0.2	6	30	10	39	False	False	
+GM02	RAP1B		3'UTR	A>G	7504	A	G	0.06	3	50	5	75	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	G>C	7516	G	C	0.062	4	64	6	95	False	False	
+GM02	RAP1B		3'UTR	C>T	7518	C	T	0.062	4	64	5	95	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	7526	C	T	0.062	4	65	7	96	False	False	possible_deamination
+GM01	RAP1B		3'UTR	G>A	7527	G	A	0.643	9	14	74	205	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	7527	G	A	0.677	44	65	61	95	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>A	7532	C	A	0.615	8	13	32	205	False	False	
+GM02	RAP1B		3'UTR	C>G	7532	C	G	0.409	27	66	47	96	False	False	
+GM02	RAP1B		3'UTR	C>T	7563	C	T	0.081	5	62	5	92	False	False	possible_deamination
+GM02	RAP1B		3'UTR	A>G	11018	A	G	0.333	5	15	7	20	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	C>G	11038	C	G	0.647	11	17	13	22	False	False	
+GM02	RAP1B		3'UTR	G>C	11050	G	C	0.522	12	23	20	40	False	False	
+GM02	RAP1B		3'UTR	G>T	11050	G	T	0.304	7	23	13	40	False	False	
+GM01	RAP1B		3'UTR	C>A	11054	C	A	0.133	2	15	67	413	False	False	
+GM02	RAP1B		3'UTR	C>T	11054	C	T	0.061	3	49	6	105	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11055	G	A	0.068	4	59	12	124	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>T	11061	C	T	0.071	2	28	92	643	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	11061	C	T	0.061	7	115	15	215	False	False	possible_deamination
+GM01	RAP1B		3'UTR	G>A	11062	G	A	0.214	6	28	102	642	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11062	G	A	0.059	7	119	15	222	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11069	G	A	0.047	7	148	15	269	False	False	possible_deamination
+GM01	RAP1B		3'UTR	G>C	11075	G	C	0.5	19	38	391	887	False	False	
+GM02	RAP1B		3'UTR	G>C	11075	G	C	0.404	61	151	114	280	False	False	
+GM01	RAP1B		3'UTR	G>T	11075	G	T	0.211	8	38	183	887	False	False	
+GM02	RAP1B		3'UTR	G>T	11075	G	T	0.212	32	151	62	280	False	False	
+GM01	RAP1B		3'UTR	G>A	11076	G	A	0.05	2	40	71	918	False	False	possible_deamination
+GM02	RAP1B		3'UTR	T>G	11083	T	G	0.043	7	161	16	302	False	False	
+GM01	RAP1B		3'UTR	T>C	11090	T	C	0.068	3	44	72	1034	False	False	
+GM02	RAP1B		3'UTR	T>C	11090	T	C	0.15	27	180	55	346	False	False	
+GM01	RAP1B		3'UTR	T>C	11095	T	C	0.061	3	49	71	1165	False	False	
+GM02	RAP1B		3'UTR	T>C	11095	T	C	0.091	19	208	31	407	False	False	
+GM01	RAP1B		3'UTR	C>T	11106	C	T	0.056	3	54	153	1296	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	11106	C	T	0.048	11	230	29	478	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11107	G	A	0.119	28	235	61	485	False	False	possible_deamination
+GM01	RAP1B		3'UTR	T>C	11121	T	C	0.038	2	53	76	1236	False	False	
+GM01	RAP1B		3'UTR	A>G	11135	A	G	0.185	5	27	132	661	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	11135	A	G	0.071	9	126	19	292	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	A>G	11139	A	G	0.08	2	25	62	590	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	11139	A	G	0.098	12	123	31	288	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	11147	A	G	0.05	6	120	24	272	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	G>C	11148	G	C	0.103	3	29	111	539	False	False	
+GM02	RAP1B		3'UTR	G>C	11148	G	C	0.13	16	123	29	278	False	False	
+GM02	RAP1B		3'UTR	G>T	11148	G	T	0.073	9	123	23	278	False	False	
+GM01	RAP1B		3'UTR	G>A	11149	G	A	0.103	3	29	64	569	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11149	G	A	0.07	9	129	17	291	False	False	possible_deamination
+GM01	RAP1B		3'UTR	T>C	11150	T	C	0.094	3	32	80	610	False	False	
+GM02	RAP1B		3'UTR	T>C	11150	T	C	0.197	27	137	56	304	False	False	
+GM01	RAP1B		3'UTR	C>T	11170	C	T	0.242	8	33	90	674	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	11170	C	T	0.076	12	157	24	326	False	False	possible_deamination
+GM01	RAP1B		3'UTR	T>G	11171	T	G	0.394	13	33	204	672	False	False	
+GM02	RAP1B		3'UTR	T>G	11171	T	G	0.383	57	149	113	316	False	False	
+GM01	RAP1B		3'UTR	T>A	11171	T	A	0.273	9	33	202	672	False	False	
+GM02	RAP1B		3'UTR	T>A	11171	T	A	0.403	60	149	130	316	False	False	
+GM01	RAP1B		3'UTR	T>C	11171	T	C	0.091	3	33	42	672	False	False	
+GM02	RAP1B		3'UTR	G>A	11193	G	A	0.047	6	128	15	243	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>T	11202	C	T	0.095	2	21	54	472	False	False	possible_deamination
+GM02	RAP1B		3'UTR	A>G	11203	A	G	0.057	6	106	13	189	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	A>G	11210	A	G	0.143	2	14	83	386	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	G>T	11215	G	T	0.88	22	25	33	38	False	False	
+GM01	RAP1B		3'UTR	T>C	11485	T	C	1.0	8	8	26	26	False	False	
+GM02	RAP1B		3'UTR	T>C	11485	T	C	0.778	7	9	10	14	False	False	
+GM02	RAP1B		3'UTR	A>G	11491	A	G	0.178	8	45	11	67	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	C>T	11498	C	T	0.032	5	158	15	257	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>T	11499	C	T	0.069	2	29	32	415	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	11499	C	T	0.087	14	161	20	262	False	False	possible_deamination
+GM01	RAP1B		3'UTR	G>A	11500	G	A	0.258	8	31	148	472	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11500	G	A	0.134	23	172	44	279	False	False	possible_deamination
+GM01	RAP1B		3'UTR	C>T	11502	C	T	0.057	2	35	55	577	False	False	possible_deamination
+GM01	RAP1B		3'UTR	A>G	11507	A	G	0.27	10	37	110	646	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	A>G	11507	A	G	0.14	28	200	45	334	False	False	possible_RNA_editing
+GM01	RAP1B		3'UTR	T>C	11516	T	C	0.114	5	44	90	753	False	False	
+GM02	RAP1B		3'UTR	T>C	11516	T	C	0.153	36	235	56	403	False	False	
+GM01	RAP1B		3'UTR	G>A	11539	G	A	0.111	5	45	94	769	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	11539	G	A	0.215	53	246	101	419	False	False	possible_deamination
+GM01	RAP1B		3'UTR	T>C	11551	T	C	0.093	4	43	89	787	False	False	
+GM01	RAP1B		3'UTR	T>C	11560	T	C	0.138	4	29	83	470	False	False	
+GM01	RAP1B		3'UTR	T>C	11562	T	C	0.111	2	18	28	399	False	False	
+GM02	RAP1B		3'UTR	T>C	11562	T	C	0.056	9	162	16	274	False	False	
+GM02	RAP1B		3'UTR	G>A	11571	G	A	0.072	5	69	10	123	False	False	possible_deamination
+GM02	RAP1B		UTR_indel	indel	11574	TGGG	TGG	0.222	4	18	5	37	False	False	
+GM02	RAP1B		UTR_indel	indel	11588	ATTTT	ATTTTT	0.278	5	18	7	29	False	False	
+GM02	RAP1B		3'UTR	T>C	11601	T	C	0.421	8	19	13	40	False	False	
+GM02	RAP1B		3'UTR	A>C	12239	A	C	0.643	9	14	16	23	False	False	
+GM02	RAP1B		3'UTR	A>G	12257	A	G	0.196	18	92	32	136	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	C>T	12271	C	T	0.093	9	97	16	143	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	12272	G	A	0.112	11	98	14	144	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	12276	C	T	0.214	21	98	24	144	False	False	possible_deamination
+GM01	RAP1B		3'UTR	G>A	12277	G	A	0.375	3	8	114	362	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	12277	G	A	0.14	14	100	25	146	False	False	possible_deamination
+GM02	RAP1B		3'UTR	C>T	12288	C	T	0.128	14	109	17	156	False	False	possible_deamination
+GM02	RAP1B		3'UTR	T>C	12303	T	C	0.129	12	93	19	133	False	False	
+GM02	RAP1B		3'UTR	T>C	12309	T	C	0.657	44	67	64	93	False	False	
+GM02	RAP1B		3'UTR	T>A	12309	T	A	0.06	4	67	5	93	False	False	
+GM02	RAP1B		3'UTR	G>A	12316	G	A	0.081	5	62	6	87	False	False	possible_deamination
+GM02	RAP1B		3'UTR	G>A	12322	G	A	0.52	13	25	15	29	False	False	possible_deamination
+GM02	RAP1B		3'UTR	A>T	12326	A	T	0.206	7	34	8	41	False	False	
+GM02	RAP1B		3'UTR	A>G	12335	A	G	0.077	3	39	6	52	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	T>C	12361	T	C	0.206	7	34	15	63	False	False	
+GM02	RAP1B		3'UTR	T>C	12365	T	C	0.135	5	37	11	69	False	False	
+GM02	RAP1B		3'UTR	T>C	12373	T	C	0.167	6	36	10	69	False	False	
+GM02	RAP1B		3'UTR	G>A	12374	G	A	0.083	3	36	5	70	False	False	possible_deamination
+GM02	RAP1B		3'UTR	T>C	12389	T	C	0.732	30	41	56	78	False	False	
+GM02	RAP1B		3'UTR	A>G	12398	A	G	0.079	3	38	6	75	False	False	possible_RNA_editing
+GM02	RAP1B		3'UTR	T>C	12429	T	C	0.417	5	12	6	19	False	False	
+GM02	RAP1B		3'UTR	A>G	12430	A	G	0.2	2	10	5	17	False	False	possible_RNA_editing
+GM02	PTPN11		3'UTR	C>T	2001	C	T	0.031	2	65	5	78	False	False	possible_deamination
+GM02	PTPN11		UTR_indel	indel	2591	CTTTTTTTTTTTT	CTTTTTTTTTTTTTTT	0.085	4	47	6	64	False	False	
+GM02	PTPN11		UTR_indel	indel	2591	CTTTTTTTTTTTT	CTTTTTTTTTTTTT	0.191	9	47	12	64	False	False	
+GM02	PTPN11		UTR_indel	indel	2591	CTTTTTTTTTTTT	CTTTTTTTTTTTTTT	0.128	6	47	6	64	False	False	
+GM02	FLT3	p.D96D	synonymous	C>T	354	C	T	1.0	12	12	16	16	False	False	possible_deamination
+GM02	RAP2A	p.F39F	synonymous	C>T	419	C	T	0.064	3	47	5	63	False	False	possible_deamination
+GM02	RAP2A	p.I44I	synonymous	C>T	434	C	T	0.157	8	51	10	66	False	False	possible_deamination
+GM02	RAP2A	p.D47D	synonymous	T>C	443	T	C	0.17	9	53	11	68	False	False	
+GM02	RAP2A	p.D57D	synonymous	C>T	473	C	T	0.3	18	60	20	75	False	False	possible_deamination
+GM02	RAP2A	p.L80L	synonymous	C>G	542	C	G	0.577	30	52	37	68	False	False	
+GM02	RAP2A		3'UTR	A>G	1322	A	G	1.0	39	39	54	54	False	False	possible_RNA_editing
+GM02	RAP2A		UTR_indel	indel	2621	GAAAAAAAAAAAAAA	GAAAAAAAAAAAAAAA	0.149	7	47	7	64	False	False	
+GM02	RAP2A		UTR_indel	indel	2621	GAAAAAAAAAAAAAA	GAAAAAAAAAAAAA	0.17	8	47	11	64	False	False	
+GM02	RAP2A		3'UTR	T>C	3682	T	C	1.0	10	10	15	15	False	False	
+GM02	RAP2A		UTR_indel	indel	4089	CTTTTTTTTTTT	CTTTTTTTTTTTT	0.36	9	25	11	34	False	False	
+GM02	RAP2A		UTR_indel	indel	4089	CTTTTTTTTTTT	CTTTTTTTTTTTTT	0.2	5	25	6	34	False	False	
+GM02	AKT1	p.E242E	synonymous	G>A	1248	G	A	1.0	45	45	56	56	False	False	possible_deamination
+GM02	AKT1	p.Q404*	stop_gained	C>T	1732	C	T	0.042	2	48	6	66	False	False	possible_deamination
+GM02	MAP2K1		3'UTR	C>A	1926	C	A	0.56	14	25	19	38	False	False	
+GM02	IDH3A	p.S8S	synonymous	T>C	66	T	C	0.538	7	13	9	19	False	False	
+GM02	IDH3A		3'UTR	C>T	2314	C	T	0.406	13	32	19	43	False	False	possible_deamination
+GM02	IDH3A		UTR_indel	indel	2498	ATTTTTTTTTTTTT	ATTTTTTTTTTTTTT	0.167	5	30	5	42	False	False	
+GM02	IDH3A		UTR_indel	indel	2498	ATTTTTTTTTTTTT	ATTTTTTTTTTTT	0.133	4	30	5	42	False	False	
+GM02	IDH2	p.92del3	inframe_deletion	indel	353	CTGATGA	CTGA	0.077	3	39	5	52	False	False	
+GM01	IDH2		3'UTR	T>C	2318	T	C	0.5	4	8	105	330	False	False	
+GM02	IDH2		3'UTR	T>C	2318	T	C	0.247	23	93	33	142	False	False	
+GM02	IDH2		3'UTR	T>C	2323	T	C	0.113	14	124	21	191	False	False	
+GM02	IDH2		3'UTR	T>C	2335	T	C	0.05	13	260	22	428	False	False	
+GM01	IDH2		3'UTR	C>T	2341	C	T	0.233	7	30	140	935	False	False	possible_deamination
+GM02	IDH2		3'UTR	C>T	2341	C	T	0.19	54	284	109	472	False	False	possible_deamination
+GM01	IDH2		3'UTR	C>T	2350	C	T	0.243	9	37	191	1096	False	False	possible_deamination
+GM02	IDH2		3'UTR	C>T	2350	C	T	0.156	55	352	97	599	False	False	possible_deamination
+GM01	IDH2		3'UTR	G>A	2351	G	A	0.081	3	37	160	1099	False	False	possible_deamination
+GM02	IDH2		3'UTR	G>A	2351	G	A	0.133	47	354	77	606	False	False	possible_deamination
+GM01	IDH2		3'UTR	C>T	2381	C	T	0.114	4	35	169	1062	False	False	possible_deamination
+GM01	IDH2		3'UTR	A>G	2382	A	G	0.147	5	34	241	996	False	False	possible_RNA_editing
+GM02	IDH2		3'UTR	A>G	2382	A	G	0.12	37	308	65	534	False	False	possible_RNA_editing
+GM01	IDH2		3'UTR	C>A	2391	C	A	0.818	18	22	522	691	False	False	
+GM02	IDH2		3'UTR	C>A	2391	C	A	0.88	198	225	351	397	False	False	
+GM02	IDH2		3'UTR	C>T	2413	C	T	0.119	10	84	22	161	False	False	possible_deamination
+GM02	IDH2		3'UTR	G>A	2414	G	A	0.068	5	73	8	142	False	False	possible_deamination
+GM02	IDH2		3'UTR	A>G	2463	A	G	0.655	19	29	31	46	False	False	possible_RNA_editing
+GM02	IDH2		3'UTR	G>T	2467	G	T	0.3	9	30	19	47	False	False	
+GM02	IDH2		3'UTR	G>C	2467	G	C	0.4	12	30	12	47	False	False	
+GM02	IDH2		3'UTR	A>G	2474	A	G	0.043	2	47	5	86	False	False	possible_RNA_editing
+GM02	IDH2		3'UTR	T>C	2477	T	C	0.094	5	53	10	103	False	False	
+GM02	IDH2		3'UTR	C>T	2501	C	T	0.09	11	122	23	221	False	False	possible_deamination
+GM01	IDH2		3'UTR	G>A	2502	G	A	0.114	4	35	21	259	False	False	possible_deamination
+GM02	IDH2		3'UTR	G>A	2502	G	A	0.077	9	117	16	210	False	False	possible_deamination
+GM01	IDH2		3'UTR	C>T	2506	C	T	0.818	27	33	160	202	False	False	possible_deamination
+GM02	IDH2		3'UTR	C>T	2506	C	T	0.588	67	114	127	201	False	False	possible_deamination
+GM02	IDH2		3'UTR	T>C	2507	T	C	0.124	15	121	23	221	False	False	
+GM01	IDH2		3'UTR	A>G	2510	A	G	0.059	7	119	113	548	False	False	possible_RNA_editing
+GM01	IDH2		3'UTR	T>C	2531	T	C	0.063	20	318	160	1583	False	False	
+GM02	IDH2		3'UTR	C>T	2539	C	T	0.062	30	483	53	868	False	False	possible_deamination
+GM01	IDH2		3'UTR	T>C	2545	T	C	0.081	26	320	103	1586	False	False	
+GM02	IDH2		3'UTR	T>C	2545	T	C	0.125	61	487	108	873	False	False	
+GM01	IDH2		3'UTR	C>T	2546	C	T	0.075	24	321	104	1591	False	False	possible_deamination
+GM01	IDH2		3'UTR	T>C	2547	T	C	0.298	97	326	456	1618	False	False	
+GM02	IDH2		3'UTR	T>C	2547	T	C	0.191	93	486	170	874	False	False	
+GM02	IDH2		3'UTR	G>A	2548	G	A	0.059	28	471	57	852	False	False	possible_deamination
+GM02	TP53	p.P72R	missense	C>G	357	C	G	0.977	42	43	55	57	False	False	
+GM02	TP53	p.R213R	synonymous	A>G	781	A	G	0.581	18	31	22	37	False	False	possible_RNA_editing
+GM02	TP53		UTR_indel	indel	2078	CTTTTTTTTTTTTTTTTTT	CTTTTTTTTTTTTTTTTT	0.391	9	23	12	31	False	False	
+GM02	TP53		UTR_indel	indel	2078	CTTTTTTTTTTTTTTTTTT	CTTTTTTTTTTTTTTTT	0.174	4	23	7	31	False	False	
+GM02	NF1	p.L234L	synonymous	G>A	1035	G	A	0.533	8	15	8	16	False	False	possible_deamination
+GM02	NF1	p.Q282Q	synonymous	G>A	1179	G	A	0.586	17	29	21	35	False	False	possible_deamination
+GM02	NF1	p.P678P	synonymous	G>A	2367	G	A	0.354	17	48	21	61	False	False	possible_deamination
+GM02	NF1	p.Q1835*	stop_gained	C>T	5836	C	T	0.065	3	46	5	60	False	False	possible_deamination
+GM02	NF1	p.N2833N	synonymous	T>C	8832	T	C	0.478	11	23	13	29	False	False	
+GM02	NF1		UTR_indel	indel	9710	TTATATATATATATATAT	TTATATATATATATAT	0.357	5	14	8	16	False	False	
+GM02	NF1		UTR_indel	indel	9726	ATTTTTT	ATTTTTTTT	0.294	5	17	5	20	False	False	
+GM02	NF1		3'UTR	T>C	11682	T	C	0.955	21	22	26	27	False	False	
+GM02	ERBB2	p.782del2fs	frameshift_deletion	indel	2519	GTCTC	GTC	0.087	2	23	10	39	False	False	
+GM02	ERBB2	p.P1170A	missense	C>G	3683	C	G	1.0	34	34	46	46	False	False	
+GM02	GNA11	p.T257T	synonymous	C>T	1061	C	T	1.0	29	29	34	34	False	False	possible_deamination
+GM02	GNA11		UTR_indel	indel	1492	ATTTTTTTTTTT	ATTTTTTTTTTTT	0.2	5	25	8	34	False	False	
+GM02	GNA11		UTR_indel	indel	1645	TAAAAAAAAAAAAAAAA	TAAAAAAAAAAAAAAAAAA	0.25	5	20	5	19	False	False	
+GM02	GNA11		UTR_indel	indel	1703	GCCCC	GCCCCC	0.257	9	35	13	40	False	False	
+GM02	GNA11		3'UTR	C>G	2101	C	G	1.0	13	13	16	16	False	False	
+GM02	GNA11		3'UTR	C>G	3138	C	G	1.0	15	15	18	18	False	False	
+GM02	GNA15	p.L339L	synonymous	C>T	1435	C	T	0.5	6	12	7	15	False	False	possible_deamination
+GM02	MAP2K2	p.I220I	synonymous	C>A	907	C	A	0.486	17	35	21	45	False	False	
+GM02	SMARCA4		UTR_indel	indel	144	TGCAG	TG	0.389	7	18	8	21	False	False	
+GM02	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.395	15	38	16	47	False	False	
+GM02	AKT2		UTR_indel	indel	4836	TAAAAAAAAAAAAAA	TAAAAAAAAAAAAAAA	0.231	3	13	5	18	False	False	
+GM02	RRAS	p.N111N	synonymous	C>T	378	C	T	0.8	8	10	8	11	False	False	possible_deamination
+GM01	GNAS	p.I131I	synonymous	C>T	699	C	T	0.5	4	8	113	239	False	False	possible_deamination
+GM02	GNAS	p.I131I	synonymous	C>T	699	C	T	0.483	207	429	291	605	False	False	possible_deamination
+GM02	EIF1AX	p.K7N	missense	A>C	219	A	C	0.42	42	100	55	151	True	False	
+GM02	EIF1AX	p.R12R	synonymous	A>G	234	A	G	0.072	7	97	8	149	False	False	possible_RNA_editing
+GM02	EIF1AX	p.K16K	synonymous	G>A	246	G	A	0.075	7	93	8	143	False	False	possible_deamination
+GM02	EIF1AX		UTR_indel	indel	885	CAAAAAAAAAAAAAAA	CAAAAAAAAAAAAAAAA	0.231	9	39	10	48	False	False	
+GM02	EIF1AX		UTR_indel	indel	885	CAAAAAAAAAAAAAAA	CAAAAAAAAAAAAAA	0.128	5	39	5	48	False	False	
+GM02	EIF1AX		UTR_indel	indel	1199	TAAAAAAAAAAAAAAA	TAAAAAAAAAAAAAA	0.267	12	45	14	55	False	False	
+GM02	EIF1AX		UTR_indel	indel	1199	TAAAAAAAAAAAAAAA	TAAAAAAAAAAAAAAAA	0.111	5	45	6	55	False	False	
+GM02	DDX3X	p.590del3	inframe_deletion	indel	1858	GAGTAG	GAG	0.198	21	106	32	139	False	False	
+GM02	DDX3X		3'UTR	A>G	3482	A	G	0.052	4	77	6	105	False	False	possible_RNA_editing
+GM02	DDX3X		3'UTR	G>T	4261	G	T	0.1	5	50	7	72	False	False	
+GM02	DDX3X		UTR_indel	indel	4261	GTTTTTTTTTTTTTTT	GTTTTTTTTTTTTT	0.098	5	51	10	75	False	False	
+GM02	DDX3X		UTR_indel	indel	4261	GTTTTTTTTTTTTTTT	GTTTTTTTTTTTTTT	0.118	6	51	10	75	False	False	
+GM02	DDX3X		3'UTR	C>T	4309	C	T	0.043	2	47	9	70	False	False	possible_deamination

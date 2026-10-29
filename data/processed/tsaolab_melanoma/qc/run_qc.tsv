@@ -1,0 +1,2 @@
+sample_id	core_id	instrument	sequencing_run	flowcell	lane	reads_raw	reads_after_trim	pct_reads_kept	pct_adapter_trimmed	mean_read_length_after_trim	insert_size_peak	pct_q30_after_trim	fastp_duplication_rate	salmon_fragments	salmon_mapped	mapping_rate_pct	library_type	compatible_fragment_ratio	frag_length_mean	driver_ref_reads
+GM01	20088XR-11-01	Illumina_NovaSeqX	LH00150:1062	23M23GLT3	L008	76755172	75441284	98.29	62.49	128.0	126	97.3	0.6911	37720642	13211561	35.02	ISR	1.0	138.9	1082594
