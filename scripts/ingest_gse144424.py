@@ -29,6 +29,15 @@ INPUT_URLS = {
     "GSE144424_series_matrix.txt.gz":
         "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE144nnn/GSE144424/matrix/GSE144424_series_matrix.txt.gz",
 }
+# Immutable inputs for this version. A changed deposit or annotation requires a
+# new package version; recomputing a hash from a changed file is not validation.
+INPUT_SHA256 = {
+    "GSE144424_Counts_RNA_MCW_NEB.txt.gz": "cad9ac4c6514550ea9bfb2b491cc2934f6952894d7cbd17338d5054d03da6f7c",
+    "GSE144424_family.soft.gz": "156b46d9e11fc4a59219530808c617887ac622e711d137964e1ccb88b0766907",
+    "GSE144424_series_matrix.txt.gz": "40dda761c345cb757eaa4d2c0eefcebad948c134137ffdcdc0af855384c90ec4",
+}
+GENE_MAPPING_SHA256 = "b463ad00c0f6d6b3de0ec78fc8de3c3df44cb7451a56dd6e8d2a1b3f2dd43ccb"
+OUTPUT_NAMES = ("counts.parquet", "genes.csv", "samples.csv", "marker_mapping.csv", "provenance.json", "README.md")
 CONDITIONS = {
     "A": ("normoxia", 10, 0, 0, 6),
     "B": ("hypoxia", 1, 6, 0, 6),
@@ -160,11 +169,32 @@ def curate(package: Path = DEFAULT_PACKAGE, mapping_path: Path = GENE_MAPPING) -
         mapping_reference = mapping_path.name
         mapping_basis = "external_input_filename"
     inputs = package / "inputs"
+    for name, expected in INPUT_SHA256.items():
+        if sha256(inputs / name) != expected:
+            raise ValueError(f"Pinned source checksum mismatch for {name}; use a new package version for changed inputs")
+    mapping_hash = sha256(mapping_path)
+    if mapping_hash != GENE_MAPPING_SHA256:
+        raise ValueError("Pinned gene mapping checksum mismatch; use a new package version for changed annotation")
+    manifest_path = package / "manifest.json"
+    if manifest_path.exists():
+        existing = json.loads(manifest_path.read_text())
+        recorded = {Path(item["path"]).name: item["sha256"] for item in existing.get("inputs", [])}
+        if (existing.get("dataset_id") != "gse144424_cardiomyocyte_v1"
+                or recorded != INPUT_SHA256
+                or existing.get("local_marker_mapping_sha256") != mapping_hash
+                or set(existing.get("outputs", {})) != set(OUTPUT_NAMES)):
+            raise ValueError("Existing package manifest disagrees with pinned version; refuse replacement")
+        for name, expected in existing["outputs"].items():
+            if sha256(package / name) != expected:
+                raise ValueError(f"Existing package output changed: {name}; refuse replacement")
+        # Preserve the existing immutable release and its recorded builder hash.
+        return existing
+    if any((package / name).exists() for name in OUTPUT_NAMES):
+        raise ValueError("Existing outputs lack a manifest; refuse same-version replacement")
     sources = [
         {"path": f"inputs/{name}", "url": url, "sha256": sha256(inputs / name)}
         for name, url in INPUT_URLS.items()
     ]
-    mapping_hash = sha256(mapping_path)
     raw = pd.read_csv(inputs / "GSE144424_Counts_RNA_MCW_NEB.txt.gz", sep="\t")
     if raw.columns[:6].tolist() != ANNOTATION_COLUMNS or raw.Geneid.duplicated().any():
         raise ValueError("Invalid featureCounts annotation or duplicate gene identifiers")
@@ -280,12 +310,11 @@ Mapping paths with basis `repository_root` are relative to the checkout root. Cu
 From the repository root, use Python 3.10 with `keloidbench/requirements-revision.txt`, then run `python scripts/ingest_gse144424.py`. The script is local-only, performs no downloads, and writes only this package. Raw reads were not downloaded.
 """
     (package / "README.md").write_text(readme)
-    output_names = ["counts.parquet", "genes.csv", "samples.csv", "marker_mapping.csv", "provenance.json", "README.md"]
     manifest = {
         "dataset_id": "gse144424_cardiomyocyte_v1", "status": "exploratory_only",
         "frozen_benchmark_member": False, "inputs": sources,
         "local_marker_mapping_sha256": mapping_hash, "audit": audit,
-        "outputs": {name: sha256(package / name) for name in output_names},
+        "outputs": {name: sha256(package / name) for name in OUTPUT_NAMES},
         "ingestion_script_sha256": sha256(Path(__file__)),
     }
     (package / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
