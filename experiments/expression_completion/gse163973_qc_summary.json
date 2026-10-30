@@ -1,0 +1,20 @@
+{
+  "study": "GSE163973",
+  "material": "depositor-provided processed single-cell count matrices",
+  "archive_sha256": "cbc92e19461ccc92808de5bbf6662f863d8139b8cf274621527fc4e2b5ec5a88",
+  "matrix_barcodes": 53148,
+  "author_annotated_barcodes": 40655,
+  "author_annotated_fibroblasts": 13437,
+  "unannotated_barcodes": 12493,
+  "unannotated_mito_fraction_over_15_percent": 8203,
+  "annotated_matrix_umi_over_6000": 29084,
+  "annotated_with_any_descriptive_sample_mad_flag": 4582,
+  "pseudobulk_profiles_exactly_reproduced": 47,
+  "limitations": [
+    "The paper reports removal of predicted doublets; per-cell scores were not retained in the checked metadata.",
+    "The paper's stated 6000 UMI cutoff conflicts with retained counts. The reason is unknown; no new cutoff was applied.",
+    "Descriptive MAD flags are review markers, not automatic exclusion rules.",
+    "Unknown cross-condition donor relationships prevent guaranteed donor isolation from sample suffixes."
+  ],
+  "paper": "https://doi.org/10.1038/s41467-021-24110-y"
+}
