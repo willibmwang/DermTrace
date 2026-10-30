@@ -1,31 +1,443 @@
 sample_id	gene	hgvsp	consequence	change	tx_pos	ref	alt	vaf	alt_molecules	depth_molecules	raw_alt_reads	raw_depth	hotspot	likely_polymorphism	artefact_class
-GM02	MTOR	p.2276del3	inframe_deletion	indel	6947	GACCAC	GAC	0.083	2	24	5	36	False	False	
+GM06	MTOR	p.Q375*	stop_gained	C>T	1244	C	T	0.1	2	20	5	33	False	False	possible_deamination
+GM08	MTOR	p.T583I	missense	C>T	1869	C	T	0.118	2	17	6	52	False	False	possible_deamination
+GM06	MTOR	p.L828F	missense	C>T	2603	C	T	0.188	3	16	5	25	False	False	possible_deamination
+GM06	MTOR	p.V1885I	missense	G>A	5774	G	A	0.429	6	14	9	21	False	False	possible_deamination
+GM06	MTOR	p.T2384I	missense	C>T	7272	C	T	0.069	2	29	8	54	False	False	possible_deamination
 GM02	ARID1A	p.Q420*	stop_gained	C>T	1647	C	T	0.067	2	30	5	42	False	False	possible_deamination
-GM02	ARID1A	p.1180del3	inframe_deletion	indel	3926	GAGCAG	GAG	0.421	16	38	20	43	False	False	
-GM02	ARID1A	p.1401del3	inframe_deletion	indel	4589	TCAGCAGCAGCAG	TCAGCAGCAG	0.156	5	32	7	44	False	False	
+GM07	ARID1A	p.P478L	missense	C>T	1822	C	T	0.074	2	27	7	75	False	False	possible_deamination
+GM04	ARID1A	p.P483S	missense	C>T	1836	C	T	0.143	2	14	20	157	False	False	possible_deamination
+GM06	ARID1A	p.P483L	missense	C>T	1837	C	T	0.086	3	35	5	71	False	False	possible_deamination
+GM08	ARID1A	p.Q492*	stop_gained	C>T	1863	C	T	0.108	4	37	18	143	False	False	possible_deamination
+GM18	ARID1A	p.P498L	missense	C>T	1882	C	T	0.051	2	39	10	187	False	False	possible_deamination
+GM08	ARID1A	p.Q505*	stop_gained	C>T	1902	C	T	0.043	2	46	15	167	False	False	possible_deamination
+GM04	ARID1A	p.S506F	missense	C>T	1906	C	T	0.108	4	37	28	408	False	False	possible_deamination
+GM08	ARID1A	p.L511F	missense	C>T	1920	C	T	0.042	2	48	14	190	False	False	possible_deamination
+GM04	ARID1A	p.S523F	missense	C>T	1957	C	T	0.056	2	36	20	389	False	False	possible_deamination
+GM04	ARID1A	p.P525S	missense	C>T	1962	C	T	0.059	2	34	24	363	False	False	possible_deamination
+GM07	ARID1A	p.P535S	missense	C>T	1992	C	T	0.057	2	35	7	91	False	False	possible_deamination
+GM18	ARID1A	p.T541I	missense	C>T	2011	C	T	0.05	2	40	10	182	False	False	possible_deamination
+GM08	ARID1A	p.S552L	missense	C>T	2044	C	T	0.077	2	26	11	101	False	False	possible_deamination
+GM18	ARID1A	p.Q670*	stop_gained	C>T	2397	C	T	0.154	2	13	8	40	False	False	possible_deamination
+GM18	ARID1A	p.T897I	missense	C>T	3079	C	T	0.167	2	12	7	53	False	False	possible_deamination
+GM08	ARID1A	p.H1170Y	missense	C>T	3897	C	T	0.095	2	21	5	62	False	False	possible_deamination
+GM08	ARID1A	p.P1307S	missense	C>T	4308	C	T	0.143	2	14	13	44	False	False	possible_deamination
+GM03	ARID1A	p.P1553L	missense	C>T	5047	C	T	0.154	2	13	15	122	False	False	possible_deamination
+GM08	ARID1A	p.A1589V	missense	C>T	5155	C	T	0.182	2	11	7	35	False	False	possible_deamination
+GM07	ARID1A	p.P1605S	missense	C>T	5202	C	T	0.167	2	12	7	31	False	False	possible_deamination
+GM07	ARID1A	p.P1898L	missense	C>T	6082	C	T	0.15	3	20	8	42	False	False	possible_deamination
+GM07	ARID1A	p.R1918W	missense	C>T	6141	C	T	0.091	2	22	5	47	False	False	possible_deamination
+GM18	ARID1A	p.S2256L	missense	C>T	7156	C	T	0.182	2	11	5	39	False	False	possible_deamination
+GM06	NRAS	p.Q61K	missense	C>A	312	C	A	0.2	4	20	8	36	True	False	
 GM02	NRAS	p.Q61R	missense	A>G	313	A	G	0.156	7	45	10	56	True	False	possible_RNA_editing
+GM04	SF3B1	p.T125I	missense	C>T	403	C	T	0.2	2	10	12	75	False	False	possible_deamination
+GM07	SF3B1	p.A137V	missense	C>T	439	C	T	0.038	2	53	9	110	False	False	possible_deamination
+GM07	SF3B1	p.T142I	missense	C>T	454	C	T	0.039	2	51	8	99	False	False	possible_deamination
+GM08	SF3B1	p.E167G	missense	A>G	529	A	G	0.154	2	13	6	45	False	False	possible_RNA_editing
 GM02	SF3B1	p.213ins1fs	frameshift_insertion	indel	665	CAAAAAA	CAAAAAAA	0.05	5	101	7	137	False	False	
+GM07	SF3B1	p.213ins1fs	frameshift_insertion	indel	665	CAAAAAA	CAAAAAAA	0.194	7	36	16	83	False	False	
+GM07	SF3B1	p.213ins2fs	frameshift_insertion	indel	665	CAAAAAA	CAAAAAAAA	0.056	2	36	5	83	False	False	
+GM06	SF3B1	p.213del2fs	frameshift_deletion	indel	665	CAAAAAA	CAAAA	0.057	3	53	7	100	False	False	
+GM04	SF3B1	p.H260Y	missense	C>T	807	C	T	0.167	2	12	23	121	False	False	possible_deamination
+GM07	SF3B1	p.T273I	missense	C>T	847	C	T	0.034	2	58	7	121	False	False	possible_deamination
+GM18	SF3B1	p.A277V	missense	C>T	859	C	T	0.125	2	16	8	70	False	False	possible_deamination
+GM08	SF3B1	p.P304S	missense	C>T	939	C	T	0.061	2	33	6	120	False	False	possible_deamination
+GM03	SF3B1	p.P314S	missense	C>T	969	C	T	0.081	3	37	32	367	False	False	possible_deamination
+GM03	SF3B1	p.R337W	missense	C>T	1038	C	T	0.057	2	35	22	361	False	False	possible_deamination
+GM08	SF3B1	p.P355L	missense	C>T	1093	C	T	0.041	2	49	12	155	False	False	possible_deamination
+GM08	SF3B1	p.P359S	missense	C>T	1104	C	T	0.041	2	49	8	152	False	False	possible_deamination
+GM03	SF3B1	p.A364V	missense	C>T	1120	C	T	0.062	2	32	14	238	False	False	possible_deamination
+GM03	SF3B1	p.T369I	missense	C>T	1135	C	T	0.056	2	36	23	282	False	False	possible_deamination
+GM03	SF3B1	p.P380S	missense	C>T	1167	C	T	0.091	3	33	22	285	False	False	possible_deamination
+GM07	SF3B1	p.P435L	missense	C>T	1333	C	T	0.039	3	77	12	187	False	False	possible_deamination
+GM06	SF3B1	p.P646L	missense	C>T	1966	C	T	0.051	2	39	5	81	False	False	possible_deamination
+GM08	SF3B1	p.Q670*	stop_gained	C>T	2037	C	T	0.182	2	11	6	40	False	False	possible_deamination
+GM08	SF3B1	p.S723F	missense	C>T	2197	C	T	0.125	3	24	11	64	False	False	possible_deamination
+GM18	SF3B1	p.L773F	missense	C>T	2346	C	T	0.1	3	30	9	106	False	False	possible_deamination
+GM03	SF3B1	p.V792A	missense	T>C	2404	T	C	0.045	2	44	32	397	False	False	
+GM03	SF3B1	p.A803V	missense	C>T	2437	C	T	0.05	2	40	20	314	False	False	possible_deamination
+GM18	SF3B1	p.L811F	missense	C>T	2460	C	T	0.075	3	40	13	140	False	False	possible_deamination
+GM18	SF3B1	p.P812L	missense	C>T	2464	C	T	0.075	3	40	13	140	False	False	possible_deamination
+GM05	SF3B1	p.S851F	missense	C>T	2581	C	T	0.04	2	50	28	416	False	False	possible_deamination
+GM03	SF3B1	p.E862G	missense	A>G	2614	A	G	0.054	3	56	34	541	False	False	possible_RNA_editing
+GM18	SF3B1	p.H886Y	missense	C>T	2685	C	T	0.065	2	31	8	128	False	False	possible_deamination
+GM03	SF3B1	p.T916I	missense	C>T	2776	C	T	0.08	2	25	22	192	False	False	possible_deamination
+GM03	SF3B1	p.A959V	missense	C>T	2905	C	T	0.049	2	41	27	372	False	False	possible_deamination
+GM08	SF3B1	p.A999V	missense	C>T	3025	C	T	0.05	2	40	7	128	False	False	possible_deamination
+GM06	SF3B1	p.L1097F	missense	C>T	3318	C	T	0.057	3	53	6	104	False	False	possible_deamination
+GM03	SF3B1	p.Q1252*	stop_gained	C>T	3783	C	T	0.061	2	33	16	217	False	False	possible_deamination
+GM07	IDH1	p.L120F	missense	C>T	581	C	T	0.182	2	11	7	32	False	False	possible_deamination
+GM08	RAF1	p.Q34*	stop_gained	C>T	431	C	T	0.182	2	11	7	22	False	False	possible_deamination
+GM18	RAF1	p.S243P	missense	T>C	1058	T	C	0.2	2	10	10	43	False	False	
+GM04	RAF1	p.T268I	missense	C>T	1134	C	T	0.125	2	16	10	155	False	False	possible_deamination
+GM06	RAF1	p.R282*	stop_gained	C>T	1175	C	T	0.036	2	55	5	96	False	False	possible_deamination
+GM05	RAF1	p.P297S	missense	C>T	1220	C	T	0.143	2	14	11	144	False	False	possible_deamination
+GM18	CTNNB1	p.T41I	missense	C>T	336	C	T	0.062	2	32	5	113	True	False	possible_deamination
+GM18	CTNNB1	p.Q72*	stop_gained	C>T	428	C	T	0.048	2	42	9	169	False	False	possible_deamination
+GM18	CTNNB1	p.Q143*	stop_gained	C>T	641	C	T	0.2	2	10	8	49	False	False	possible_deamination
+GM08	CTNNB1	p.L221F	missense	C>T	875	C	T	0.086	3	35	12	101	False	False	possible_deamination
+GM07	CTNNB1	p.A230T	missense	G>A	902	G	A	0.065	4	62	18	147	False	False	possible_deamination
+GM18	CTNNB1	p.L402F	missense	C>T	1418	C	T	0.067	2	30	9	97	False	False	possible_deamination
+GM08	CTNNB1	p.T450I	missense	C>T	1563	C	T	0.042	2	48	8	141	False	False	possible_deamination
+GM10	CTNNB1	p.R453W	missense	C>T	1571	C	T	0.25	2	8	79	268	False	False	possible_deamination
+GM08	CTNNB1	p.A484V	missense	C>T	1665	C	T	0.048	3	62	13	199	False	False	possible_deamination
+GM08	CTNNB1	p.L487F	missense	C>T	1673	C	T	0.062	4	64	17	204	False	False	possible_deamination
+GM10	CTNNB1	p.H499Y	missense	C>T	1709	C	T	0.118	2	17	81	454	False	False	possible_deamination
+GM04	CTNNB1	p.P500L	missense	C>T	1713	C	T	0.08	2	25	17	222	False	False	possible_deamination
+GM04	CTNNB1	p.R535*	stop_gained	C>T	1817	C	T	0.176	3	17	30	204	False	False	possible_deamination
+GM18	CTNNB1	p.Q557*	stop_gained	C>T	1883	C	T	0.094	3	32	15	132	False	False	possible_deamination
+GM03	CTNNB1	p.R717C	missense	C>T	2363	C	T	0.182	2	11	20	95	False	False	possible_deamination
+GM08	CTNNB1	p.R717C	missense	C>T	2363	C	T	0.091	2	22	7	61	False	False	possible_deamination
+GM08	CTNNB1	p.P744S	missense	C>T	2444	C	T	0.065	2	31	7	103	False	False	possible_deamination
+GM08	CTNNB1	p.Q760*	stop_gained	C>T	2492	C	T	0.043	2	47	11	148	False	False	possible_deamination
+GM08	SETD2	p.P44L	missense	C>T	320	C	T	0.154	2	13	8	49	False	False	possible_deamination
+GM07	SETD2	p.A50V	missense	C>T	338	C	T	0.077	2	26	6	66	False	False	possible_deamination
+GM08	SETD2	p.P191L	missense	C>T	761	C	T	0.091	2	22	5	87	False	False	possible_deamination
+GM08	SETD2	p.T201I	missense	C>T	791	C	T	0.1	2	20	10	82	False	False	possible_deamination
+GM06	SETD2	p.T444M	missense	C>T	1520	C	T	0.087	2	23	6	38	False	False	possible_deamination
+GM07	SETD2	p.S478F	missense	C>T	1622	C	T	0.095	2	21	6	43	False	False	possible_deamination
+GM06	SETD2	p.R1089W	missense	C>T	3454	C	T	0.059	3	51	5	90	False	False	possible_deamination
+GM06	SETD2	p.H1586Y	missense	C>T	4945	C	T	0.077	2	26	7	50	False	False	possible_deamination
 GM02	SETD2	p.R1592*	stop_gained	C>T	4963	C	T	0.125	4	32	6	40	False	False	possible_deamination
-GM02	SETD2	p.P1962L	missense	C>T	6074	C	T	0.484	30	62	37	78	False	False	possible_deamination
+GM06	SETD2	p.H1629Y	missense	C>T	5074	C	T	0.097	3	31	6	61	False	False	possible_deamination
+GM06	SETD2	p.A1851V	missense	C>T	5741	C	T	0.071	2	28	6	45	False	False	possible_deamination
+GM04	SETD2	p.A1956V	missense	C>T	6056	C	T	0.2	2	10	9	96	False	False	possible_deamination
+GM08	SETD2	p.T2036I	missense	C>T	6296	C	T	0.167	2	12	6	47	False	False	possible_deamination
+GM07	SETD2	p.P2095S	missense	C>T	6472	C	T	0.079	3	38	8	87	False	False	possible_deamination
+GM06	SETD2	p.P2379L	missense	C>T	7325	C	T	0.08	2	25	6	54	False	False	possible_deamination
+GM07	SETD2	p.R2510C	missense	C>T	7717	C	T	0.118	2	17	7	40	False	False	possible_deamination
+GM08	MITF	p.Q138*	stop_gained	C>T	546	C	T	0.051	2	39	6	111	False	False	possible_deamination
+GM06	MITF	p.L255V	missense	T>G	897	T	G	0.057	3	53	8	100	False	False	
+GM07	MITF	p.A294E	missense	C>A	1015	C	A	0.054	2	37	5	67	False	False	
+GM07	MITF	p.A303V	missense	C>T	1042	C	T	0.068	3	44	6	78	False	False	possible_deamination
+GM06	MITF	p.S341L	missense	C>T	1156	C	T	0.029	2	69	7	138	False	False	possible_deamination
+GM07	MITF	p.A356V	missense	C>T	1201	C	T	0.032	2	63	9	149	False	False	possible_deamination
+GM07	MITF	p.D359G	missense	A>G	1210	A	G	0.07	4	57	10	136	False	False	possible_RNA_editing
+GM10	MITF	p.R420W	missense	C>T	1392	C	T	0.222	2	9	47	246	False	False	possible_deamination
+GM08	MITF	p.S502L	missense	C>T	1639	C	T	0.071	2	28	6	93	False	False	possible_deamination
 GM02	RASA2	p.645ins3	inframe_insertion	indel	1990	GG	GGTAG	0.367	11	30	20	46	False	False	
-GM02	KIT	p.714del3	inframe_deletion	indel	2198	TGCAGC	TGC	0.429	9	21	9	22	False	False	
-GM02	FBXW7	p.250del4fs	frameshift_deletion	indel	1925	ATTGCTTGCTT	ATTGCTT	0.111	2	18	6	25	False	False	
+GM03	RASA2	p.645ins3	inframe_insertion	indel	1990	GG	GGTAG	0.25	2	8	26	54	False	False	
+GM06	PIK3CA	p.S66F	missense	C>T	520	C	T	0.188	3	16	7	34	False	False	possible_deamination
+GM07	KIT	p.Q79*	stop_gained	C>T	293	C	T	0.033	2	61	8	140	False	False	possible_deamination
+GM07	KIT	p.P114S	missense	C>T	398	C	T	0.1	3	30	8	55	False	False	possible_deamination
+GM06	KIT	p.T230I	missense	C>T	747	C	T	0.043	2	47	5	87	False	False	possible_deamination
+GM03	KIT	p.252ins3	inframe_insertion	indel	811	TCAG	TCAGCAG	0.154	2	13	22	112	False	False	
+GM06	KIT	p.252ins3	inframe_insertion	indel	811	TCAG	TCAGCAG	0.236	13	55	20	90	False	False	
+GM07	KIT	p.252ins3	inframe_insertion	indel	811	TCAG	TCAGCAG	0.102	5	49	11	115	False	False	
+GM08	KIT	p.252ins3	inframe_insertion	indel	811	TCAG	TCAGCAG	0.35	7	20	18	73	False	False	
+GM18	KIT	p.Q252*	stop_gained	C>T	812	C	T	0.182	2	11	6	41	False	False	possible_deamination
+GM07	KIT	p.T322I	missense	C>T	1023	C	T	0.077	2	26	6	61	False	False	possible_deamination
+GM07	KIT	p.P838L	missense	C>T	2571	C	T	0.074	2	27	6	63	False	False	possible_deamination
+GM07	KIT	p.A940V	missense	C>T	2877	C	T	0.044	2	45	5	97	False	False	possible_deamination
+GM06	KIT	p.S943N	missense	G>A	2886	G	A	0.062	2	32	6	73	False	False	possible_deamination
+GM07	KIT	p.A964V	missense	C>T	2949	C	T	0.043	2	47	6	107	False	False	possible_deamination
+GM07	FBXW7	p.S25L	missense	C>T	1252	C	T	0.062	2	32	6	76	False	False	possible_deamination
+GM18	FBXW7	p.Q74*	stop_gained	C>T	1398	C	T	0.167	2	12	5	36	False	False	possible_deamination
+GM08	FBXW7	p.S91F	missense	C>T	1450	C	T	0.083	2	24	6	71	False	False	possible_deamination
+GM03	FBXW7	p.R224*	stop_gained	C>T	1848	C	T	0.3	3	10	12	78	False	False	possible_deamination
+GM07	MAP3K1	p.R179C	missense	C>T	560	C	T	0.079	3	38	10	91	False	False	possible_deamination
+GM07	MAP3K1	p.H199Y	missense	C>T	620	C	T	0.074	2	27	5	58	False	False	possible_deamination
+GM18	MAP3K1	p.P243L	missense	C>T	753	C	T	0.182	2	11	11	49	False	False	possible_deamination
+GM07	MAP3K1	p.A314T	missense	G>A	965	G	A	0.105	2	19	5	38	False	False	possible_deamination
+GM06	MAP3K1	p.T353I	missense	C>T	1083	C	T	0.065	2	31	5	54	False	False	possible_deamination
 GM02	MAP3K1	p.D806N	missense	G>A	2441	G	A	0.414	12	29	18	38	False	False	possible_deamination
-GM02	MAP3K1	p.V906I	missense	G>A	2741	G	A	0.453	24	53	35	72	False	False	possible_deamination
+GM06	MAP3K1	p.D806N	missense	G>A	2441	G	A	0.548	17	31	36	58	False	False	possible_deamination
+GM07	MAP3K1	p.D806N	missense	G>A	2441	G	A	0.273	3	11	8	20	False	False	possible_deamination
+GM07	MAP3K1	p.P938L	missense	C>T	2838	C	T	0.038	2	53	7	125	False	False	possible_deamination
+GM18	MAP3K1	p.P938L	missense	C>T	2838	C	T	0.125	2	16	11	64	False	False	possible_deamination
+GM08	MAP3K1	p.T949A	missense	A>G	2870	A	G	0.056	2	36	8	118	False	False	possible_RNA_editing
+GM06	MAP3K1	p.R961G	missense	A>G	2906	A	G	0.03	2	67	6	108	False	False	possible_RNA_editing
+GM18	MAP3K1	p.P962S	missense	C>T	2909	C	T	0.118	2	17	8	60	False	False	possible_deamination
+GM06	MAP3K1	p.Q965*	stop_gained	C>T	2918	C	T	0.06	4	67	7	99	False	False	possible_deamination
+GM08	MAP3K1	p.H975Y	missense	C>T	2948	C	T	0.098	4	41	13	128	False	False	possible_deamination
+GM05	MAP3K1	p.P981S	missense	C>T	2966	C	T	0.095	2	21	21	179	False	False	possible_deamination
+GM18	MAP3K1	p.S987F	missense	C>T	2985	C	T	0.154	2	13	5	48	False	False	possible_deamination
+GM08	MAP3K1	p.A995V	missense	C>T	3009	C	T	0.118	2	17	6	42	False	False	possible_deamination
+GM06	MAP3K1	p.S1063F	missense	C>T	3213	C	T	0.036	2	56	5	98	False	False	possible_deamination
+GM06	MAP3K1	p.A1190V	missense	C>T	3594	C	T	0.043	2	46	5	85	False	False	possible_deamination
+GM03	MAP3K1	p.P1228S	missense	C>T	3707	C	T	0.182	2	11	31	111	False	False	possible_deamination
+GM06	MAP3K1	p.P1471S	missense	C>T	4436	C	T	0.08	2	25	7	44	False	False	possible_deamination
+GM07	MAP3K1	p.P1479S	missense	C>T	4460	C	T	0.087	2	23	5	48	False	False	possible_deamination
 GM02	RAC1	p.S83F	missense	C>T	457	C	T	0.048	3	63	5	87	False	False	possible_deamination
-GM02	KMT2C	p.83ins3	inframe_insertion	indel	464	ACAG	ACAGCAG	0.143	7	49	13	67	False	False	
+GM06	RAC1	p.P99S	missense	C>T	504	C	T	0.047	2	43	6	86	False	False	possible_deamination
+GM08	RAC1	p.A151V	missense	C>T	661	C	T	0.074	2	27	6	90	False	False	possible_deamination
+GM03	EGFR	p.R255*	stop_gained	C>T	1024	C	T	0.182	2	11	20	120	False	False	possible_deamination
+GM08	EGFR	p.P266S	missense	C>T	1057	C	T	0.154	2	13	6	49	False	False	possible_deamination
+GM03	EGFR	p.P919L	missense	C>T	3017	C	T	0.2	2	10	19	92	False	False	possible_deamination
+GM07	EGFR	p.P992L	missense	C>T	3236	C	T	0.154	2	13	5	30	False	False	possible_deamination
+GM06	EGFR	p.P1114S	missense	C>T	3601	C	T	0.056	2	36	5	66	False	False	possible_deamination
+GM06	BRAF	p.H235Y	missense	C>T	929	C	T	0.182	2	11	5	18	False	False	possible_deamination
+GM07	BRAF	p.P402S	missense	C>T	1430	C	T	0.067	2	30	6	69	False	False	possible_deamination
+GM07	BRAF	p.P402L	missense	C>T	1431	C	T	0.069	2	29	8	68	False	False	possible_deamination
+GM06	BRAF	p.S430L	missense	C>T	1515	C	T	0.05	2	40	7	75	False	False	possible_deamination
+GM07	BRAF	p.S446L	missense	C>T	1563	C	T	0.057	2	35	5	76	False	False	possible_deamination
+GM07	KMT2C	p.Q185*	stop_gained	C>T	770	C	T	0.077	2	26	5	52	False	False	possible_deamination
+GM08	KMT2C	p.P573S	missense	C>T	1934	C	T	0.118	2	17	7	50	False	False	possible_deamination
+GM03	KMT2C	p.T698I	missense	C>T	2310	C	T	0.188	3	16	15	122	False	False	possible_deamination
+GM18	KMT2C	p.I707T	missense	T>C	2337	T	C	0.154	2	13	10	42	False	False	
+GM06	KMT2C	p.Q714*	stop_gained	C>T	2357	C	T	0.048	2	42	5	78	False	False	possible_deamination
+GM07	KMT2C	p.L732F	missense	C>T	2411	C	T	0.06	3	50	6	107	False	False	possible_deamination
+GM06	KMT2C	p.S769L	missense	C>T	2523	C	T	0.077	2	26	5	49	False	False	possible_deamination
 GM02	KMT2C	p.L797R	missense	T>G	2607	T	G	0.044	2	45	5	58	False	False	
+GM07	KMT2C	p.A1256V	missense	C>T	3984	C	T	0.045	2	44	5	97	False	False	possible_deamination
+GM18	KMT2C	p.S1301F	missense	C>T	4119	C	T	0.222	2	9	7	21	False	False	possible_deamination
+GM08	KMT2C	p.P1549S	missense	C>T	4862	C	T	0.143	2	14	6	50	False	False	possible_deamination
+GM18	KMT2C	p.P1595L	missense	C>T	5001	C	T	0.25	2	8	6	28	False	False	possible_deamination
+GM03	KMT2C	p.W1615G	missense	T>G	5060	T	G	0.182	2	11	11	90	False	False	
+GM07	KMT2C	p.Q1719*	stop_gained	C>T	5372	C	T	0.077	2	26	5	64	False	False	possible_deamination
+GM07	KMT2C	p.L1735F	missense	C>T	5420	C	T	0.136	3	22	10	55	False	False	possible_deamination
+GM06	KMT2C	p.P1834S	missense	C>T	5717	C	T	0.045	2	44	5	66	False	False	possible_deamination
+GM07	KMT2C	p.P1876S	missense	C>T	5843	C	T	0.038	2	53	7	126	False	False	possible_deamination
+GM07	KMT2C	p.A1899V	missense	C>T	5913	C	T	0.055	3	55	8	141	False	False	possible_deamination
+GM18	KMT2C	p.A1899V	missense	C>T	5913	C	T	0.118	2	17	5	70	False	False	possible_deamination
+GM03	KMT2C	p.P1907L	missense	C>T	5937	C	T	0.067	2	30	18	274	False	False	possible_deamination
+GM18	KMT2C	p.P1909L	missense	C>T	5943	C	T	0.105	2	19	8	84	False	False	possible_deamination
+GM07	KMT2C	p.S1915F	missense	C>T	5961	C	T	0.091	5	55	8	145	False	False	possible_deamination
+GM18	KMT2C	p.S1919F	missense	C>T	5973	C	T	0.125	2	16	8	64	False	False	possible_deamination
+GM06	KMT2C	p.P1922S	missense	C>T	5981	C	T	0.035	2	57	5	100	False	False	possible_deamination
+GM07	KMT2C	p.P1979S	missense	C>T	6152	C	T	0.083	2	24	8	69	False	False	possible_deamination
+GM18	KMT2C	p.S2059L	missense	C>T	6393	C	T	0.133	2	15	7	45	False	False	possible_deamination
+GM08	KMT2C	p.S2064L	missense	C>T	6408	C	T	0.154	2	13	10	37	False	False	possible_deamination
+GM07	KMT2C	p.P2075S	missense	C>T	6440	C	T	0.05	2	40	6	85	False	False	possible_deamination
+GM08	KMT2C	p.T2078I	missense	C>T	6450	C	T	0.105	2	19	6	50	False	False	possible_deamination
+GM05	KMT2C	p.S2108F	missense	C>T	6540	C	T	0.087	2	23	12	197	False	False	possible_deamination
+GM03	KMT2C	p.S2123L	missense	C>T	6585	C	T	0.065	2	31	21	310	False	False	possible_deamination
+GM08	KMT2C	p.Q2133*	stop_gained	C>T	6614	C	T	0.043	2	46	10	147	False	False	possible_deamination
+GM08	KMT2C	p.R2139*	stop_gained	C>T	6632	C	T	0.065	2	31	8	101	False	False	possible_deamination
+GM08	KMT2C	p.P2140S	missense	C>T	6635	C	T	0.067	2	30	7	99	False	False	possible_deamination
+GM07	KMT2C	p.R2167Q	missense	G>A	6717	G	A	0.057	2	35	10	87	False	False	possible_deamination
+GM07	KMT2C	p.T2169I	missense	C>T	6723	C	T	0.133	2	15	7	32	False	False	possible_deamination
+GM05	KMT2C	p.T2192I	missense	C>T	6792	C	T	0.2	2	10	13	76	False	False	possible_deamination
+GM03	KMT2C	p.P2210S	missense	C>T	6845	C	T	0.167	2	12	9	100	False	False	possible_deamination
+GM07	KMT2C	p.P2210S	missense	C>T	6845	C	T	0.071	2	28	5	62	False	False	possible_deamination
+GM03	KMT2C	p.T2271I	missense	C>T	7029	C	T	0.118	2	17	9	121	False	False	possible_deamination
+GM07	KMT2C	p.P2281S	missense	C>T	7058	C	T	0.095	2	21	6	61	False	False	possible_deamination
+GM03	KMT2C	p.H2343Y	missense	C>T	7244	C	T	0.167	2	12	15	80	False	False	possible_deamination
+GM06	KMT2C	p.P2468S	missense	C>T	7619	C	T	0.087	2	23	5	43	False	False	possible_deamination
+GM07	KMT2C	p.R2596W	missense	C>T	8003	C	T	0.074	2	27	6	76	False	False	possible_deamination
+GM06	KMT2C	p.2794ins1fs	frameshift_insertion	indel	8598	CAAAAAAAAA	CAAAAAAAAAA	0.077	2	26	5	49	False	False	
+GM07	KMT2C	p.S2914L	missense	C>T	8958	C	T	0.05	2	40	6	95	False	False	possible_deamination
+GM07	KMT2C	p.G3027E	missense	G>A	9297	G	A	0.091	2	22	5	46	False	False	possible_deamination
+GM07	KMT2C	p.Q3064P	missense	A>C	9408	A	C	0.069	2	29	5	59	False	False	
+GM03	KMT2C	p.L3104F	missense	C>T	9527	C	T	0.2	2	10	10	96	False	False	possible_deamination
+GM08	KMT2C	p.Q3131*	stop_gained	C>T	9608	C	T	0.273	3	11	6	26	False	False	possible_deamination
+GM18	KMT2C	p.S3160F	missense	C>T	9696	C	T	0.182	2	11	8	32	False	False	possible_deamination
+GM05	KMT2C	p.R3266W	missense	C>T	10013	C	T	0.154	2	13	21	102	False	False	possible_deamination
+GM07	KMT2C	p.A3276V	missense	C>T	10044	C	T	0.048	2	42	6	101	False	False	possible_deamination
+GM03	KMT2C	p.P3308S	missense	C>T	10139	C	T	0.143	2	14	17	126	False	False	possible_deamination
+GM08	KMT2C	p.Q3315*	stop_gained	C>T	10160	C	T	0.1	2	20	10	50	False	False	possible_deamination
+GM07	KMT2C	p.P3359L	missense	C>T	10293	C	T	0.065	3	46	6	101	False	False	possible_deamination
+GM08	KMT2C	p.T3369I	missense	C>T	10323	C	T	0.125	2	16	6	45	False	False	possible_deamination
+GM06	KMT2C	p.P3379L	missense	C>T	10353	C	T	0.044	2	45	6	82	False	False	possible_deamination
+GM06	KMT2C	p.Q3396*	stop_gained	C>T	10403	C	T	0.039	2	51	5	96	False	False	possible_deamination
+GM07	KMT2C	p.E3399G	missense	A>G	10413	A	G	0.059	2	34	6	74	False	False	possible_RNA_editing
+GM06	KMT2C	p.S3660L	missense	C>T	11196	C	T	0.241	7	29	12	42	False	False	possible_deamination
+GM07	KMT2C	p.P3666S	missense	C>T	11213	C	T	0.047	2	43	8	107	False	False	possible_deamination
+GM08	KMT2C	p.T3668I	missense	C>T	11220	C	T	0.105	2	19	9	51	False	False	possible_deamination
+GM08	KMT2C	p.A3861V	missense	C>T	11799	C	T	0.125	2	16	7	63	False	False	possible_deamination
+GM18	KMT2C	p.S3974F	missense	C>T	12138	C	T	0.25	2	8	6	22	False	False	possible_deamination
+GM08	GNAQ	p.S65L	missense	C>T	770	C	T	0.083	2	24	5	73	False	False	possible_deamination
+GM06	GNAQ	p.A302V	missense	C>T	1481	C	T	0.038	2	52	6	86	False	False	possible_deamination
+GM08	PPP6C	p.S39L	missense	C>T	201	C	T	0.182	2	11	6	31	False	False	possible_deamination
+GM06	PPP6C	p.T74I	missense	C>T	306	C	T	0.038	2	53	6	88	False	False	possible_deamination
+GM06	PPP6C	p.T143I	missense	C>T	513	C	T	0.087	2	23	7	36	False	False	possible_deamination
+GM08	PTEN	p.A72V	missense	C>T	1060	C	T	0.125	2	16	6	46	False	False	possible_deamination
+GM06	PTEN	p.P190L	missense	C>T	1414	C	T	0.049	2	41	5	73	False	False	possible_deamination
+GM08	PTEN	p.R234W	missense	C>T	1545	C	T	0.071	2	28	8	82	False	False	possible_deamination
+GM06	PTEN	p.Q298*	stop_gained	C>T	1737	C	T	0.05	2	40	7	71	False	False	possible_deamination
+GM03	ARID2	p.R285W	missense	C>T	984	C	T	0.222	2	9	22	74	False	False	possible_deamination
 GM02	ARID2	p.T824I	missense	C>T	2602	C	T	0.056	2	36	5	48	False	False	possible_deamination
+GM07	ARID2	p.Q843*	stop_gained	C>T	2658	C	T	0.077	2	26	6	60	False	False	possible_deamination
+GM07	ARID2	p.T856I	missense	C>T	2698	C	T	0.125	2	16	5	39	False	False	possible_deamination
+GM07	ARID2	p.Q1014*	stop_gained	C>T	3171	C	T	0.1	2	20	7	53	False	False	possible_deamination
+GM03	ARID2	p.P1021S	missense	C>T	3192	C	T	0.2	2	10	22	83	False	False	possible_deamination
+GM07	ARID2	p.P1136L	missense	C>T	3538	C	T	0.087	2	23	8	56	False	False	possible_deamination
+GM07	ARID2	p.P1184L	missense	C>T	3682	C	T	0.133	2	15	6	26	False	False	possible_deamination
+GM07	KMT2D	p.S186L	missense	C>T	1776	C	T	0.136	3	22	10	55	False	False	possible_deamination
+GM04	KMT2D	p.R263C	missense	C>T	2006	C	T	0.333	3	9	38	99	False	False	possible_deamination
+GM07	KMT2D	p.R348C	missense	C>T	2261	C	T	0.143	2	14	6	36	False	False	possible_deamination
+GM08	KMT2D	p.T357I	missense	C>T	2289	C	T	0.154	2	13	5	44	False	False	possible_deamination
+GM07	KMT2D	p.A416V	missense	C>T	2466	C	T	0.088	3	34	8	85	False	False	possible_deamination
+GM07	KMT2D	p.Q429*	stop_gained	C>T	2504	C	T	0.05	2	40	5	99	False	False	possible_deamination
+GM07	KMT2D	p.S447L	missense	C>T	2559	C	T	0.103	4	39	6	98	False	False	possible_deamination
+GM18	KMT2D	p.P452L	missense	C>T	2574	C	T	0.069	2	29	9	122	False	False	possible_deamination
+GM05	KMT2D	p.P453S	missense	C>T	2576	C	T	0.074	2	27	14	205	False	False	possible_deamination
+GM03	KMT2D	p.P457S	missense	C>T	2588	C	T	0.1	2	20	9	147	False	False	possible_deamination
+GM04	KMT2D	p.S465L	missense	C>T	2613	C	T	0.053	2	38	23	274	False	False	possible_deamination
+GM18	KMT2D	p.S468L	missense	C>T	2622	C	T	0.065	2	31	10	123	False	False	possible_deamination
+GM10	KMT2D	p.P471S	missense	C>T	2630	C	T	0.25	2	8	14	91	False	False	possible_deamination
+GM04	KMT2D	p.P475L	missense	C>T	2643	C	T	0.062	2	32	15	248	False	False	possible_deamination
+GM18	KMT2D	p.P480L	missense	C>T	2658	C	T	0.081	3	37	11	158	False	False	possible_deamination
+GM05	KMT2D	p.P488S	missense	C>T	2681	C	T	0.077	2	26	10	200	False	False	possible_deamination
+GM08	KMT2D	p.P488S	missense	C>T	2681	C	T	0.057	3	53	9	160	False	False	possible_deamination
+GM04	KMT2D	p.P498L	missense	C>T	2712	C	T	0.057	2	35	16	310	False	False	possible_deamination
+GM04	KMT2D	p.P506L	missense	C>T	2736	C	T	0.057	2	35	26	337	False	False	possible_deamination
+GM04	KMT2D	p.P511S	missense	C>T	2750	C	T	0.061	2	33	30	310	False	False	possible_deamination
+GM05	KMT2D	p.P514L	missense	C>T	2760	C	T	0.08	2	25	15	196	False	False	possible_deamination
+GM04	KMT2D	p.P523L	missense	C>T	2787	C	T	0.056	2	36	23	341	False	False	possible_deamination
+GM06	KMT2D	p.P539S	missense	C>T	2834	C	T	0.049	4	81	7	133	False	False	possible_deamination
+GM03	KMT2D	p.P553S	missense	C>T	2876	C	T	0.051	2	39	20	392	False	False	possible_deamination
+GM05	KMT2D	p.P557S	missense	C>T	2888	C	T	0.049	2	41	23	343	False	False	possible_deamination
+GM03	KMT2D	p.P558S	missense	C>T	2891	C	T	0.054	2	37	19	371	False	False	possible_deamination
+GM03	KMT2D	p.P565S	missense	C>T	2912	C	T	0.054	2	37	28	367	False	False	possible_deamination
+GM04	KMT2D	p.S570F	missense	C>T	2928	C	T	0.051	2	39	28	361	False	False	possible_deamination
+GM05	KMT2D	p.P580S	missense	C>T	2957	C	T	0.054	2	37	25	299	False	False	possible_deamination
+GM06	KMT2D	p.P583S	missense	C>T	2966	C	T	0.028	2	72	9	128	False	False	possible_deamination
+GM06	KMT2D	p.P585L	missense	C>T	2973	C	T	0.043	3	69	11	121	False	False	possible_deamination
+GM04	KMT2D	p.P592L	missense	C>T	2994	C	T	0.065	2	31	19	274	False	False	possible_deamination
+GM04	KMT2D	p.P594L	missense	C>T	3000	C	T	0.094	3	32	23	274	False	False	possible_deamination
+GM18	KMT2D	p.P601S	missense	C>T	3020	C	T	0.038	2	53	9	170	False	False	possible_deamination
+GM03	KMT2D	p.L617F	missense	C>T	3068	C	T	0.047	2	43	21	373	False	False	possible_deamination
+GM04	KMT2D	p.P619L	missense	C>T	3075	C	T	0.049	2	41	22	298	False	False	possible_deamination
+GM18	KMT2D	p.P621S	missense	C>T	3080	C	T	0.036	2	56	11	192	False	False	possible_deamination
+GM05	KMT2D	p.S633L	missense	C>T	3117	C	T	0.062	2	32	36	282	False	False	possible_deamination
+GM03	KMT2D	p.P648S	missense	C>T	3161	C	T	0.065	2	31	20	264	False	False	possible_deamination
+GM07	KMT2D	p.S654F	missense	C>T	3180	C	T	0.028	2	71	9	176	False	False	possible_deamination
+GM10	KMT2D	p.P675L	missense	C>T	3243	C	T	0.2	2	10	41	255	False	False	possible_deamination
+GM07	KMT2D	p.P683S	missense	C>T	3266	C	T	0.042	2	48	8	126	False	False	possible_deamination
+GM05	KMT2D	p.P697L	missense	C>T	3309	C	T	0.083	2	24	14	234	False	False	possible_deamination
+GM18	KMT2D	p.P706L	missense	C>T	3336	C	T	0.111	3	27	8	104	False	False	possible_deamination
+GM18	KMT2D	p.P709S	missense	C>T	3344	C	T	0.077	2	26	6	103	False	False	possible_deamination
+GM08	KMT2D	p.P777S	missense	C>T	3548	C	T	0.071	2	28	5	63	False	False	possible_deamination
 GM01	KMT2D	p.P786S	missense	C>T	3575	C	T	0.182	2	11	118	339	False	False	possible_deamination
 GM02	KMT2D	p.P813L	missense	C>T	3657	C	T	0.36	18	50	23	59	False	False	possible_deamination
-GM02	KMT2D	p.1340del3	inframe_deletion	indel	5236	GGTAGT	GGT	0.667	28	42	34	50	False	False	
+GM05	KMT2D	p.P862H	missense	C>A	3804	C	A	0.167	2	12	14	102	False	False	
+GM07	KMT2D	p.P923S	missense	C>T	3986	C	T	0.057	2	35	6	85	False	False	possible_deamination
+GM04	KMT2D	p.P927L	missense	C>T	3999	C	T	0.083	2	24	11	202	False	False	possible_deamination
+GM04	KMT2D	p.P937L	missense	C>T	4029	C	T	0.154	2	13	13	91	False	False	possible_deamination
+GM07	KMT2D	p.S940P	missense	T>C	4037	T	C	0.054	2	37	8	83	False	False	
+GM07	KMT2D	p.P997L	missense	C>T	4209	C	T	0.041	2	49	7	111	False	False	possible_deamination
+GM08	KMT2D	p.P1005S	missense	C>T	4232	C	T	0.053	2	38	7	123	False	False	possible_deamination
+GM05	KMT2D	p.P1019L	missense	C>T	4275	C	T	0.08	2	25	11	218	False	False	possible_deamination
+GM04	KMT2D	p.P1038L	missense	C>T	4332	C	T	0.069	2	29	19	293	False	False	possible_deamination
+GM08	KMT2D	p.P1048S	missense	C>T	4361	C	T	0.043	2	47	9	143	False	False	possible_deamination
+GM08	KMT2D	p.P1104S	missense	C>T	4529	C	T	0.041	2	49	9	171	False	False	possible_deamination
+GM03	KMT2D	p.T1122I	missense	C>T	4584	C	T	0.167	2	12	11	92	False	False	possible_deamination
+GM08	KMT2D	p.T1261I	missense	C>T	5001	C	T	0.182	2	11	6	40	False	False	possible_deamination
+GM07	KMT2D	p.R1617W	missense	C>T	6068	C	T	0.095	2	21	6	44	False	False	possible_deamination
+GM03	KMT2D	p.R1709C	missense	C>T	6344	C	T	0.25	2	8	25	94	False	False	possible_deamination
+GM08	KMT2D	p.L1894F	missense	C>T	6899	C	T	0.125	2	16	5	50	False	False	possible_deamination
+GM07	KMT2D	p.T1988I	missense	C>T	7182	C	T	0.105	2	19	5	40	False	False	possible_deamination
+GM07	KMT2D	p.P2029L	missense	C>T	7305	C	T	0.1	3	30	6	76	False	False	possible_deamination
+GM04	KMT2D	p.S2039L	missense	C>T	7335	C	T	0.25	3	12	21	111	False	False	possible_deamination
+GM04	KMT2D	p.P2218L	missense	C>T	7872	C	T	0.143	2	14	25	139	False	False	possible_deamination
+GM05	KMT2D	p.P2238L	missense	C>T	7932	C	T	0.143	2	14	10	114	False	False	possible_deamination
+GM07	KMT2D	p.P2241L	missense	C>T	7941	C	T	0.087	2	23	6	49	False	False	possible_deamination
+GM04	KMT2D	p.Q2337R	missense	A>G	8229	A	G	0.2	2	10	5	83	False	False	possible_RNA_editing
+GM08	KMT2D	p.Q2350*	stop_gained	C>T	8267	C	T	0.053	2	38	7	125	False	False	possible_deamination
+GM18	KMT2D	p.P2362L	missense	C>T	8304	C	T	0.047	2	43	11	180	False	False	possible_deamination
+GM04	KMT2D	p.P2387L	missense	C>T	8379	C	T	0.067	2	30	15	263	False	False	possible_deamination
+GM04	KMT2D	p.P2389S	missense	C>T	8384	C	T	0.067	2	30	16	275	False	False	possible_deamination
+GM06	KMT2D	p.P2391S	missense	C>T	8390	C	T	0.049	2	41	5	83	False	False	possible_deamination
+GM07	KMT2D	p.P2407S	missense	C>T	8438	C	T	0.051	2	39	11	103	False	False	possible_deamination
+GM04	KMT2D	p.P2412S	missense	C>T	8453	C	T	0.059	2	34	20	357	False	False	possible_deamination
+GM18	KMT2D	p.S2417F	missense	C>T	8469	C	T	0.035	2	57	12	217	False	False	possible_deamination
+GM18	KMT2D	p.S2419F	missense	C>T	8475	C	T	0.054	3	56	15	218	False	False	possible_deamination
+GM06	KMT2D	p.Q2422*	stop_gained	C>T	8483	C	T	0.04	2	50	5	94	False	False	possible_deamination
+GM04	KMT2D	p.P2427S	missense	C>T	8498	C	T	0.062	2	32	28	369	False	False	possible_deamination
+GM08	KMT2D	p.P2427L	missense	C>T	8499	C	T	0.042	3	72	13	250	False	False	possible_deamination
+GM18	KMT2D	p.A2432V	missense	C>T	8514	C	T	0.042	3	72	16	306	False	False	possible_deamination
+GM03	KMT2D	p.A2434V	missense	C>T	8520	C	T	0.095	2	21	21	211	False	False	possible_deamination
+GM04	KMT2D	p.S2438L	missense	C>T	8532	C	T	0.071	2	28	26	316	False	False	possible_deamination
+GM06	KMT2D	p.P2449S	missense	C>T	8564	C	T	0.048	3	62	6	118	False	False	possible_deamination
+GM18	KMT2D	p.P2472S	missense	C>T	8633	C	T	0.08	2	25	5	84	False	False	possible_deamination
+GM08	KMT2D	p.P2539S	missense	C>T	8834	C	T	0.1	2	20	7	72	False	False	possible_deamination
+GM08	KMT2D	p.S2927L	missense	C>T	9999	C	T	0.059	2	34	5	97	False	False	possible_deamination
+GM03	KMT2D	p.L2929F	missense	C>T	10004	C	T	0.143	2	14	10	139	False	False	possible_deamination
+GM03	KMT2D	p.S2935L	missense	C>T	10023	C	T	0.125	2	16	8	160	False	False	possible_deamination
+GM08	KMT2D	p.P2968S	missense	C>T	10121	C	T	0.118	2	17	5	49	False	False	possible_deamination
+GM03	KMT2D	p.P2987L	missense	C>T	10179	C	T	0.125	2	16	11	124	False	False	possible_deamination
+GM18	KMT2D	p.T3053I	missense	C>T	10377	C	T	0.133	2	15	8	61	False	False	possible_deamination
+GM07	KMT2D	p.P3408S	missense	C>T	11441	C	T	0.182	2	11	5	24	False	False	possible_deamination
+GM08	KMT2D	p.Q3489*	stop_gained	C>T	11684	C	T	0.154	2	13	8	46	False	False	possible_deamination
+GM08	KMT2D	p.S4010P	missense	T>C	13247	T	C	0.556	5	9	15	33	False	False	
+GM08	KMT2D	p.H4490R	missense	A>G	14688	A	G	0.125	2	16	9	55	False	False	possible_RNA_editing
+GM08	KMT2D	p.Q4503*	stop_gained	C>T	14726	C	T	0.111	2	18	10	58	False	False	possible_deamination
+GM18	KMT2D	p.P4830L	missense	C>T	15708	C	T	0.167	2	12	6	41	False	False	possible_deamination
+GM18	KMT2D	p.S4907L	missense	C>T	15939	C	T	0.118	2	17	14	71	False	False	possible_deamination
+GM08	KMT2D	p.P4920L	missense	C>T	15978	C	T	0.049	2	41	9	149	False	False	possible_deamination
+GM04	KMT2D	p.P4923S	missense	C>T	15986	C	T	0.059	2	34	18	335	False	False	possible_deamination
+GM08	KMT2D	p.T4930I	missense	C>T	16008	C	T	0.06	3	50	13	191	False	False	possible_deamination
+GM04	KMT2D	p.S4954L	missense	C>T	16080	C	T	0.067	2	30	24	329	False	False	possible_deamination
+GM07	KMT2D	p.P5330S	missense	C>T	17207	C	T	0.054	2	37	5	84	False	False	possible_deamination
+GM08	KMT2D	p.S5341L	missense	C>T	17241	C	T	0.056	2	36	6	107	False	False	possible_deamination
+GM07	KMT2D	p.S5404F	missense	C>T	17430	C	T	0.103	3	29	6	61	False	False	possible_deamination
+GM05	KMT2D	p.A5483V	missense	C>T	17667	C	T	0.154	2	13	21	122	False	False	possible_deamination
 GM02	CDK4	p.A33V	missense	C>T	253	C	T	0.069	4	58	5	89	False	False	possible_deamination
+GM07	CDK4	p.H95Y	missense	C>T	438	C	T	0.074	2	27	7	57	False	False	possible_deamination
+GM05	PTPN11	p.T12I	missense	C>T	200	C	T	0.125	2	16	16	112	False	False	possible_deamination
+GM08	PTPN11	p.A31V	missense	C>T	257	C	T	0.057	2	35	10	124	False	False	possible_deamination
+GM18	PTPN11	p.T42I	missense	C>T	290	C	T	0.118	2	17	7	66	False	False	possible_deamination
+GM07	PTPN11	p.E159G	missense	A>G	641	A	G	0.05	2	40	6	89	False	False	possible_RNA_editing
+GM08	PTPN11	p.T466I	missense	C>T	1562	C	T	0.182	2	11	7	40	False	False	possible_deamination
+GM06	RB1	p.N123D	missense	A>G	529	A	G	0.786	11	14	16	23	False	False	possible_RNA_editing
+GM04	RB1	p.A261V	missense	C>T	944	C	T	0.25	2	8	14	72	False	False	possible_deamination
+GM06	RB1	p.411del2fs	frameshift_deletion	indel	1394	CAAAA	CAA	0.125	2	16	12	32	False	False	
+GM06	RB1	p.P786L	missense	C>T	2519	C	T	0.125	2	16	5	27	False	False	possible_deamination
+GM07	RB1	p.R798W	missense	C>T	2554	C	T	0.1	2	20	6	47	False	False	possible_deamination
+GM07	AKT1	p.Q43*	stop_gained	C>T	649	C	T	0.059	2	34	14	88	False	False	possible_deamination
+GM07	AKT1	p.L52P	missense	T>C	677	T	C	0.1	2	20	6	51	False	False	
+GM08	AKT1	p.Q113*	stop_gained	C>T	859	C	T	0.069	2	29	7	82	False	False	possible_deamination
+GM07	AKT1	p.S124L	missense	C>T	893	C	T	0.081	3	37	5	83	False	False	possible_deamination
+GM03	AKT1	p.S129L	missense	C>T	908	C	T	0.222	2	9	19	70	False	False	possible_deamination
+GM07	AKT1	p.T172I	missense	C>T	1037	C	T	0.091	2	22	6	39	False	False	possible_deamination
+GM08	AKT1	p.L196F	missense	C>T	1108	C	T	0.059	2	34	7	93	False	False	possible_deamination
+GM07	AKT1	p.H287P	missense	A>C	1382	A	C	0.114	4	35	9	86	False	False	
 GM02	AKT1	p.Q404*	stop_gained	C>T	1732	C	T	0.042	2	48	6	66	False	False	possible_deamination
-GM02	IDH2	p.92del3	inframe_deletion	indel	353	CTGATGA	CTGA	0.077	3	39	5	52	False	False	
-GM02	TP53	p.P72R	missense	C>G	357	C	G	0.977	42	43	55	57	False	False	
+GM07	AKT1	p.P427S	missense	C>T	1801	C	T	0.044	2	45	5	90	False	False	possible_deamination
+GM08	AKT1	p.S431L	missense	C>T	1814	C	T	0.048	2	42	7	122	False	False	possible_deamination
+GM18	AKT1	p.Q454*	stop_gained	C>T	1882	C	T	0.133	2	15	12	63	False	False	possible_deamination
+GM03	IDH2	p.L70F	missense	C>T	286	C	T	0.222	2	9	12	72	False	False	possible_deamination
+GM07	IDH2	p.L86F	missense	C>T	334	C	T	0.107	3	28	7	66	False	False	possible_deamination
+GM07	IDH2	p.R188Q	missense	G>A	641	G	A	0.167	3	18	5	45	False	False	possible_deamination
+GM06	TP53	p.Q52*	stop_gained	C>T	296	C	T	0.064	3	47	5	74	False	False	possible_deamination
+GM07	TP53	p.S90F	missense	C>T	411	C	T	0.105	2	19	8	49	False	False	possible_deamination
+GM07	TP53	p.H115Y	missense	C>T	485	C	T	0.111	2	18	6	58	False	False	possible_deamination
+GM06	NF1	p.L58R	missense	T>G	506	T	G	0.222	2	9	5	13	False	False	
+GM07	NF1	p.L1221F	missense	C>T	3994	C	T	0.429	9	21	18	47	False	False	possible_deamination
+GM07	NF1	p.T1811I	missense	C>T	5765	C	T	0.065	2	31	6	77	False	False	possible_deamination
 GM02	NF1	p.Q1835*	stop_gained	C>T	5836	C	T	0.065	3	46	5	60	False	False	possible_deamination
-GM02	ERBB2	p.782del2fs	frameshift_deletion	indel	2519	GTCTC	GTC	0.087	2	23	10	39	False	False	
-GM02	ERBB2	p.P1170A	missense	C>G	3683	C	G	1.0	34	34	46	46	False	False	
+GM07	NF1	p.A2297V	missense	C>T	7223	C	T	0.182	2	11	5	24	False	False	possible_deamination
+GM07	NF1	p.A2362V	missense	C>T	7418	C	T	0.133	2	15	8	44	False	False	possible_deamination
+GM07	ERBB2	p.P594L	missense	C>T	1956	C	T	0.167	2	12	6	28	False	False	possible_deamination
+GM18	ERBB2	p.P617L	missense	C>T	2025	C	T	0.25	2	8	5	29	False	False	possible_deamination
+GM08	ERBB2	p.T862I	missense	C>T	2760	C	T	0.2	2	10	5	22	False	False	possible_deamination
+GM07	ERBB2	p.P1108L	missense	C>T	3498	C	T	0.154	2	13	7	27	False	False	possible_deamination
+GM08	ERBB2	p.A1203V	missense	C>T	3783	C	T	0.118	2	17	7	48	False	False	possible_deamination
+GM06	MAP2K2	p.A277V	missense	C>T	1077	C	T	0.091	2	22	6	42	False	False	possible_deamination
+GM18	MAP2K2	p.L321F	missense	C>T	1208	C	T	0.087	2	23	5	84	False	False	possible_deamination
+GM07	MAP2K2	p.R357W	missense	C>T	1316	C	T	0.062	2	32	8	74	False	False	possible_deamination
+GM06	SMARCA4	p.S35L	missense	C>T	280	C	T	0.087	2	23	7	47	False	False	possible_deamination
+GM04	SMARCA4	p.P299L	missense	C>T	1072	C	T	0.125	2	16	16	107	False	False	possible_deamination
+GM07	SMARCA4	p.P328S	missense	C>T	1158	C	T	0.231	3	13	5	27	False	False	possible_deamination
+GM07	SMARCA4	p.Y372H	missense	T>C	1290	T	C	0.3	3	10	8	24	False	False	
+GM06	SMARCA4	p.P653S	missense	C>T	2133	C	T	0.086	3	35	7	60	False	False	possible_deamination
+GM06	SMARCA4	p.P674S	missense	C>T	2196	C	T	0.105	2	19	5	38	False	False	possible_deamination
+GM08	SMARCA4	p.Q678*	stop_gained	C>T	2208	C	T	0.2	3	15	7	43	False	False	possible_deamination
+GM07	SMARCA4	p.A819V	missense	C>T	2632	C	T	0.095	2	21	6	50	False	False	possible_deamination
+GM08	SMARCA4	p.T1426I	missense	C>T	4453	C	T	0.069	2	29	6	109	False	False	possible_deamination
 GM02	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.395	15	38	16	47	False	False	
+GM06	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.238	5	21	9	39	False	False	
+GM07	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.222	4	18	7	48	False	False	
+GM18	SMARCA4	p.1474del3	inframe_deletion	indel	4597	ACAGCAGCAG	ACAGCAG	0.273	3	11	8	25	False	False	
+GM03	SMARCA4	p.R1615W	missense	C>T	5019	C	T	0.095	2	21	24	252	False	False	possible_deamination
+GM06	SMARCA4	p.Q1635*	stop_gained	C>T	5079	C	T	0.047	2	43	5	79	False	False	possible_deamination
+GM04	SMARCA4	p.S1640L	missense	C>T	5095	C	T	0.105	2	19	17	183	False	False	possible_deamination
 GM02	EIF1AX	p.K7N	missense	A>C	219	A	C	0.42	42	100	55	151	True	False	
-GM02	DDX3X	p.590del3	inframe_deletion	indel	1858	GAGTAG	GAG	0.198	21	106	32	139	False	False	
+GM18	EIF1AX	p.A36V	missense	C>T	305	C	T	0.087	2	23	11	140	False	False	possible_deamination
+GM04	DDX3X	p.S92L	missense	C>T	366	C	T	0.077	2	26	16	293	False	False	possible_deamination
+GM07	DDX3X	p.R99C	missense	C>T	386	C	T	0.03	2	66	10	180	False	False	possible_deamination
+GM07	DDX3X	p.F116L	missense	T>C	437	T	C	0.037	2	54	8	158	False	False	
+GM07	DDX3X	p.P141S	missense	C>T	512	C	T	0.043	3	70	10	186	False	False	possible_deamination
+GM18	DDX3X	p.A170V	missense	C>T	600	C	T	0.065	2	31	6	114	False	False	possible_deamination
+GM08	DDX3X	p.R263C	missense	C>T	878	C	T	0.057	2	35	8	113	False	False	possible_deamination
+GM08	DDX3X	p.K335E	missense	A>G	1094	A	G	0.062	3	48	12	140	False	False	possible_RNA_editing
+GM04	DDX3X	p.T369I	missense	C>T	1197	C	T	0.105	2	19	15	213	False	False	possible_deamination
+GM03	DDX3X	p.P372S	missense	C>T	1205	C	T	0.087	2	23	16	195	False	False	possible_deamination
+GM18	DDX3X	p.R428W	missense	C>T	1373	C	T	0.045	2	44	11	154	False	False	possible_deamination
+GM05	DDX3X	p.K440Q	missense	A>C	1409	A	C	0.154	2	13	20	120	False	False	
+GM08	DDX3X	p.T450I	missense	C>T	1440	C	T	0.077	3	39	15	128	False	False	possible_deamination
+GM07	DDX3X	p.H463Y	missense	C>T	1478	C	T	0.043	3	69	9	159	False	False	possible_deamination
+GM18	DDX3X	p.S489L	missense	C>T	1557	C	T	0.086	3	35	11	112	False	False	possible_deamination
+GM08	DDX3X	p.P493S	missense	C>T	1568	C	T	0.053	2	38	9	106	False	False	possible_deamination
+GM03	DDX3X	p.A563V	missense	C>T	1779	C	T	0.222	4	18	19	168	False	False	possible_deamination

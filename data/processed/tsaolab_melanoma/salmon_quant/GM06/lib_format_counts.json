@@ -1,0 +1,22 @@
+{
+    "read_files": "[ datasets/processed/melanoma/tmp/GM06_R1.fq.gz, datasets/processed/melanoma/tmp/GM06_R2.fq.gz]",
+    "expected_format": "ISR",
+    "compatible_fragment_ratio": 1.0,
+    "num_compatible_fragments": 15391202,
+    "num_assigned_fragments": 15391202,
+    "num_frags_with_concordant_consistent_mappings": 15226056,
+    "num_frags_with_inconsistent_or_orphan_mappings": 167564,
+    "strand_mapping_bias": 0.00008826194885535285,
+    "MSF": 0,
+    "OSF": 0,
+    "ISF": 1344,
+    "MSR": 0,
+    "OSR": 0,
+    "ISR": 15226056,
+    "SF": 80031,
+    "SR": 86189,
+    "MU": 0,
+    "OU": 0,
+    "IU": 0,
+    "U": 0
+}
