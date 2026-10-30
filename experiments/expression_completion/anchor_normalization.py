@@ -30,7 +30,8 @@ class FrozenAnchorNormalizer:
             raise ValueError("Every source training sample needs a biological group.")
         if not np.isfinite(scale) or scale <= 0:
             raise ValueError("Use a positive fixed output scale.")
-        weights = groups.map(1 / groups.value_counts()).to_numpy(float)
+        # pandas copy-on-write can return a read-only NumPy view.
+        weights = groups.map(1 / groups.value_counts()).to_numpy(dtype=float, copy=True)
         weights /= weights.sum()
         totals = a.sum(axis=0)
         if not np.isfinite(totals).all() or not (totals > 0).all():

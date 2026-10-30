@@ -27,6 +27,11 @@ class TestCompletion(unittest.TestCase):
         with self.assertRaises(ValueError):
             SplitAssignments([dict(source_id='a',sample_id='1',group_id='d',partition='train')]*2)
 
+    def test_training_normalizer_supports_pandas_copy_on_write(self):
+        with pd.option_context('mode.copy_on_write', True):
+            normalizer = fit_normalizer([self.p], G[:2], FrozenAnchorNormalizer)
+            self.assertGreater(normalizer.factor(pd.Series(self.p.values[:2], index=G[:2])), 0)
+
     def test_split_and_metadata_hashes_checked(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory); sample=root/'metadata.csv'; sample.write_text('immutable')
