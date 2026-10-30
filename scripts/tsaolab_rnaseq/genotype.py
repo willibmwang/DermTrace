@@ -78,8 +78,8 @@ def compare(snps, sheets, out):
 
     labels = pd.concat([pd.read_csv(s, dtype=str) for s in sheets]).set_index("sample_id")
     match = pd.DataFrame({"sample_id": names, "donor_group": donor})
-    match["cell_line"] = match.sample_id.map(labels.cell_line).fillna("reference")
-    match["submitted_as"] = match.sample_id.map(labels.submitted_as).fillna("reference")
+    for col in ("cell_line", "submitted_as"):  # tissue sample sheets (tsaolab_melanoma) have neither column
+        match[col] = match.sample_id.map(labels[col]).fillna("reference") if col in labels else "n/a"
     members = match.groupby("donor_group").sample_id.apply(lambda s: " ".join(s))
     match["donor_group_members"] = match.donor_group.map(members)
     for col, fn in (("within_group_discordance_pct", np.median), ("nearest_other_group_pct", np.min)):
