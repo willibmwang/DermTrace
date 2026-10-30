@@ -1,0 +1,13 @@
+{
+    "salmon_version": "1.10.3",
+    "index": "<LAB>/references/gencode_human_v46/salmon_index",
+    "libType": "A",
+    "mates1": "datasets/processed/melanoma/tmp/GM15_R1.fq.gz",
+    "mates2": "datasets/processed/melanoma/tmp/GM15_R2.fq.gz",
+    "threads": "10",
+    "validateMappings": [],
+    "gcBias": [],
+    "seqBias": [],
+    "output": "datasets/processed/melanoma/quant/GM15",
+    "auxDir": "aux_info"
+}
