@@ -41,6 +41,7 @@ def make_ref(fasta, out, quant_dirs):
     low = tpm.min(axis=1)
     low = low[low > MIN_TPM].to_frame("tpm")
     low["gene"] = low.index.map(gene)
+    low = low.dropna(subset=["gene"])  # quantified against a larger index (lncRNA etc.) than the coding FASTA
     low = low[~low.gene.str.match(r"^(MT-|RPL|RPS|HLA-)")]
     best = low.sort_values("tpm", ascending=False).groupby("gene").head(1).index[:N_TRANSCRIPTS]
     with open(out, "w") as fh:
