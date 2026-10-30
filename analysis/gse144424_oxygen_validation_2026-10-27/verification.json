@@ -1,0 +1,65 @@
+{
+  "scope": "Exploratory dataset and donor-level analysis only; no model fit, scoring, benchmark or split change.",
+  "base_commit": "aaa53a45d1c0cf9284dfa67aadd5e0961641c6a8",
+  "existing_tracked_files_at_base": 803,
+  "existing_tracked_files_modified": [],
+  "unrelated_local_files_checked": 1477,
+  "unrelated_local_files_changed": [],
+  "environment": {
+    "python": "3.10.20",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scipy": "1.15.3",
+    "pyarrow": "23.0.1",
+    "matplotlib": "3.10.8"
+  },
+  "requirements": {
+    "path": "keloidbench/requirements-revision.txt",
+    "sha256": "ff6dd00fabdbbc3d3aecf0bbbc9815ac12ba1e9de2cbb723fbbcaab718254a4e"
+  },
+  "tests": {
+    "command": "python -m unittest discover -s tests -p 'test_gse144424*.py' -v",
+    "passed": 13,
+    "failed": 0
+  },
+  "checks": {
+    "ingestion_and_analysis_manifests_match": true,
+    "relocated_ingestion_packages_byte_identical": true,
+    "full_analysis_rebuilt_from_bundled_inputs_after_relocation": true,
+    "ac16_reference_rows_reconstructed_from_tracked_sources": 32,
+    "original_scientific_csv_results_unchanged_with_rtol_1e_10_atol_1e_12": true
+  },
+  "artifact_sha256": {
+    ".github/workflows/gse144424-checks.yml": "dd0901cbda5ab2b903993e48bfff048f2bbd4a628abd6e22837aa23fc9c44177",
+    "analysis/gse144424_oxygen_validation_2026-10-27/README.md": "0c6bb63ece1e2cea4b61d36c3afb568a2afa60ec9e6bbea5de2c6c866ac71101",
+    "analysis/gse144424_oxygen_validation_2026-10-27/ac16_direction_comparison.csv": "26b41de65e85896390a802d666c5de6a892ea3eed8469ab3c525a0824876c4d1",
+    "analysis/gse144424_oxygen_validation_2026-10-27/analysis_manifest.json": "d0c4dec1831f2521cc8f144d85c07e5ab96082c5847210e67f28ed11a62af733",
+    "analysis/gse144424_oxygen_validation_2026-10-27/analysis_plan.json": "ded64c6ff5cc48d16b0106b91470554c368fb36055fa46c2bd5d0810621ae2b9",
+    "analysis/gse144424_oxygen_validation_2026-10-27/donor_deltas.csv": "54619dfd77e8742243dd5d3f0e1aae97a8254497f4e9cbdaad62dae6249417e6",
+    "analysis/gse144424_oxygen_validation_2026-10-27/donor_oxygen_response.pdf": "dcca4798ec79476b719d6756128aae3aeba3869ee2e08c05197cd1ae3adaa309",
+    "analysis/gse144424_oxygen_validation_2026-10-27/donor_oxygen_response.png": "e63962f792f9fd0492d351b1cd9349660824afe04be94e728f964ffaadbd3472",
+    "analysis/gse144424_oxygen_validation_2026-10-27/experiment_deltas.csv": "66bd63d809c1346a2548d7685f6b99b4e950b373567e9964936d74a577b56a8b",
+    "analysis/gse144424_oxygen_validation_2026-10-27/marker_summary.csv": "b1dffcf1b4764590c8e0a4725408d378f158cabfaceee629c9b6811e0f5fd703",
+    "analysis/gse144424_oxygen_validation_2026-10-27/normalization_factors.csv": "f7915592865082dc518d2252252a2d5a0c9180ca0f5ed9b73d314af6115b64f1",
+    "analysis/gse144424_oxygen_validation_2026-10-27/plot_validation.py": "6212963a18bec3c7c2e6c0955531f1f2f06a1eddc0c5a57318ea36e531ca1d2f",
+    "analysis/gse144424_oxygen_validation_2026-10-27/primary_donor_expression.csv": "3b7ddec2553a9d3c238aab1ac5c1363d0cf721b69d282c37c2674441faeedb70",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reference/README.md": "b88c48690f99e1d91fac39aa7e32f9eb0226fe3c27176419846e39317105ada7",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reference/human_AC16_marker_contrasts.csv": "faceb64b5bf9578c5144f61dbc891af7bf7e749113eccc3bb0c2b1d20907d5ca",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reference/provenance.json": "f0e33308d3f6a8705a25272b71229ad68baf0785b84a0bce3da00d85bedf2c07",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reoxygenation_summary.csv": "8d6d03f5ad2284d697df1029929a45806854487625068d2d10054b15f7c09cd6",
+    "data/curated/gse144424_cardiomyocyte_v1/README.md": "6f6ddbfc93cd3ef569dc80ba2575df38b3536d3c831a436eb3945dd5c33eb9fa",
+    "data/curated/gse144424_cardiomyocyte_v1/counts.parquet": "50bb5ad527881c6230ab3bfe32a3bdf141295cf40020c861ed50ee2d9d94f173",
+    "data/curated/gse144424_cardiomyocyte_v1/genes.csv": "8e11292a3a35c02c26dd179c504ebaee3b04b1df0b17d1e5e7b767918264dc9c",
+    "data/curated/gse144424_cardiomyocyte_v1/inputs/GSE144424_Counts_RNA_MCW_NEB.txt.gz": "cad9ac4c6514550ea9bfb2b491cc2934f6952894d7cbd17338d5054d03da6f7c",
+    "data/curated/gse144424_cardiomyocyte_v1/inputs/GSE144424_family.soft.gz": "156b46d9e11fc4a59219530808c617887ac622e711d137964e1ccb88b0766907",
+    "data/curated/gse144424_cardiomyocyte_v1/inputs/GSE144424_series_matrix.txt.gz": "40dda761c345cb757eaa4d2c0eefcebad948c134137ffdcdc0af855384c90ec4",
+    "data/curated/gse144424_cardiomyocyte_v1/manifest.json": "93083b0532345237bf658cd340d9adbed4aa83479e89ae1367e485594376d6f3",
+    "data/curated/gse144424_cardiomyocyte_v1/marker_mapping.csv": "8b1992686dcd22a52faf61e252b12fd21e18bb0889bf858b560612b6ecb4188f",
+    "data/curated/gse144424_cardiomyocyte_v1/provenance.json": "9460e7ad1ba4a4e826d24f8e2fedd09d7d577a6e4427ade753dbf83f2bd9eca7",
+    "data/curated/gse144424_cardiomyocyte_v1/samples.csv": "bc297530e7b4c01b63caf2a78c4d9135d971a5ea63f7e6e7b33e1483b00a5425",
+    "scripts/analyze_gse144424.py": "559af259e8875b3ccc2b60845009ec2cb3c02c36ef2a3ce7459b23664b022eab",
+    "scripts/ingest_gse144424.py": "31db1fbc4d3d5048f2df4614ff56cb22c7af72dd773b84dea6c135aa6bff3e7f",
+    "tests/test_gse144424_analysis.py": "669b1ba4cbbbb307c967f6ba3b50735ae1c8271a5f096f0a1c6829b55d2687e9",
+    "tests/test_gse144424_ingest.py": "3ab49e35b4aa3285cece7cd0ad316620dc3a81b5f78d75f390a6ff06cd3c30dd"
+  }
+}
