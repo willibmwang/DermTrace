@@ -41,16 +41,19 @@ def boolean(row, key):
     return value == 'true'
 
 
-def collect_samples(skin_rows, cardiac_rows, melanoma_rows):
+def collect_samples(skin_rows=None, cardiac_rows=None, melanoma_rows=None):
     samples = []
-    skin = sorted({required(r, 'source_donor_key') for r in skin_rows})
-    if skin != ['KF1', 'KF2', 'KF3', 'NF1', 'NF2', 'NF3']:
-        raise ValueError('Expected all six GSE163973 source sample labels')
-    for sample in skin:
-        samples.append(dict(source_id=SKIN, sample_id=sample,
-                            group_id=f'{SKIN}:pair_block:{sample[-1]}',
-                            primary_eligible=True, quality_flag='cell_qc_required'))
-    for row in cardiac_rows:
+    if any(rows is not None and not rows for rows in (skin_rows, cardiac_rows, melanoma_rows)):
+        raise ValueError('A supplied metadata source is empty')
+    if skin_rows is not None:
+        skin = sorted({required(r, 'source_donor_key') for r in skin_rows})
+        if skin != ['KF1', 'KF2', 'KF3', 'NF1', 'NF2', 'NF3']:
+            raise ValueError('Expected all six GSE163973 source sample labels')
+        for sample in skin:
+            samples.append(dict(source_id=SKIN, sample_id=sample,
+                                group_id=f'{SKIN}:pair_block:{sample[-1]}',
+                                primary_eligible=True, quality_flag='cell_qc_required'))
+    for row in cardiac_rows or []:
         sample, donor = required(row, 'sample_id'), required(row, 'donor_id')
         quality = required(row, 'quality_flag')
         eligible = boolean(row, 'published_primary_eligible')
@@ -59,7 +62,7 @@ def collect_samples(skin_rows, cardiac_rows, melanoma_rows):
         samples.append(dict(source_id=CARDIAC, sample_id=sample,
                             group_id=f'{CARDIAC}:donor:{donor}',
                             primary_eligible=eligible, quality_flag=quality))
-    for row in melanoma_rows:
+    for row in melanoma_rows or []:
         sample, family = required(row, 'sample_id'), required(row, 'cell_line_family')
         if family not in {'501MEL', 'IGR37_IGR39'}:
             raise ValueError('Unrecognized melanoma lineage; do not guess group')
@@ -92,8 +95,14 @@ def validate_assignments(rows):
 def create_splits(samples):
     groups = {source: sorted({r['group_id'] for r in samples if r['source_id'] == source})
               for source in (SKIN, CARDIAC, MELANOMA)}
-    if len(groups[SKIN]) != 3 or len(groups[CARDIAC]) < 3 or len(groups[MELANOMA]) != 2:
-        raise ValueError('Require three skin blocks, at least three cardiac donors, and two melanoma lineages')
+    if not any(groups.values()):
+        raise ValueError('Supply at least one nonempty source')
+    if groups[SKIN] and len(groups[SKIN]) != 3:
+        raise ValueError('Skin requires three exploratory sample blocks')
+    if groups[CARDIAC] and len(groups[CARDIAC]) < 3:
+        raise ValueError('Cardiac requires at least three donor groups')
+    if groups[MELANOMA] and len(groups[MELANOMA]) != 2:
+        raise ValueError('This melanoma source requires its two known lineage groups')
     specs = []
     for source, name in ((SKIN, 'within_skin'), (CARDIAC, 'within_cardiac')):
         gs = groups[source]
@@ -110,10 +119,14 @@ def create_splits(samples):
                               (CARDIAC, MELANOMA, 'cardiac_to_melanoma'),
                               (MELANOMA, SKIN, 'melanoma_to_skin'),
                               (MELANOMA, CARDIAC, 'melanoma_to_cardiac')):
+        if not groups[src] or not groups[target]:
+            continue
         for i, validation in enumerate(groups[src]):
             roles = {g: 'validation' if g == validation else 'train' for g in groups[src]}
             roles.update({g: 'test' for g in groups[target]})
             specs.append((f'{name}_sourceval_{i+1:02d}', name, roles, None))
+    if not specs:
+        raise ValueError('Melanoma alone has only two lineages, insufficient for separate train, validation and test groups')
     result = {}
     for name, scenario, roles, prefix in specs:
         rows = [dict(row, partition=roles[row['group_id']]) for row in samples
@@ -128,15 +141,25 @@ def create_splits(samples):
 
 def write_splits(splits, paths, output):
     metadata_hashes = {key: sha256(path) for key, path in paths.items()}
+    source_keys = {SKIN: 'skin', CARDIAC: 'cardiac', MELANOMA: 'melanoma'}
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     if any((output / f'{name}.json').exists() for name in splits) or (output / 'manifest.json').exists():
         raise ValueError('Refusing to overwrite existing split records; choose a new output directory')
     files = []
     for name, data in splits.items():
+        source_ids = {row['source_id'] for row in data['assignments']}
+        if not source_ids <= set(source_keys):
+            raise ValueError('Unknown source in split assignment')
+        needed = {source_keys[source] for source in source_ids}
+        if not needed <= metadata_hashes.keys():
+            raise ValueError('Missing metadata input for a source used by the split')
+        input_hashes = {key: metadata_hashes[key] for key in sorted(needed)}
+        data = {**data, 'input_metadata_sha256': input_hashes}
         path = output / f'{name}.json'
         path.write_text(json.dumps(data, indent=2) + '\n')
-        files.append({'file': path.name, 'sha256': sha256(path), 'scenario': data['scenario']})
+        files.append({'file': path.name, 'sha256': sha256(path), 'scenario': data['scenario'],
+                      'input_metadata_sha256': input_hashes})
     manifest = {'schema_version': 1, 'files': files,
                 'input_metadata_sha256': metadata_hashes,
                 'total_files': len(files)}
@@ -146,11 +169,17 @@ def write_splits(splits, paths, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('skin', 'cardiac', 'melanoma', 'output'):
-        parser.add_argument('--' + name, type=Path, required=True)
+    for name in ('skin', 'cardiac', 'melanoma'):
+        parser.add_argument('--' + name, type=Path,
+                            help='processed metadata for this source (optional)')
+    parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    paths = {name: getattr(args, name) for name in ('skin', 'cardiac', 'melanoma')}
-    samples = collect_samples(*(read_rows(paths[name]) for name in ('skin', 'cardiac', 'melanoma')))
+    paths = {name: getattr(args, name) for name in ('skin', 'cardiac', 'melanoma')
+             if getattr(args, name) is not None}
+    if not paths:
+        parser.error('supply at least one processed metadata source')
+    rows = {name: read_rows(path) for name, path in paths.items()}
+    samples = collect_samples(rows.get('skin'), rows.get('cardiac'), rows.get('melanoma'))
     manifest = write_splits(create_splits(samples), paths, args.output)
     print(f'Wrote {manifest["total_files"]} exploratory split files.')
 

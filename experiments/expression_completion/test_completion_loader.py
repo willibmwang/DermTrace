@@ -30,15 +30,61 @@ class TestCompletion(unittest.TestCase):
     def test_split_and_metadata_hashes_checked(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory); sample=root/'metadata.csv'; sample.write_text('immutable')
-            split=root/'fold.json'; split.write_text(json.dumps({'assignments':[dict(source_id='a',sample_id='1',group_id='d',partition='train')]}))
+            split=root/'fold.json'; split.write_text(json.dumps({'assignments':[dict(source_id='GSE144424',sample_id='1',group_id='d',partition='train')]}))
             digest=lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-            (root/'manifest.json').write_text(json.dumps({'input_metadata_sha256':{'sample':digest(sample)},'files':[{'file':split.name,'sha256':digest(split)}]}))
+            (root/'manifest.json').write_text(json.dumps({'input_metadata_sha256':{'cardiac':digest(sample)},'files':[{'file':split.name,'sha256':digest(split)}]}))
             with self.assertRaises(ValueError): SplitAssignments.read(split)
-            self.assertEqual(SplitAssignments.read(split, metadata_paths={'sample':sample}).get('a','1'),('d','train'))
+            self.assertEqual(SplitAssignments.read(split, metadata_paths={'cardiac':sample}).get('GSE144424','1'),('d','train'))
             sample.write_text('changed')
-            with self.assertRaises(ValueError):SplitAssignments.read(split, metadata_paths={'sample':sample})
+            with self.assertRaises(ValueError):SplitAssignments.read(split, metadata_paths={'cardiac':sample})
             sample.write_text('immutable');split.write_text('{}')
-            with self.assertRaises(ValueError):SplitAssignments.read(split, metadata_paths={'sample':sample})
+            with self.assertRaises(ValueError):SplitAssignments.read(split, metadata_paths={'cardiac':sample})
+
+    def test_per_split_metadata_are_bound_and_consistent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            for name in ('skin','cardiac','melanoma'):
+                (root/name).write_text(name)
+            sha=lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+            hashes={name:sha(root/name) for name in ('skin','cardiac','melanoma')}
+            split=root/'fold.json'
+            payload={'assignments':[dict(source_id='GSE163973',sample_id='KF1',group_id='d',partition='train')],
+                     'input_metadata_sha256':{'skin':hashes['skin']}}
+            split.write_text(json.dumps(payload))
+            record={'file':split.name,'sha256':sha(split),'input_metadata_sha256':{'skin':hashes['skin']}}
+            manifest=root/'manifest.json'
+            manifest.write_text(json.dumps({'input_metadata_sha256':hashes,'files':[record]}))
+            self.assertEqual(SplitAssignments.read(split,metadata_paths={'skin':root/'skin'}).get('GSE163973','KF1'),('d','train'))
+            with self.assertRaises(ValueError):
+                SplitAssignments.read(split,metadata_paths={'skin':root/'skin','cardiac':root/'cardiac'})
+            record['input_metadata_sha256']['skin']='0'*64
+            manifest.write_text(json.dumps({'input_metadata_sha256':hashes,'files':[record]}))
+            with self.assertRaisesRegex(ValueError,'disagree'):
+                SplitAssignments.read(split,metadata_paths={'skin':root/'skin'})
+
+    def test_split_source_hashes_must_match_payload_and_cover_assignments(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            for name in ('skin','cardiac'):
+                (root/name).write_text(name)
+            digest=lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+            hashes={name:digest(root/name) for name in ('skin','cardiac')}
+            rows=[dict(source_id='GSE163973',sample_id='KF1',group_id='skin1',partition='train'),
+                  dict(source_id='GSE144424',sample_id='c1',group_id='donor1',partition='test')]
+            split=root/'fold.json'
+            manifest=root/'manifest.json'
+            def write(payload, per_file):
+                split.write_text(json.dumps(payload))
+                manifest.write_text(json.dumps({'input_metadata_sha256':hashes,'files':[
+                    {'file':split.name,'sha256':digest(split),'input_metadata_sha256':per_file}]}))
+            write({'assignments':rows,'input_metadata_sha256':{'skin':hashes['skin']}}, {'skin':hashes['skin']})
+            with self.assertRaisesRegex(ValueError,'cover'):
+                SplitAssignments.read(split,metadata_paths={'skin':root/'skin'})
+            write({'assignments':rows,'input_metadata_sha256':{'skin':hashes['skin']}},hashes)
+            with self.assertRaisesRegex(ValueError,'cover'):
+                SplitAssignments.read(split,metadata_paths={'skin':root/'skin','cardiac':root/'cardiac'})
+            write({'assignments':rows,'input_metadata_sha256':hashes},hashes)
+            self.assertEqual(SplitAssignments.read(split,metadata_paths={'skin':root/'skin','cardiac':root/'cardiac'}).get('GSE144424','c1'),('donor1','test'))
 
     def test_cell_qc_is_audited_but_does_not_auto_exclude_flags(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -117,5 +163,29 @@ class TestCompletion(unittest.TestCase):
         with self.assertRaises(ValueError):reward.stop()
         self.assertTrue(np.isfinite(evaluation.evaluate_once([0])))
         with self.assertRaises(ValueError):evaluation.evaluate_once([0])
+
+    def test_anchor_order_does_not_change_membership(self):
+        anchors = (G[1], G[0])
+        norm = fit_normalizer([self.p], anchors, VisibleAnchorTotalNormalizer)
+        plan = make_mask_plan(self.p, anchors, seed=4)
+        obs, _, _ = make_episode(self.p, plan, norm)
+        self.assertTrue(np.isfinite(obs.context_values).all())
+
+    def test_reward_query_budget(self):
+        _, reward, evaluator = make_episode(self.p, self.plan, self.norm, max_reward_queries=2)
+        self.assertEqual(reward.queries_used, 0)
+        with self.assertRaises(AttributeError):
+            reward.max_queries = 100
+        with self.assertRaises(AttributeError):
+            reward.queries_used = 0
+        reward.reward_loss([0])
+        reward.reward_loss([1])
+        self.assertEqual(reward.queries_used, 2)
+        with self.assertRaises(ValueError):
+            reward.reward_loss([2])
+        reward.stop()
+        self.assertTrue(np.isfinite(evaluator.evaluate_once([0])))
+        with self.assertRaises(ValueError):
+            make_episode(self.p, self.plan, self.norm, max_reward_queries=0)
 
 if __name__ == '__main__': unittest.main()

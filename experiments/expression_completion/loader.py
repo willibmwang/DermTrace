@@ -7,20 +7,16 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-import gzip
 import hashlib
 import json
-import re
-import tarfile
 from typing import Callable, Iterator
 
 import numpy as np
 import pandas as pd
-from scipy.io import mmread
+from .gse163973_reader import SAMPLE_ALIASES as ALIASES, iter_matrices
 
 Verify = Callable[[Path, str], None]
 PARTITIONS = frozenset({'train', 'validation', 'test', 'quarantine', 'auxiliary'})
-ALIASES = {'KL1': 'KF1', 'KL2': 'KF2', 'KL3': 'KF3', 'NS1': 'NF1', 'NS2': 'NF2', 'NS3': 'NF3'}
 
 
 class SplitAssignments:
@@ -59,9 +55,28 @@ class SplitAssignments:
         raw = path.read_bytes()
         if hashlib.sha256(raw).hexdigest() != matches[0]['sha256']:
             raise ValueError('Split file checksum mismatch')
-        expected_metadata = manifest['input_metadata_sha256']
-        if not isinstance(expected_metadata, dict):
+        payload = json.loads(raw)
+        rows = payload.get('assignments')
+        if not isinstance(rows, list) or not rows:
+            raise ValueError('Split must contain sample assignments')
+        source_metadata = {'GSE163973': 'skin', 'GSE144424': 'cardiac',
+                           'GSE95280_recount3': 'melanoma'}
+        sources = {row.get('source_id') for row in rows if isinstance(row, dict)}
+        if len(sources) == 0 or len([r for r in rows if isinstance(r, dict)]) != len(rows) or not sources <= source_metadata.keys():
+            raise ValueError('Unknown source in split assignment')
+        required_metadata = {source_metadata[source] for source in sources}
+        global_metadata = manifest['input_metadata_sha256']
+        expected_metadata = matches[0].get('input_metadata_sha256', global_metadata)
+        if not isinstance(expected_metadata, dict) or not isinstance(global_metadata, dict):
             raise ValueError('Split metadata hashes must be a mapping')
+        if not expected_metadata or any(global_metadata.get(k) != v for k, v in expected_metadata.items()):
+            raise ValueError('Split metadata hashes disagree with companion manifest')
+        declared_metadata = payload.get('input_metadata_sha256')
+        if 'input_metadata_sha256' in matches[0]:
+            if declared_metadata != expected_metadata or set(expected_metadata) != required_metadata:
+                raise ValueError('Split metadata hashes do not cover its assigned sources')
+        elif (declared_metadata is not None and declared_metadata != expected_metadata) or not required_metadata <= expected_metadata.keys():
+            raise ValueError('Legacy split metadata hashes do not cover its assigned sources')
         paths = {} if metadata_paths is None else dict(metadata_paths)
         if set(paths) != set(expected_metadata):
             raise ValueError('Provide a path for each pinned split metadata input')
@@ -69,7 +84,7 @@ class SplitAssignments:
             with Path(paths[name]).open('rb') as stream:
                 if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
                     raise ValueError('Split source metadata checksum mismatch: '+name)
-        return cls(json.loads(raw)['assignments'])
+        return cls(rows)
 
     def get(self, source, sample):
         try:
@@ -299,52 +314,28 @@ def skin_cells(root, split, verify: Verify, cell_eligible, samples=None) -> Iter
     selected = set(ALIASES.values()) if samples is None else set(samples)
     if not selected or not selected <= set(ALIASES.values()):
         raise ValueError('Unknown or empty source sample selection')
-    with tarfile.open(archive, 'r:') as outer:
-        sample_members = {}
-        for member in outer.getmembers():
-            match = re.search(r'_(KL[123]|NS[123])_matrix\.tar\.gz$', member.name)
-            if not match:
+    for sample, features, barcodes, matrix in iter_matrices(archive, selected):
+        group, role = split.get('GSE163973', sample)
+        if features.iloc[:, 0].tolist() != expected_ids:
+            raise ValueError('Cell matrix axes do not match source annotations')
+        source_cross = cross[cross.source_donor_key.eq(sample)].set_index('matrix_barcode', verify_integrity=True)
+        if set(source_cross.index) != set(barcodes):
+            raise ValueError('Cell barcode crosswalk is inconsistent')
+        ids = tuple(expected_ids)
+        for j, barcode in enumerate(barcodes):
+            row = source_cross.loc[barcode]
+            if pd.isna(row.source_metadata_row):
                 continue
-            sample = ALIASES[match.group(1)]
-            if sample in sample_members:
-                raise ValueError('Duplicate sample matrix in archive')
-            sample_members[sample] = member
-        if not selected <= set(sample_members):
-            raise ValueError('Requested source sample missing from archive')
-        for sample, member in sample_members.items():
-            if sample not in selected:
+            decision = cell_eligible(sample, barcode, row)
+            if type(decision) not in (bool, np.bool_):
+                raise ValueError('Cell eligibility policy must return a boolean')
+            if not decision:
                 continue
-            group, role = split.get('GSE163973', sample)
-            with tarfile.open(fileobj=outer.extractfile(member), mode='r:gz') as inner:
-                members = {Path(v.name).name: v for v in inner.getmembers() if v.isfile()}
-                with gzip.open(inner.extractfile(members['features.tsv.gz']), 'rt') as f:
-                    features = pd.read_csv(f, sep='\t', header=None, dtype=str)
-                with gzip.open(inner.extractfile(members['barcodes.tsv.gz']), 'rt') as f:
-                    barcodes = pd.Index([x.strip() for x in f if x.strip()])
-                with gzip.open(inner.extractfile(members['matrix.mtx.gz']), 'rb') as f:
-                    matrix = mmread(f).tocsc()
-            if features.iloc[:, 0].tolist() != expected_ids or matrix.shape != (len(expected_ids), len(barcodes)) or not barcodes.is_unique:
-                raise ValueError('Cell matrix axes do not match source annotations')
-            if not np.isfinite(matrix.data).all() or (matrix.data < 0).any() or (matrix.data != np.floor(matrix.data)).any():
-                raise ValueError('Invalid cell counts')
-            source_cross = cross[cross.source_donor_key.eq(sample)].set_index('matrix_barcode', verify_integrity=True)
-            if set(source_cross.index) != set(barcodes):
-                raise ValueError('Cell barcode crosswalk is inconsistent')
-            ids = tuple(expected_ids)
-            for j, barcode in enumerate(barcodes):
-                row = source_cross.loc[barcode]
-                if pd.isna(row.source_metadata_row):
-                    continue
-                decision = cell_eligible(sample, barcode, row)
-                if type(decision) not in (bool, np.bool_):
-                    raise ValueError('Cell eligibility policy must return a boolean')
-                if not decision:
-                    continue
-                flags = cell_eligible.flags(sample, barcode) if hasattr(cell_eligible, 'flags') else ()
-                yield Profile('GSE163973:'+sample+':'+barcode, 'GSE163973', sample, group, role,
-                              'single_cell_umi_counts', ids, matrix.getcol(j).toarray().ravel().astype(float),
-                              np.ones(len(ids), dtype=bool), str(row.cellType), tuple(flags))
-            del matrix
+            flags = cell_eligible.flags(sample, barcode) if hasattr(cell_eligible, 'flags') else ()
+            yield Profile('GSE163973:'+sample+':'+barcode, 'GSE163973', sample, group, role,
+                          'single_cell_umi_counts', ids, matrix.getcol(j).toarray().ravel().astype(float),
+                          np.ones(len(ids), dtype=bool), str(row.cellType), tuple(flags))
+        del matrix
 
 
 @dataclass(frozen=True)
@@ -445,16 +436,31 @@ class Observation:
 
 class RewardService:
     """Feedback service owns reward values, and never contains evaluation values."""
-    def __init__(self, values):
+    def __init__(self, values, max_queries):
+        if not isinstance(max_queries, int) or isinstance(max_queries, bool) or max_queries < 1:
+            raise ValueError('Reward query budget must be a positive integer')
         self.__reward = values.copy()
         self.__locked = False
+        self.__max_queries = max_queries
+        self.__queries_used = 0
+
+    @property
+    def max_queries(self):
+        return self.__max_queries
+
+    @property
+    def queries_used(self):
+        return self.__queries_used
 
     def reward_loss(self, predictions):
         if self.__locked:
             raise ValueError('Adaptation has ended')
+        if self.__queries_used >= self.__max_queries:
+            raise ValueError('Reward query budget exhausted')
         p = np.asarray(predictions, dtype=float)
         if p.shape != self.__reward.shape or not np.isfinite(p).all():
             raise ValueError('Supply one finite prediction per reward gene')
+        self.__queries_used += 1
         return float(np.mean((p - self.__reward)**2))
 
     def stop(self):
@@ -519,11 +525,11 @@ class VisibleAnchorTotalNormalizer:
         return pd.Series(np.log1p(v * (self.scale / factor)) / np.log(2), index=values.index)
 
 
-def make_episode(profile, plan, normalizer):
+def make_episode(profile, plan, normalizer, *, max_reward_queries=64):
     """Scale using context anchors only and expose hidden values via loss APIs."""
     plan.validate(profile.measured)
     anchors = tuple(np.asarray(profile.genes)[plan.anchors])
-    if anchors != tuple(normalizer.anchors):
+    if len(anchors) != len(normalizer.anchors) or set(anchors) != set(normalizer.anchors):
         raise ValueError('Plan anchors differ from frozen training reference')
     visible = pd.Series(profile.values[plan.context], index=np.asarray(profile.genes)[plan.context])
     factor = normalizer.factor(visible)
@@ -534,7 +540,7 @@ def make_episode(profile, plan, normalizer):
     context[plan.context] = target[plan.context]
     obs = Observation(profile.genes, context, profile.measured.copy(), plan.context.copy(),
                       plan.reward.copy(), plan.evaluation.copy(), plan.anchors.copy())
-    reward_service = RewardService(target[plan.reward])
+    reward_service = RewardService(target[plan.reward], max_reward_queries)
     return obs, reward_service, EvaluationService(target[plan.evaluation], reward_service)
 
 

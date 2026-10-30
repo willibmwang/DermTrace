@@ -1,19 +1,13 @@
 """Measure QC summaries of processed GSE163973 cell barcodes, without filtering."""
 from pathlib import Path
 import argparse
-import gzip
 import hashlib
 import json
-import re
 import sys
-import tarfile
 import gc
 import numpy as np
 import pandas as pd
-from scipy.io import mmread
-from threadpoolctl import threadpool_limits
-
-ALIASES = {'KL1':'KF1','KL2':'KF2','KL3':'KF3','NS1':'NF1','NS2':'NF2','NS3':'NF3'}
+from .gse163973_reader import iter_matrices
 
 def sha(path):
     with path.open('rb') as stream:
@@ -38,40 +32,24 @@ def main():
         raise ValueError('A processed source does not match the supplied recovery receipt')
     cross=pd.read_parquet(inputs[1])
     all_cells=[]
-    with tarfile.open(args.archive,'r:') as outer:
-        for member in outer.getmembers():
-            if not member.isfile(): continue
-            m=re.search(r'_(KL[123]|NS[123])_matrix\.tar\.gz$',member.name)
-            if not m:
-                raise ValueError('Unexpected file in count archive: ' + member.name)
-            sample=ALIASES[m.group(1)]
-            print('Measuring',sample,flush=True)
-            with tarfile.open(fileobj=outer.extractfile(member),mode='r:gz') as inner:
-                items={Path(m.name).name:m for m in inner.getmembers() if m.isfile()}
-                with gzip.open(inner.extractfile(items['barcodes.tsv.gz']),'rt') as f:
-                    barcodes=pd.Index([s.strip() for s in f if s.strip()])
-                with gzip.open(inner.extractfile(items['features.tsv.gz']),'rt') as f:
-                    genes=pd.read_csv(f,sep='\t',header=None,names=['id','symbol','type'])
-                with gzip.open(inner.extractfile(items['matrix.mtx.gz']),'rb') as f, threadpool_limits(limits=2):
-                    matrix=mmread(f).tocsc()
-            if matrix.shape != (len(genes),len(barcodes)):
-                raise ValueError('Matrix and feature/barcode axes differ')
-            sub=cross.loc[cross.source_donor_key.eq(sample)].set_index('matrix_barcode',verify_integrity=True).loc[barcodes]
-            counts=np.asarray(matrix.sum(axis=0)).ravel()
-            if not np.array_equal(counts,sub.matrix_sum_UMI):
-                raise ValueError('Matrix totals differ from barcode crosswalk')
-            detected=np.diff(matrix.indptr)
-            mito=genes.symbol.str.upper().str.startswith('MT-').to_numpy()
-            mt=np.asarray(matrix[mito].sum(axis=0)).ravel()
-            frac=np.divide(mt*100,counts,out=np.full(len(counts),np.nan),where=counts>0)
-            d=pd.DataFrame({'sample':sample,'barcode':barcodes,'annotated':sub.source_metadata_row.notna().to_numpy(),
-                'cell_type':sub.cellType.fillna('unannotated').to_numpy(),'matrix_counts':counts,
-                'matrix_detected_features':detected,'matrix_mito_pct':frac,
-                'author_counts':sub.nCount_RNA.to_numpy(),'author_detected_features':sub.nFeature_RNA.to_numpy(),
-                'author_mito_pct':sub['percent.mt'].to_numpy()})
-            all_cells.append(d)
-            del matrix
-            gc.collect()
+    for sample, genes, barcodes, matrix in iter_matrices(args.archive, strict_members=True, thread_limit=2):
+        print('Measuring',sample,flush=True)
+        sub=cross.loc[cross.source_donor_key.eq(sample)].set_index('matrix_barcode',verify_integrity=True).loc[barcodes]
+        counts=np.asarray(matrix.sum(axis=0)).ravel()
+        if not np.array_equal(counts,sub.matrix_sum_UMI):
+            raise ValueError('Matrix totals differ from barcode crosswalk')
+        detected=np.diff(matrix.indptr)
+        mito=genes.iloc[:, 1].str.upper().str.startswith('MT-').to_numpy()
+        mt=np.asarray(matrix[mito].sum(axis=0)).ravel()
+        frac=np.divide(mt*100,counts,out=np.full(len(counts),np.nan),where=counts>0)
+        d=pd.DataFrame({'sample':sample,'barcode':barcodes,'annotated':sub.source_metadata_row.notna().to_numpy(),
+            'cell_type':sub.cellType.fillna('unannotated').to_numpy(),'matrix_counts':counts,
+            'matrix_detected_features':detected,'matrix_mito_pct':frac,
+            'author_counts':sub.nCount_RNA.to_numpy(),'author_detected_features':sub.nFeature_RNA.to_numpy(),
+            'author_mito_pct':sub['percent.mt'].to_numpy()})
+        all_cells.append(d)
+        del matrix
+        gc.collect()
     cells=pd.concat(all_cells,ignore_index=True)
     if len(cells) != 53148 or cells.annotated.sum() != 40655 or cells.duplicated(['sample','barcode']).any():
         raise ValueError('Unexpected barcode count, annotations, or duplicate barcodes')
@@ -110,6 +88,7 @@ def main():
        'annotated_counts_over_6000':int((cells.annotated & cells.matrix_counts.gt(6000)).sum()),
        'annotated_review_flag_any':int((cells.annotated & cells.flag_any).sum()),
        'source_unchanged':True,'input_sha256':before,'script_sha256':sha(Path(__file__)),
+       'reader_sha256':sha(Path(iter_matrices.__code__.co_filename)),
        'notes':['Three unscaled median absolute deviations are descriptive only, per sample on annotated cells; do not use to remove cells without review.',
                 'Count and mitochondrial fields use complete processed matrices; exclude from model input and do not use as hidden-gene-derived normalization.',
                 'No unannotated barcode is declared a valid cell; no doublet scoring or new expression matrix produced.']}

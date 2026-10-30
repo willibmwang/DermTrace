@@ -72,6 +72,38 @@ class SplitTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 write_splits(splits, inputs, path / 'out')
 
+    def test_single_source_folds_do_not_require_other_metadata(self):
+        skin = create_splits(collect_samples(skin_rows=self.skin))
+        self.assertEqual(len(skin), 9)
+        for item in skin.values():
+            self.assertEqual({r['source_id'] for r in item['assignments']}, {'GSE163973'})
+            self.assertEqual({r['partition'] for r in item['assignments']}, {'train', 'validation', 'test'})
+        cardiac = create_splits(collect_samples(cardiac_rows=self.cardiac))
+        self.assertEqual(len(cardiac), 4)
+        for item in cardiac.values():
+            self.assertEqual({r['source_id'] for r in item['assignments']}, {'GSE144424'})
+            self.assertEqual({r['partition'] for r in item['assignments']}, {'train', 'validation', 'test'})
+        with self.assertRaisesRegex(ValueError, 'only two lineages'):
+            create_splits(collect_samples(melanoma_rows=self.melanoma))
+        with self.assertRaisesRegex(ValueError, 'source is empty'):
+            collect_samples(skin_rows=self.skin, cardiac_rows=[])
+
+    def test_each_split_pins_only_its_own_sources(self):
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            inputs = {x: root / (x + '.csv') for x in ('skin', 'cardiac', 'melanoma')}
+            for name, path in inputs.items(): path.write_text(name)
+            splits = create_splits(collect_samples(self.skin, self.cardiac, self.melanoma))
+            manifest = write_splits(splits, inputs, root / 'out')
+            for entry in manifest['files']:
+                payload = json.loads((root / 'out' / entry['file']).read_text())
+                source_map = {'GSE163973': 'skin', 'GSE144424': 'cardiac', 'GSE95280_recount3': 'melanoma'}
+                expected = {source_map[row['source_id']] for row in payload['assignments']}
+                self.assertEqual(set(entry['input_metadata_sha256']), expected)
+                self.assertEqual(entry['input_metadata_sha256'], payload['input_metadata_sha256'])
+                self.assertTrue(all(manifest['input_metadata_sha256'][key] == digest
+                                    for key, digest in entry['input_metadata_sha256'].items()))
+
 
 if __name__ == '__main__':
     unittest.main()
