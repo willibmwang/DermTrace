@@ -203,12 +203,15 @@ def call(ref_dir, dedup_sites, raw_sites, sheet, out):
                 long.append(dict(sample_id=s, gene=r.gene, hgvsp=r.hgvsp, consequence=r.consequence, change=r.change,
                                  tx_pos=r.tx_pos, ref=r.ref, alt=r.alt, vaf=d[f"{s}_vaf"], alt_molecules=d[f"{s}_alt"],
                                  depth_molecules=d[f"{s}_depth"], raw_alt_reads=d[f"{s}_raw_alt"], raw_depth=d[f"{s}_raw_depth"],
-                                 hotspot=r.hotspot, likely_polymorphism=r.likely_polymorphism, artefact_class=r.artefact_class))
+                                 hotspot=r.hotspot, n_samples_called=r.n_samples_called, likely_polymorphism=r.likely_polymorphism,
+                                 artefact_class=r.artefact_class))
     long = pd.DataFrame(long)
+    long = add_confidence(long)
     long.to_csv(out / "driver_variants_by_sample.tsv", sep="\t", index=False)
     coding = long.consequence.isin(["missense", "stop_gained", "stop_lost"]) | long.consequence.str.contains("frameshift|inframe")
     som = long[coding & ~long.likely_polymorphism & long.gene.isin(DRIVERS)]
     som.to_csv(out / "driver_variants_somatic_candidates.tsv", sep="\t", index=False)
+    high = som[som.confidence == "high"]
 
     # per-sample hotspot status with unique-molecule and raw depth over each key codon
     key = [("BRAF", 600), ("BRAF", 601), ("NRAS", 61), ("NRAS", 12), ("NRAS", 13), ("KRAS", 12), ("HRAS", 61), ("KIT", 576),
@@ -217,12 +220,13 @@ def call(ref_dir, dedup_sites, raw_sites, sheet, out):
     drv = refs[refs.role == "driver"].reset_index().set_index("gene")
     summ = []
     for i, s in enumerate(snames):
-        mine = som[som.sample_id == s]
+        mine = high[high.sample_id == s]
         hs = mine[mine.hotspot]
         row = dict(sample_id=s,
                    hotspot_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%}, {r.alt_molecules}/{r.depth_molecules} molecules, {r.raw_alt_reads}/{r.raw_depth} reads)" for r in hs.itertuples()) or "none",
                    other_driver_calls="; ".join(f"{r.gene} {r.hgvsp} ({r.vaf:.0%}, {r.alt_molecules}/{r.depth_molecules})" for r in mine[~mine.hotspot].itertuples()) or "none",
-                   n_somatic_candidates=len(mine))
+                   n_high_confidence_calls=len(mine),
+                   n_low_confidence_calls=int(((som.sample_id == s) & (som.confidence == "low")).sum()))
         for g, c in key:
             info = drv.loc[g]
             ps = [(info["name"], info.cds_start + (c - 1) * 3 + k) for k in range(3)]
@@ -235,8 +239,43 @@ def call(ref_dir, dedup_sites, raw_sites, sheet, out):
         mutant = summ.hotspot_calls.str.contains(rf"{g} p\.[A-Z*]{c}[A-Z*]")
         summ[f"{g}_{c}_status"] = np.select([mutant, m >= WT_MIN_MOLECULES, m >= MIN_DEPTH], ["mutant", "wild-type", "wild-type (low depth)"], "not covered")
     summ.to_csv(out / "hotspot_summary.tsv", sep="\t", index=False)
-    print(f"{len(allv)} variant sites, {len(som)} somatic-candidate calls in {som.sample_id.nunique()} samples")
+    print(f"{len(allv)} variant sites, {len(som)} somatic-candidate calls ({len(high)} high confidence) in {som.sample_id.nunique()} samples")
     print(summ[["sample_id", "BRAF_600_status", "BRAF_600_molecules", "NRAS_61_status", "NRAS_61_molecules", "hotspot_calls"]].to_string(index=False))
+
+
+# Confidence tiers for the per-sample calls. FFPE RNA is dominated by low-allele-fraction C>T / G>A (cytosine
+# deamination) and by A>G (A-to-I RNA editing) changes, and genes with expressed paralogs or pseudogenes collect
+# clusters of low-VAF "variants" from mis-mapped reads. A call is "high" confidence when it is a hotspot, or when it
+# is a non-damage change with >= 3 unique molecules at VAF >= 10%, or a damage-class change with >= 5 molecules at
+# VAF >= 25%; it is downgraded to "low" when the same non-hotspot change recurs in >= 3 samples (polymorphism or
+# systematic artefact) or sits in a cluster of >= 4 low-VAF calls in the same gene and sample (mis-mapping).
+HIGH_MIN_MOLECULES, HIGH_MIN_VAF = 3, 0.10
+DAMAGE_MIN_MOLECULES, DAMAGE_MIN_VAF = 5, 0.25
+RECURRENT_SAMPLES, CLUSTER_CALLS, CLUSTER_MAX_VAF = 3, 4, 0.25
+HOTSPOT_DAMAGE_MIN_MOLECULES, HOTSPOT_DAMAGE_MIN_VAF = 3, 0.10
+# Common germline missense polymorphisms (gnomAD AF > 1%) in the driver panel that would otherwise look like calls.
+KNOWN_POLYMORPHISMS = {("TP53", "p.P72R"), ("ERBB2", "p.I655V"), ("ERBB2", "p.P1170A"), ("KIT", "p.M541L"),
+                       ("IDH1", "p.V178I")}
+
+
+def add_confidence(long):
+    damage = long.artefact_class.isin(["possible_deamination", "possible_RNA_editing"])
+    strong = np.where(damage, (long.alt_molecules >= DAMAGE_MIN_MOLECULES) & (long.vaf >= DAMAGE_MIN_VAF),
+                      (long.alt_molecules >= HIGH_MIN_MOLECULES) & (long.vaf >= HIGH_MIN_VAF))
+    hot_ok = np.where(damage, (long.alt_molecules >= HOTSPOT_DAMAGE_MIN_MOLECULES) & (long.vaf >= HOTSPOT_DAMAGE_MIN_VAF), True)
+    recurrent = (long.n_samples_called >= RECURRENT_SAMPLES) & ~long.hotspot
+    known = pd.Series([(g, h) in KNOWN_POLYMORPHISMS for g, h in zip(long.gene, long.hgvsp)], index=long.index)
+    lowvaf = long.vaf < CLUSTER_MAX_VAF
+    n_cluster = long[lowvaf & ~long.hotspot].groupby(["sample_id", "gene"]).size()
+    clustered = (pd.Series(list(zip(long.sample_id, long.gene)), index=long.index).map(n_cluster).fillna(0) >= CLUSTER_CALLS) & lowvaf & ~long.hotspot
+    flags = np.where(recurrent, "recurrent_in_" + long.n_samples_called.astype(str) + "_samples", "")
+    flags = np.where(known, np.where(flags == "", "", flags + ";") + "known_common_polymorphism", flags)
+    flags = np.where(clustered, np.where(flags == "", "", flags + ";") + "clustered_low_vaf_in_gene", flags)
+    flags = np.where(long.artefact_class != "", np.where(flags == "", "", flags + ";") + long.artefact_class, flags)
+    long = long.copy()
+    long["confidence"] = np.where(((long.hotspot & hot_ok) | (strong & ~recurrent & ~clustered)) & ~known, "high", "low")
+    long["flags"] = flags
+    return long
 
 
 def in_repeat(seq, pos, ref, alt):
