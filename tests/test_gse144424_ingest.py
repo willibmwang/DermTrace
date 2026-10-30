@@ -62,7 +62,7 @@ class GSE144424IngestionTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Title/subject mismatch"):
                 sample_table(altered, DEFAULT_PACKAGE / "inputs/GSE144424_series_matrix.txt.gz")
 
-    def test_rebuild_is_deterministic_and_negative_counts_fail(self):
+    def test_rebuild_is_deterministic_and_changed_counts_fail(self):
         with tempfile.TemporaryDirectory() as directory:
             package = Path(directory)
             inputs = package / "inputs"
@@ -80,9 +80,65 @@ class GSE144424IngestionTests(unittest.TestCase):
             raw = pd.read_csv(raw_path, sep="\t")
             raw.loc[0, "H18499_A"] = -1
             raw.to_csv(raw_path, sep="\t", index=False, compression="gzip")
-            with self.assertRaisesRegex(ValueError, "nonnegative integers"):
+            with self.assertRaisesRegex(ValueError, "Pinned source checksum mismatch"):
                 curate(package)
             self.assertEqual(first_manifest_hash, sha256(package / "manifest.json"))
+
+    def test_valid_count_change_fails_without_replacing_existing_package(self):
+        with tempfile.TemporaryDirectory() as directory:
+            package = Path(directory)
+            inputs = package / "inputs"
+            inputs.mkdir()
+            for filename in INPUT_URLS:
+                shutil.copyfile(DEFAULT_PACKAGE / "inputs" / filename, inputs / filename)
+            before = curate(package)
+            manifest_hash = sha256(package / "manifest.json")
+            raw_path = inputs / "GSE144424_Counts_RNA_MCW_NEB.txt.gz"
+            raw = pd.read_csv(raw_path, sep="\t")
+            raw.loc[0, "H18499_A"] += 1  # Still a finite nonnegative integer.
+            raw.to_csv(raw_path, sep="\t", index=False, compression="gzip")
+            with self.assertRaisesRegex(ValueError, "Pinned source checksum mismatch"):
+                curate(package)
+            self.assertEqual(sha256(package / "manifest.json"), manifest_hash)
+            for name, expected in before["outputs"].items():
+                self.assertEqual(sha256(package / name), expected)
+
+    def test_changed_mapping_or_existing_output_is_not_replaced(self):
+        with tempfile.TemporaryDirectory() as directory:
+            package = Path(directory) / "package"
+            inputs = package / "inputs"
+            inputs.mkdir(parents=True)
+            for filename in INPUT_URLS:
+                shutil.copyfile(DEFAULT_PACKAGE / "inputs" / filename, inputs / filename)
+            mapping = Path(directory) / "mapping.tsv.gz"
+            shutil.copyfile(GENE_MAPPING, mapping)
+            curate(package, mapping_path=mapping)
+            original_manifest = sha256(package / "manifest.json")
+            with mapping.open("ab") as handle:
+                handle.write(b"changed")
+            with self.assertRaisesRegex(ValueError, "Pinned gene mapping checksum mismatch"):
+                curate(package, mapping_path=mapping)
+            self.assertEqual(sha256(package / "manifest.json"), original_manifest)
+            shutil.copyfile(GENE_MAPPING, mapping)
+            with (package / "genes.csv").open("a") as handle:
+                handle.write("changed")
+            changed_hash = sha256(package / "genes.csv")
+            with self.assertRaisesRegex(ValueError, "Existing package output changed"):
+                curate(package, mapping_path=mapping)
+            self.assertEqual(sha256(package / "genes.csv"), changed_hash)
+            self.assertEqual(sha256(package / "manifest.json"), original_manifest)
+
+    def test_outputs_without_manifest_are_not_overwritten(self):
+        with tempfile.TemporaryDirectory() as directory:
+            package = Path(directory)
+            inputs = package / "inputs"
+            inputs.mkdir()
+            for filename in INPUT_URLS:
+                shutil.copyfile(DEFAULT_PACKAGE / "inputs" / filename, inputs / filename)
+            (package / "genes.csv").write_text("previous output")
+            with self.assertRaisesRegex(ValueError, "lack a manifest"):
+                curate(package)
+            self.assertEqual((package / "genes.csv").read_text(), "previous output")
 
     def test_manifest_exposes_chromosome_discrepancy_and_verified_markers(self):
         manifest = json.loads((DEFAULT_PACKAGE / "manifest.json").read_text())
