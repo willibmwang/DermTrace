@@ -1,0 +1,9 @@
+{
+  "n_profiles": 19,
+  "n_genes": 19011,
+  "n_recorded_source_groups": 10,
+  "all_values_finite": true,
+  "native_values_preserved": true,
+  "standard_writer_reproduced": true,
+  "n_modules_with_signal": 7
+}

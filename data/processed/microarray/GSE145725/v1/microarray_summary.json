@@ -1,0 +1,33 @@
+{
+  "n_samples": 19,
+  "n_genes": 19011,
+  "accessions": [
+    {
+      "accession": "GSE145725",
+      "platform_id": "GPL16043",
+      "n_samples": 19,
+      "n_probe_rows": 49495,
+      "n_gene_features": 19011,
+      "labels": {
+        "normal": 10,
+        "keloid": 9
+      }
+    }
+  ],
+  "skipped": [],
+  "outputs": {
+    "metadata": "microarray_sample_metadata.parquet",
+    "wide": "microarray_expression_wide.parquet",
+    "matrix": "microarray_X.npy",
+    "labels": "microarray_encoder_labels.csv",
+    "gene_vocab": "microarray_gene_vocab.txt",
+    "jsonl": "microarray_encoder_decoder_samples.jsonl"
+  },
+  "native_expression": "microarray_expression_native.parquet",
+  "expression_scale": "accession_zscore_ddof1",
+  "native_scale": "deposited_log2_RMA",
+  "probe_mapping_policy": "exclude_ambiguous_unmapped_invalid; uppercase_only; average_retained_probes_on_deposited_scale",
+  "cohort_role": "fibroblast_sensitivity_only",
+  "n_recorded_source_groups": 10,
+  "automatically_registered_for_training": false
+}

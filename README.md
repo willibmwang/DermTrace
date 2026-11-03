@@ -43,7 +43,7 @@ Not every dataset ships its expression matrix. Large matrices were either remove
 | [`training/`](data/processed/training/) | ✅ **Yes** (feature views) | 18 feature-view parquets, profile manifest, splits, coverage audits |
 | [`public_keloid/`](data/processed/public_keloid/) | ❌ No | Encoder labels, sample metadata, gene vocabulary, cohort roles, summary |
 | [`bulk_rnaseq/`](data/processed/bulk_rnaseq/) | ❌ No | Encoder labels and a summary JSON |
-| [`microarray/`](data/processed/microarray/) | ❌ No | Encoder labels, summary JSON, and one signature summary |
+| [`microarray/`](data/processed/microarray/) | ✅ GSE145725 only | [Versioned 19-profile package](data/processed/microarray/GSE145725/v1/), encoder labels, summary JSON, and one signature summary; combined matrices remain archived |
 | [`scrna_spatial/`](data/processed/scrna_spatial/) | ❌ No | Encoder labels, summary JSON, metadata inventories |
 | [`spheroid/`](data/processed/spheroid/) | ❌ No | Three extraction and morphology summaries |
 | [`archive/`](data/processed/archive/) | ✅ Historical | Matrices and tables removed from tracking, restored from git history |
@@ -72,6 +72,7 @@ Anything not committed is rebuilt by the script in the **Built by** column below
 Two things to know before using these cohorts:
 
 - **GSE3189 is a melanoma study** (45 melanoma, 18 nevus, 7 normal) contributing 70 of the 154 microarray samples, so [`microarray/`](data/processed/microarray/) is not keloid-only.
+- **GSE145725 is already represented in the historical microarray cohort.** Its [recoverable package](data/processed/microarray/GSE145725/v1/) supplies native processed log2 expression and standard-format exports with conservative probe mapping. It is an alternative representation of the same 19 profiles; do not add it as a second training source. Its role remains fibroblast sensitivity analysis, not primary tissue-skin evaluation.
 - In `public_keloid/`, trust `public_keloid_sample_metadata.parquet` over the JSON sidecars. The parquet carries all 169 samples across 16 accessions, but `public_keloid_cohort_roles.json` lists only 15 (it omits GSE185309, 17 lockbox samples), and the `skipped` list in `public_keloid_summary.json` marks four accessions as failed that did contribute 44 samples between them.
 
 #### Training corpus

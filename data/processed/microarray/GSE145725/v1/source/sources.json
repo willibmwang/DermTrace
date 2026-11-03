@@ -1,0 +1,37 @@
+{
+  "accession": "GSE145725",
+  "retrieved_date": "2026-11-02",
+  "processed_inputs_only": true,
+  "sources": [
+    {
+      "file": "GSE145725_series_matrix.txt.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE145nnn/GSE145725/matrix/GSE145725_series_matrix.txt.gz",
+      "sha256": "62fcdb50492ed769bdd986e69c5a7558fae308dc664d36bb641b084bc3c25b9c"
+    },
+    {
+      "file": "GPL16043_full.txt.gz",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL16043&targ=self&form=text&view=full",
+      "transformation": "gzip compression with empty filename and mtime=0; decompressed content unchanged",
+      "sha256": "43eb01e4a5a1b11ee7bc87790a379692c13ba755f51620fb4bd32040b2e58425",
+      "uncompressed_sha256": "6cc8e8fcdfc057411b6c69befd6533fdf9b5a4a8afc61089f7a26665ef884c54"
+    },
+    {
+      "file": "GSM4331585_processed.rma.chp.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4331nnn/GSM4331585/suppl/GSM4331585_KR1__Korean_Keloid_1A_PrimeView_.rma.chp.gz",
+      "sha256": "ebcf2dae0210ac65adfa0ee44db427ec38776838959c424aba1f26ffd9274631",
+      "purpose": "processed expression scale and source-value verification; not raw CEL data"
+    }
+  ],
+  "processed_chp_header": {
+    "affymetrix-algorithm-name": "rma",
+    "quantification-name": "med-polish",
+    "quantification-scale": "log2",
+    "apt-opt-cel-count": 19,
+    "analysis_steps": ["rma-bg", "quant-norm.sketch=0.bioc=true", "pm-only", "med-polish.expon=false"]
+  },
+  "limitations": [
+    "One processed CHP was independently parsed; its 49495 probe values match the series matrix after six-significant-digit export.",
+    "Recorded source labels group cultures; no independently verified donor crosswalk or keloid-normal donor pairing is available.",
+    "Platform symbols are historical and are not silently updated to current gene aliases."
+  ]
+}

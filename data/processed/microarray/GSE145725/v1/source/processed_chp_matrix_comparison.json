@@ -1,0 +1,9 @@
+{
+  "sample_id": "GSM4331585",
+  "processed_chp_rows": 49495,
+  "matrix_rows": 49495,
+  "identical_probe_set": true,
+  "max_absolute_difference": 4.998779296805367e-05,
+  "match_after_six_significant_digit_export": true,
+  "interpretation": "All 49,495 matrix values equal six-significant-digit export of deposited RMA log2 processed CHP values."
+}

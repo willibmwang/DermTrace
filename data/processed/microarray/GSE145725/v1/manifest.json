@@ -1,0 +1,74 @@
+{
+  "release": "GSE145725/v1",
+  "inputs": {
+    "GSE145725_series_matrix.txt.gz": {
+      "sha256": "62fcdb50492ed769bdd986e69c5a7558fae308dc664d36bb641b084bc3c25b9c",
+      "bytes": 3355088
+    },
+    "GPL16043_full.txt.gz": {
+      "sha256": "43eb01e4a5a1b11ee7bc87790a379692c13ba755f51620fb4bd32040b2e58425",
+      "bytes": 7475751
+    },
+    "GSM4331585_processed.rma.chp.gz": {
+      "sha256": "ebcf2dae0210ac65adfa0ee44db427ec38776838959c424aba1f26ffd9274631",
+      "bytes": 353597
+    }
+  },
+  "code": {
+    "ingest_gse145725.py": "60803fc58c4c9de489be3d0f44b70d9174e5f42ae2993dc4d3bc745639cf9f15",
+    "preprocess_microarray.py": "2be73845658ef1f8090183839954e1dfbcda02e60e5cf782d508dba6cb960155",
+    "expression_processing.py": "201fedc7302d33d30d846f9fe479133c76e2e06a643dfb90da87e62c81bfe0a1",
+    "gene_modules.py": "a1cc612338979ca9a25c14fd6acdb228fb5105bb78318b4d101e655bbf605887"
+  },
+  "outputs": {
+    "microarray_X.npy": {
+      "sha256": "ebbe85da7a12101e3816cad5a14e18e0c97de0093a7504f9126b04b37759b19e",
+      "bytes": 1444964
+    },
+    "microarray_encoder_decoder_samples.jsonl": {
+      "sha256": "1d527f95b96b18b222c1b7189295232cc47e2a72df524914b943ea8b4f45e224",
+      "bytes": 1180602
+    },
+    "microarray_encoder_labels.csv": {
+      "sha256": "8f7926538c5c5453e87f3c8011e0f7b2639a7cee145245989313eec9748ee78c",
+      "bytes": 2820
+    },
+    "microarray_expression_native.parquet": {
+      "sha256": "33f8aaa074ecaa77aee5ef5f65743bf9b35ef18adb69d4e6dc97148fb08dd4b7",
+      "bytes": 13500192
+    },
+    "microarray_expression_wide.parquet": {
+      "sha256": "d926ddd71b28459e29e19c81563351a9a2f72d081fa4c9c14174af51eb16987e",
+      "bytes": 13507420
+    },
+    "microarray_gene_vocab.txt": {
+      "sha256": "fc3f6b7a70a6d8f4525282e6e03928407255ea86e0bbd5b463234a318b878392",
+      "bytes": 125855
+    },
+    "microarray_sample_metadata.parquet": {
+      "sha256": "f9b9d2749a7c222dd5dd994a8c469e83de3a3f236a3e856aa9195d640161ed31",
+      "bytes": 55473
+    },
+    "microarray_summary.json": {
+      "sha256": "051c745eaf5da70cdd8f503f6dffc884a442de3ad9b19bfdb560aa03601dd7e0",
+      "bytes": 1026
+    },
+    "probe_mapping.tsv.gz": {
+      "sha256": "60a8d79ed346f88eb25d2bfa7ccf1b9a6d9ced97aca1e68a9b86e32f34eb08d6",
+      "bytes": 734014
+    },
+    "sample_metadata.tsv": {
+      "sha256": "dbcc4fbf9d3ad484179876993623e059efb569c9feb0db8325d930ce5edfc91f",
+      "bytes": 59649
+    },
+    "validation.json": {
+      "sha256": "991a8d2914e1faa975e2db76ef85f7850eb10780cb134507fa9730049ea66726",
+      "bytes": 209
+    }
+  },
+  "software": {
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "pyarrow": "23.0.1"
+  }
+}
