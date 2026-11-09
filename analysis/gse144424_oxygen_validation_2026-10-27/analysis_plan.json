@@ -1,0 +1,28 @@
+{
+  "version": "gse144424_oxygen_validation_v1",
+  "status": "Analysis choices fixed after source metadata review and before inspecting GSE144424 marker effects; not an external preregistration.",
+  "purpose": "Exploratory external donor validation of the existing AC16 human oxygen-response marker directions; not model training or a replacement frozen benchmark.",
+  "markers": ["CA9", "EGLN3", "SLC2A1", "LDHA", "PDK1", "VEGFA", "BNIP3", "NDRG1"],
+  "expected_primary_direction": "positive for all eight, specified by the preceding AC16 analysis",
+  "primary_contrast": "B-A: six hours at 1% versus the matched 10% reference, both harvested at experiment hour 6",
+  "primary_selection": "One complete A-D experiment per donor: published experiment 2 for 18511, 18852 and 18855; sole experiment 1 for all other donors. Expected 15 donors and 60 profiles.",
+  "normalization": "Library-size median-of-ratios: autosomal genes having strictly positive counts in every selected profile define the geometric-mean reference; median gene ratio per sample, rescaled to geometric mean 1. Apply log2(count/size_factor + 1). Fit independently within each prespecified sample selection. Never pool GSE144424 and Tsao expression.",
+  "primary_estimates": "Per-gene donor-paired log2 normalized-count differences; n positive/zero/negative, mean, median, and percentile 95% donor-bootstrap interval for the median (20,000 resamples, seed 144424). Intervals are unadjusted and conditional on the observed normalization.",
+  "primary_tests": "One-sided exact sign tests against positive probability 0.5; exclude exact zero ties from test denominator but report them; Benjamini-Hochberg adjustment across all eight specified markers. Call donor-direction support at q <= 0.05 and positive median; report individual markers rather than optimizing a panel or post-hoc donor-consistency threshold.",
+  "secondary_contrasts": ["C-A", "D-A", "C-B", "D-B"],
+  "secondary_interpretation": "Descriptive only: per-donor changes, median and bootstrap interval. Report proportion with abs(C-A) or abs(D-A) < abs(B-A), residual positive/negative signs, and overshoot. These are expression proximity to an earlier reference, not functional recovery; later time-matched normoxia controls are absent.",
+  "sensitivities": {
+    "repeat_averaged_qc": "Use all complete A-D experiments except the original H18852 experiment 1, which contains the published H18852_A outlier and H18852_D with undetermined RIN. Compute matched experiment deltas first, then mean within donor. Expected 20 experiments/80 profiles/15 donors, with every donor equally weighted.",
+    "repeat_averaged_all": "Include all 21 complete A-D experiments/84 profiles, including the flagged H18852 original experiment, with the same equal-donor aggregation.",
+    "primary_cpm": "Same primary 60 profiles, using log2(autosomal-library CPM + 1) rather than median-ratio normalized counts. Report direction stability without choosing the preferred normalization from the results."
+  },
+  "abundance_reporting": "Retain all specified markers. Report normalized-count medians in A/B; flag markers with both medians below 10 rather than discarding them after seeing effects.",
+  "limits": [
+    "GSE144424 is donor-derived human iPSC cardiomyocyte cultures, not AC16 or mouse HL-1; it cannot independently validate HL-1 or isolate species effects.",
+    "The reference is 10%, not Tsao 20%; there is no matching sustained-1% arm and Tsao exposure durations/independent culture identities are unknown.",
+    "TPM contrasts and normalized-count contrasts have different scales; compare directions, not their magnitudes or pooled absolute values.",
+    "The count matrix is not the paper's TMM/RUV-adjusted differential-expression result. This analysis does not reproduce its model, fit RUV factors, or perform genome-wide DE.",
+    "Culture purity and technical effects may contribute; repeated experiments are not additional independent donors.",
+    "Existing frozen datasets, splits, protocols, models, benchmarks and demo remain unchanged. AC16 already occurs in existing oxygen TEST splits; these inspected data are not a new blind evaluation."
+  ]
+}

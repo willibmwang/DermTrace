@@ -1,0 +1,81 @@
+{
+  "analysis": "gse144424_oxygen_validation_v1",
+  "scope": "exploratory; no predictive fit or benchmark change",
+  "normalization_audit": [
+    {
+      "analysis": "primary",
+      "normalization": "median_ratio",
+      "n_profiles": 60,
+      "n_donors": 15,
+      "n_experiments": 15,
+      "n_autosomal_reference_genes": 12820,
+      "min_factor": 0.2611722429978715,
+      "max_factor": 3.365243855887168
+    },
+    {
+      "analysis": "repeat_averaged_qc",
+      "normalization": "median_ratio",
+      "n_profiles": 80,
+      "n_donors": 15,
+      "n_experiments": 20,
+      "n_autosomal_reference_genes": 12743,
+      "min_factor": 0.2682296377791914,
+      "max_factor": 3.4653658817460236
+    },
+    {
+      "analysis": "repeat_averaged_all",
+      "normalization": "median_ratio",
+      "n_profiles": 84,
+      "n_donors": 15,
+      "n_experiments": 21,
+      "n_autosomal_reference_genes": 12626,
+      "min_factor": 0.136683201627256,
+      "max_factor": 3.491116436470343
+    },
+    {
+      "analysis": "primary_cpm",
+      "normalization": "cpm",
+      "n_profiles": 60,
+      "n_donors": 15,
+      "n_experiments": 15,
+      "n_autosomal_reference_genes": 18226,
+      "min_factor": 6.579753,
+      "max_factor": 91.998821
+    }
+  ],
+  "input_sha256": {
+    "data/curated/gse144424_cardiomyocyte_v1/counts.parquet": "50bb5ad527881c6230ab3bfe32a3bdf141295cf40020c861ed50ee2d9d94f173",
+    "data/curated/gse144424_cardiomyocyte_v1/samples.csv": "bc297530e7b4c01b63caf2a78c4d9135d971a5ea63f7e6e7b33e1483b00a5425",
+    "data/curated/gse144424_cardiomyocyte_v1/genes.csv": "8e11292a3a35c02c26dd179c504ebaee3b04b1df0b17d1e5e7b767918264dc9c",
+    "data/curated/gse144424_cardiomyocyte_v1/marker_mapping.csv": "8b1992686dcd22a52faf61e252b12fd21e18bb0889bf858b560612b6ecb4188f",
+    "data/curated/gse144424_cardiomyocyte_v1/manifest.json": "93083b0532345237bf658cd340d9adbed4aa83479e89ae1367e485594376d6f3",
+    "analysis/gse144424_oxygen_validation_2026-10-27/analysis_plan.json": "ded64c6ff5cc48d16b0106b91470554c368fb36055fa46c2bd5d0810621ae2b9",
+    "scripts/analyze_gse144424.py": "559af259e8875b3ccc2b60845009ec2cb3c02c36ef2a3ce7459b23664b022eab",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reference/human_AC16_marker_contrasts.csv": "faceb64b5bf9578c5144f61dbc891af7bf7e749113eccc3bb0c2b1d20907d5ca",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reference/provenance.json": "f0e33308d3f6a8705a25272b71229ad68baf0785b84a0bce3da00d85bedf2c07"
+  },
+  "output_sha256": {
+    "analysis/gse144424_oxygen_validation_2026-10-27/ac16_direction_comparison.csv": "26b41de65e85896390a802d666c5de6a892ea3eed8469ab3c525a0824876c4d1",
+    "analysis/gse144424_oxygen_validation_2026-10-27/donor_deltas.csv": "54619dfd77e8742243dd5d3f0e1aae97a8254497f4e9cbdaad62dae6249417e6",
+    "analysis/gse144424_oxygen_validation_2026-10-27/experiment_deltas.csv": "66bd63d809c1346a2548d7685f6b99b4e950b373567e9964936d74a577b56a8b",
+    "analysis/gse144424_oxygen_validation_2026-10-27/marker_summary.csv": "b1dffcf1b4764590c8e0a4725408d378f158cabfaceee629c9b6811e0f5fd703",
+    "analysis/gse144424_oxygen_validation_2026-10-27/normalization_factors.csv": "f7915592865082dc518d2252252a2d5a0c9180ca0f5ed9b73d314af6115b64f1",
+    "analysis/gse144424_oxygen_validation_2026-10-27/primary_donor_expression.csv": "3b7ddec2553a9d3c238aab1ac5c1363d0cf721b69d282c37c2674441faeedb70",
+    "analysis/gse144424_oxygen_validation_2026-10-27/reoxygenation_summary.csv": "8d6d03f5ad2284d697df1029929a45806854487625068d2d10054b15f7c09cd6"
+  },
+  "primary_direction_support_genes": [
+    "EGLN3",
+    "SLC2A1",
+    "VEGFA",
+    "NDRG1"
+  ],
+  "primary_same_direction_genes": [
+    "EGLN3",
+    "SLC2A1",
+    "LDHA",
+    "PDK1",
+    "VEGFA",
+    "BNIP3",
+    "NDRG1"
+  ]
+}

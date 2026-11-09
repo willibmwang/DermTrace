@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "purpose": "Portable snapshot of the existing descriptive AC16 marker contrasts used to specify the human oxygen-response directions before inspecting GSE144424 donor effects.",
+  "reference_git_commit": "aaa53a45d1c0cf9284dfa67aadd5e0961641c6a8",
+  "snapshot": {
+    "path": "analysis/gse144424_oxygen_validation_2026-10-27/reference/human_AC16_marker_contrasts.csv",
+    "sha256": "faceb64b5bf9578c5144f61dbc891af7bf7e749113eccc3bb0c2b1d20907d5ca",
+    "rows": 32,
+    "columns": [
+      "gene",
+      "oxygen",
+      "present",
+      "mean_tpm",
+      "log2_ratio_mean_tpm_plus1_vs_20pct"
+    ]
+  },
+  "source_files": [
+    {
+      "role": "TPM gene-symbol matrix",
+      "path": "data/processed/tsaolab_o2/tsaolab_o2_human_tpm_symbol.tsv.gz",
+      "sha256": "1bbfee583ceb92be84691a9ac4a94485936518dbddbf90df42fa49370702d3f9"
+    },
+    {
+      "role": "Sample identities and oxygen arms",
+      "path": "data/processed/tsaolab_o2/tsaolab_o2_human_sample_metadata.csv",
+      "sha256": "0f5847d3cb7ac5739d98bea4768436d516a1a8b20c03fc4ba164c25476bc2245"
+    }
+  ],
+  "selection": {
+    "species": "human",
+    "cell_line": "AC16",
+    "profile_count": 12,
+    "cell_line_identities": 1,
+    "profiles_per_arm": 3,
+    "quality_flags": {
+      "ok": 12
+    },
+    "arms": {
+      "20%": [
+        "1030390-13",
+        "1030390-14",
+        "1030390-15"
+      ],
+      "20%->1%": [
+        "1030390-16",
+        "1030390-17",
+        "1030390-18"
+      ],
+      "1%": [
+        "1030390-19",
+        "1030390-20",
+        "1030390-21"
+      ],
+      "1%->20%": [
+        "1030390-22",
+        "1030390-23",
+        "1030390-24"
+      ]
+    }
+  },
+  "calculation": {
+    "markers": [
+      "CA9",
+      "EGLN3",
+      "SLC2A1",
+      "LDHA",
+      "PDK1",
+      "VEGFA",
+      "BNIP3",
+      "NDRG1"
+    ],
+    "mean_tpm": "Arithmetic mean of each marker across the three profiles assigned to the oxygen arm.",
+    "contrast": "log2((arm mean TPM + 1)/(20% reference mean TPM + 1))",
+    "pseudocount_tpm": 1,
+    "reference_arm": "20%",
+    "missing_markers": []
+  },
+  "verification": {
+    "gene_arm_rows": 32,
+    "matched": true,
+    "rtol": 1e-12,
+    "atol": 1e-12,
+    "max_abs_mean_tpm_error": 2.842170943040401e-14,
+    "max_abs_contrast_error": 1.1102230246251565e-16,
+    "procedure": "Recomputed all 32 gene-arm means and contrasts from the hashed tracked TPM matrix and metadata; checked every snapshot value and marker-presence flag."
+  },
+  "limitations": [
+    "The 12 RNA profiles represent one cell-line identity, not 12 independent donors; independent culture-preparation identities are not established.",
+    "Exposure durations and matched baseline/treated pairing are not supplied in the inspected metadata.",
+    "The 20% arm is an assigned incubator reference, not a measurement of intracellular oxygen.",
+    "Contrasts are descriptive summaries, not differential-expression significance tests or evidence of cardiac injury, functional recovery or causality.",
+    "All 12 profiles are retained, including visually unusual expression profiles; no exclusions were selected from marker effects.",
+    "GSE144424 uses donor-derived human iPSC cardiomyocytes and a 10% reference; compare directions, not magnitudes across the TPM and normalized-count scales.",
+    "This reference does not pool species, fit or score a model, or define or modify a frozen benchmark or split."
+  ]
+}

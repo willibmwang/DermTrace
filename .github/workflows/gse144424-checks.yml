@@ -1,0 +1,38 @@
+name: GSE144424 exploratory analysis
+on:
+  push:
+    paths:
+      - '.github/workflows/gse144424-checks.yml'
+      - 'scripts/*gse144424*.py'
+      - 'tests/test_gse144424*.py'
+      - 'data/curated/gse144424_cardiomyocyte_v1/**'
+      - 'data/processed/tsaolab_o2/**'
+      - 'analysis/gse144424_oxygen_validation_2026-10-27/**'
+      - 'keloidbench/requirements-revision.txt'
+  pull_request:
+    paths:
+      - '.github/workflows/gse144424-checks.yml'
+      - 'scripts/*gse144424*.py'
+      - 'tests/test_gse144424*.py'
+      - 'data/curated/gse144424_cardiomyocyte_v1/**'
+      - 'data/processed/tsaolab_o2/**'
+      - 'analysis/gse144424_oxygen_validation_2026-10-27/**'
+      - 'keloidbench/requirements-revision.txt'
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: keloidbench/requirements-revision.txt
+      - run: python -m pip install -r keloidbench/requirements-revision.txt
+      - run: python -m unittest discover -s tests -p 'test_gse144424*.py' -v
+      - run: python scripts/ingest_gse144424.py
+      - run: python scripts/analyze_gse144424.py
+      - run: python analysis/gse144424_oxygen_validation_2026-10-27/plot_validation.py
+      - run: git diff --exit-code -- keloidbench data/processed

@@ -1,0 +1,76 @@
+{
+  "audit": {
+    "autosomal_gene_count": 18226,
+    "chromosome_gene_counts": {
+      "chr1": 1991,
+      "chr10": 745,
+      "chr11": 1238,
+      "chr12": 1005,
+      "chr13": 320,
+      "chr14": 590,
+      "chr15": 568,
+      "chr16": 799,
+      "chr17": 1103,
+      "chr18": 264,
+      "chr19": 1348,
+      "chr2": 1208,
+      "chr20": 530,
+      "chr21": 227,
+      "chr22": 426,
+      "chr3": 1030,
+      "chr4": 721,
+      "chr5": 834,
+      "chr6": 1002,
+      "chr7": 862,
+      "chr8": 646,
+      "chr9": 769,
+      "chrM": 8,
+      "chrX": 794,
+      "chrY": 53
+    },
+    "finite_nonnegative_integer_counts": true,
+    "flagged_profiles_retained": [
+      "H18852_A",
+      "H18852_D"
+    ],
+    "geo_autosomal_only_claim_matches_file": false,
+    "matrix_metadata_bijection": true,
+    "n_differentiation_experiments": 21,
+    "n_donors": 15,
+    "n_genes": 19081,
+    "n_profiles": 84,
+    "n_published_primary_profiles": 60,
+    "nonautosomal_gene_count": 855,
+    "series_soft_sample_identity_match": true
+  },
+  "dataset_id": "gse144424_cardiomyocyte_v1",
+  "frozen_benchmark_member": false,
+  "ingestion_script_sha256": "31db1fbc4d3d5048f2df4614ff56cb22c7af72dd773b84dea6c135aa6bff3e7f",
+  "inputs": [
+    {
+      "path": "inputs/GSE144424_Counts_RNA_MCW_NEB.txt.gz",
+      "sha256": "cad9ac4c6514550ea9bfb2b491cc2934f6952894d7cbd17338d5054d03da6f7c",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE144nnn/GSE144424/suppl/GSE144424_Counts_RNA_MCW_NEB.txt.gz"
+    },
+    {
+      "path": "inputs/GSE144424_family.soft.gz",
+      "sha256": "156b46d9e11fc4a59219530808c617887ac622e711d137964e1ccb88b0766907",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE144nnn/GSE144424/soft/GSE144424_family.soft.gz"
+    },
+    {
+      "path": "inputs/GSE144424_series_matrix.txt.gz",
+      "sha256": "40dda761c345cb757eaa4d2c0eefcebad948c134137ffdcdc0af855384c90ec4",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE144nnn/GSE144424/matrix/GSE144424_series_matrix.txt.gz"
+    }
+  ],
+  "local_marker_mapping_sha256": "b463ad00c0f6d6b3de0ec78fc8de3c3df44cb7451a56dd6e8d2a1b3f2dd43ccb",
+  "outputs": {
+    "README.md": "6f6ddbfc93cd3ef569dc80ba2575df38b3536d3c831a436eb3945dd5c33eb9fa",
+    "counts.parquet": "50bb5ad527881c6230ab3bfe32a3bdf141295cf40020c861ed50ee2d9d94f173",
+    "genes.csv": "8e11292a3a35c02c26dd179c504ebaee3b04b1df0b17d1e5e7b767918264dc9c",
+    "marker_mapping.csv": "8b1992686dcd22a52faf61e252b12fd21e18bb0889bf858b560612b6ecb4188f",
+    "provenance.json": "9460e7ad1ba4a4e826d24f8e2fedd09d7d577a6e4427ade753dbf83f2bd9eca7",
+    "samples.csv": "bc297530e7b4c01b63caf2a78c4d9135d971a5ea63f7e6e7b33e1483b00a5425"
+  },
+  "status": "exploratory_only"
+}
