@@ -241,3 +241,214 @@ FASTQs and stub `module`, `cutadapt` and `fastqc`. They cover:
 
 They do not show how the real Cutadapt, FastQC or Slurm
 behave on Rivanna.
+
+## Reference, fastp container and specimen quantification
+
+Scripts that rebuild the collaborator's expression pipeline on
+Rivanna, one specimen at a time:
+
+- fastp `--detect_adapter_for_pe -l 25`
+- `salmon quant -l A --validateMappings --gcBias --seqBias`
+  against GENCODE v46
+
+These are the collaborator's parameters, taken from
+`scripts/tsaolab_melanoma/run_quant.sh`. That script is not
+modified. The driver-reference minimap2 step is not included.
+
+| Script | Purpose |
+|---|---|
+| `config.example.env` | Every path, module, version and checksum. Copy it outside the repository and edit it |
+| `verify_environment.sh` | Checks module versions, Python ≥ 3.9, curl/gzip, and the fastp SIF if present. Writes a TSV report |
+| `fetch_gencode_v46.sh` | Downloads `gencode.v46.transcripts.fa.gz` and verifies it against the release `MD5SUMS` and the pinned MD5 |
+| `build_salmon_index.sbatch` | Builds the index with `--gencode -k $SALMON_KMER`, transcriptome only, no decoys. Adopts it only if all six fingerprints match |
+| `verify_reference_fingerprint.sh` | Reports MATCH / MISMATCH / UNAVAILABLE for SeqHash, NameHash, SeqHash512, NameHash512, DecoySeqHash and DecoyNameHash of an index or a `meta_info.json` |
+| `provision_fastp_container.sh` | Pulls the pinned fastp image and verifies its SIF SHA-256 and `fastp --version`. A pull whose bytes differ is adopted only with `FASTP_ACCEPT_NEW_SIF=1` |
+| `quantify_specimen.sbatch` | Runs fastp and Salmon for one eligible specimen, identified by `SPECIMEN` (sample_id, core_id or short id such as `11-01`) |
+| `rivanna_qc_tools.py` | Standard-library helpers: `provenance`, `resolve-specimen`, `verify-fingerprint`, `validate-quant-dir`, `compare-quant`, `audit-historical` |
+| `tests/run_local_tests.sh` | Local tests with synthetic fixtures, stub tools and an Lmod-like module stub. Re-runs itself under `env -i` so a login shell's Lmod cannot leak in |
+
+**Specimen eligibility.** A specimen is quantified only if all
+of these hold:
+
+- It is in the sample sheet.
+- It has exactly one pair in `validated_pairs.tsv` with the same
+  R1/R2 filenames and a consistent sample label. If that file
+  gives absolute paths, they must be the same files as in
+  `RAW_DIR`.
+- It is not excluded. Built-in exclusions are 20088XR-11-37
+  (provenance adjudication pending) and the corrupt pairs
+  11-43, 44, 46, 47 and 48. A built-in exclusion can be lifted
+  only with `LIFT_EXCLUSIONS="CORE_ID=<adjudication reference>"`,
+  and the reference is recorded in provenance.
+
+From r3, `validated_pairs.tsv` is read with the strict rules in
+**validated_pairs.tsv format** above. One defective row rejects the
+whole manifest, so no specimen is eligible until it is fixed. The
+GM01-qualified r2 used a more lenient parser that judged rows one at
+a time. For the historical 43-row layout, both give the same 42
+eligible specimens and identical resolved inputs. The r3 parser passed
+its qualification on Rivanna; see `QUALIFICATION_STATUS.md` and
+`R3_PARSER_CANDIDATE.md`.
+
+**Safeguards (all scripts fail closed):**
+
+- Required variables, input files and checksums are checked
+  before any work starts.
+- Existing outputs are never overwritten. Directories are
+  renamed under a lock, and the destination is re-checked
+  immediately before the rename. Files are adopted through a
+  hard link, which fails if the destination exists.
+- Locks (`.<id>.lock` and `<index>.lock`) block concurrent jobs
+  on the same specimen or index. A stale lock left by a killed
+  job must be removed by hand, after checking it.
+- Raw FASTQs are only read. `RAW_DIR` and `QUANT_ROOT` must be
+  real directories (not symlinks), and neither may sit inside
+  the other. Filenames and sample IDs containing `/` or a
+  leading `.` are rejected.
+- Work happens in `*.partial*` paths. Before adoption, a
+  specimen output must pass structural checks:
+  - quant.sf rows = `num_valid_targets` = `EXPECT_NUM_TARGETS`
+  - library format = `EXPECT_LIBTYPE`
+  - Salmon's processed fragments = fastp's retained reads / 2
+  - all six fingerprints match
+  - provenance has `status=complete`
+- Partial or incomplete directories are rejected by
+  `validate-quant-dir` and `compare-quant`.
+- Each step purges its modules and loads only its own:
+  - fastp runs with `APPTAINER_MODULES`
+  - Salmon runs with `SALMON_MODULES`
+
+  On Rivanna, loading Apptainer swaps bzip2/1.0.6 for 1.0.8, so
+  co-loading would change Salmon's runtime. Each step's module
+  set is recorded, and `verify_environment.sh` reports any swaps
+  caused by co-loading.
+- Provenance labels every setting in a `configuration` block as
+  one of:
+  - `verified-collaborator` (from committed outputs or scripts)
+  - `candidate`
+  - `inferred`
+  - `observed-this-run`
+  - `user-reported`
+
+  The record also includes script, library and tool hashes, the
+  git commit (or the bundle manifest hash), the Slurm job ID,
+  input checksums and parameters.
+- A SIF SHA-256 identifies one built artifact, not the software.
+  Independent pulls of the same tag may differ byte for byte.
+  Each run therefore pins the exact SIF it used.
+
+### Typical use
+
+    cp "$RQC_DIR/config.example.env" "$MELANOMA_ROOT/rqc_config.env"   # then edit
+    source "$MELANOMA_ROOT/rqc_config.env"
+    bash   "$RQC_DIR/verify_environment.sh"
+    bash   "$RQC_DIR/fetch_gencode_v46.sh"
+    sbatch --export=ALL "$RQC_DIR/build_salmon_index.sbatch"
+    bash   "$RQC_DIR/provision_fastp_container.sh"
+    sbatch --export=ALL,SPECIMEN=GM01 "$RQC_DIR/quantify_specimen.sbatch"
+
+To compare a reproduced specimen with the committed
+collaborator output (files extracted with `git show`):
+
+    python3 "$RQC_DIR/rivanna_qc_tools.py" compare-quant --specimen GM01 \
+      --test-dir "$QUANT_ROOT/GM01" \
+      --reference-quant GM01_committed_quant.sf.gz \
+      --reference-meta GM01_committed_meta_info.json \
+      --reference-lib-format GM01_committed_lib_format_counts.json \
+      --reference-run-qc run_qc.tsv \
+      --gene-map-fasta "$REF_DIR/gencode.v46.transcripts.fa.gz" \
+      --json-out GM01_reproduction.json
+
+**Acceptance rule `provisional-v1`.** These are engineering
+thresholds, frozen before any GM01 result, and not a validated
+equivalence margin. A comparison passes only if all of these
+hold:
+
+- **Identity and integrity:**
+  - the test output is complete and valid
+  - the specimen matches the test provenance and the reference
+    `run_qc.tsv`
+  - raw input read counts are identical
+  - transcript IDs are identical
+  - target counts are equal (253,181)
+  - the library format is ISR on both sides
+  - all six index fingerprints are identical
+- **Quantitative:**
+  - transcript-level Pearson of log1p TPM is ≥ 0.99
+  - the mapping-rate difference is ≤ 1 percentage point
+
+The report also includes, separately and without gating:
+gene-level stability (Pearson, Spearman, fraction of genes with
+|log2FC| > 1), the same transcript-level difference metrics,
+and mapping yield relative to raw input. Any other thresholds
+need a new `--rule-version` and a `--rule-justification`, and
+the report carries that label.
+
+### Historical runs (before the provenance schema)
+
+A run made before these scripts existed has no `provenance.json`, so
+`validate-quant-dir` and `compare-quant` reject it. That is intended
+and is not relaxed. `audit-historical` audits such a run instead:
+
+- it reads the directory in place, finds `quant.sf`, `meta_info.json`,
+  `lib_format_counts.json`, `cmd_info.json` and the fastp JSON by name,
+  and refuses ambiguous layouts unless a `--test-*` option picks a file;
+- it never writes into the audited or reference directory;
+- it hashes every input it reads and records provenance as absent;
+- it applies the same provisional-v1 computation as `compare-quant`;
+- every check is PASS, FAIL or UNAVAILABLE. The verdict is
+  `HISTORICAL_CONCORDANT` (exit 0), `HISTORICAL_DISCORDANT` (exit 1) or
+  `HISTORICAL_INCONCLUSIVE` (exit 2). None of them adopts the run or
+  counts as an accepted reproduction.
+
+Specimen identity comes from the input paths recorded in `cmd_info.json`
+and the fastp command line, plus the raw read count.
+
+### Test isolation
+
+`tests/run_local_tests.sh` re-executes itself under
+`env -i ... bash --noprofile --norc` with a minimal PATH. On an HPC login
+node, Lmod exports a `module` function and sets `BASH_ENV`, which every
+child `bash` re-sources. That replaced the stub `module` with the real
+one and caused 13 failures on Rivanna. Production scripts still use the
+site's real Lmod and are unchanged by this.
+
+### Evidence status
+
+**Local tests (developer machine, stub tools):** all pass.
+Run `bash tests/run_local_tests.sh`. They cover:
+
+- shell syntax
+- every fail-closed path
+- protection of raw inputs from modification
+- provenance content
+- comparison gates
+
+They do **not** show how the real fastp or Salmon binaries
+behave.
+
+**Reported by the user from Rivanna, not re-verified by these
+scripts:**
+
+- **Software:** Cutadapt 5.2, FastQC 0.12.1, BBMap 39.01,
+  Python 3.13.14, gcc/14.2.0 with Salmon 1.10.3, Apptainer 1.4.5.
+- **GENCODE v46 transcripts:** MD5 `f1549843717b0fecfa4336fe3d5cc85f`.
+- **Index:** built with `--gencode -k 31` (job 23390691). Its
+  `info.json` reports k=31. All six fingerprints match the 33
+  committed collaborator runs.
+- **fastp:** image `quay.io/biocontainers/fastp:0.23.4--h125f33a_5`,
+  SIF SHA-256
+  `ef059319ad789e51ab2b40bae48f110b32f2675deeff67052b0ba2f8a21c3e01`;
+  the executable reports `fastp 0.23.4`.
+- **Modules:** loading Apptainer changes bzip2/1.0.6 to 1.0.8.
+- **GM01 reproduction:** job 23390924 was still running at the
+  time of writing. Reproduction is **not** accepted.
+
+**Unverified:**
+
+- **The collaborator's k-mer length.** k is not part of the
+  fingerprints. Our index uses k=31, which is a candidate match.
+- **The collaborator's fastp version.** 0.23.4 is a candidate.
+- **Image reproducibility.** A fresh `apptainer pull` may not
+  produce the same SIF bytes. The provisioning script fails
+  closed unless `FASTP_ACCEPT_NEW_SIF=1` is set.
