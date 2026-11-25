@@ -52,13 +52,13 @@
 
 
 \section*{Overview}
-When a new pathogen appears, natural or engineered, how soon can a model read a patient's molecular state and be trusted in a hospital that contributed no training data? Diagnosis, triage and drug repurposing depend on translational models, ones that still work on a new cohort, a new sequencing platform and a new lab. Most do not. DermTrace is our open collection of more than 1,000 human gene-expression profiles from skin, scar and tumor tissue, evaluated with whole studies held out. It grew out of KeloidBench (Figure 1), whose classifier averages 0.83 macro F1 across held-out studies and scores 0.18 on the worst one. This project builds three ways to close that gap: reinforcement-learning (RL) environments that reward an agent only for results on studies it never saw, JEPA encoders trained on the data we hold, and a zero- and few-shot evaluation that rehearses the first days of an outbreak. The cohort produces a paper and open environments.
+When a new pathogen appears, natural or engineered, how soon can a model read a patient's molecular state and be trusted in a hospital that contributed no training data? Diagnosis, triage and drug repurposing depend on translational models, ones that still work on a new cohort, a new sequencing platform and a new lab. Most do not. DermTrace is our open collection of human gene-expression profiles from skin, scar and tumor tissue collected in various contexts, including melanoma, hypoxia, fibrosis, and more. It grew out of KeloidBench (Figure 1), building three new ways to train models on that data: reinforcement-learning (RL) environments that reward an agent only for results on studies it never saw, JEPA encoders trained on the data we hold, and a zero- and few-shot evaluation that rehearses the first days of an outbreak. The cohort produces a paper and open environments.
 
 \begin{figure}[!ht]
-\begin{minipage}[c]{0.56\textwidth}
+\begin{minipage}[c]{\textwidth}
 \includegraphics[width=\linewidth]{keloidbench-graphical-abstract.png}
 \end{minipage}\hfill
-\begin{minipage}[c]{0.4\textwidth}
+\begin{minipage}[c]{\textwidth}
 \caption{\textbf{Figure 1. The starting point.} The KeloidBench pipeline (Wang, Tam and Tsao, NeurIPS GenAI4Health 2026): expression profiles from many platforms are normalized into gene-program scores, classified by linear models, and scored with whole studies held out. The studies each replace a part: (1) agents trained in RL environments build the pipeline; (2) a JEPA encoder replaces the hand-built program scores; (3) the held-out test extends to new cohorts with zero to twenty labels.}
 \end{minipage}
 \end{figure}
@@ -84,7 +84,7 @@ When a new pathogen appears, natural or engineered, how soon can a model read a 
 \begin{enumerate}
 \item \textbf{RL environments.} Each environment is a task, a sandbox and a hidden grader. An agent with code tools receives development cohorts and must deliver a model. Its reward is the score on studies it never saw, with terms for calibration and abstention. Task families come from the repository: cross-study classification, transfer of an oxygen-response signature from a cell line to donors, and sample-identity checks whose answers were fixed by SNP genotyping. We fine-tune an open-weight agent under held-out and random-split rewards and score both on the lockbox.
 \item \textbf{JEPA encoders.} A JEPA predicts the representation of a masked part of its input, not the raw values (Assran et al., arXiv:2301.08243; for single cells, Cell-JEPA, arXiv:2602.02093). Predicting the embedding of masked gene programs should discard the platform noise that reconstruction has to model. We implement it for bulk and pseudobulk profiles, add a variant that predicts the response to a change in oxygen, and score both under study hold-out.
-\item \textbf{Data engineering and the outbreak drill.} New cohorts arrive as they would in an outbreak: unharmonized, from a new platform, with few labels. Mentees extend the pipeline (harmonization, identity checks by genotype, provenance) and score three methods at each number of labels: in-context inference by a language model, a JEPA embedding with a linear classifier, and the program-score baseline. The final lockbox is public host-response cohorts from infection. A first data point exists: of eight hypoxia genes fixed on one cell line, four transferred to 15 donors.
+\item \textbf{Few-shot data engineering.} New cohorts arrive as they would in an outbreak: unharmonized, from a new platform, with few labels. Mentees extend the pipeline (harmonization, identity checks by genotype, provenance) and score three methods at each number of labels: in-context inference by a language model, a JEPA embedding with a linear classifier, and the program-score baseline. The final lockbox is public host-response cohorts from infection. A first data point exists: of eight hypoxia genes fixed on one cell line, four transferred to 15 donors.
 \end{enumerate}
 
 \section*{Possible outcomes}
