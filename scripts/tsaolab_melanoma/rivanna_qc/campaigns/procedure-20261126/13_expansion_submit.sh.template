@@ -1,0 +1,21 @@
+#!/bin/bash
+# Step 13: submit the nine expansion specimens as nine independent jobs (bounded: exactly nine), with the qualified
+# resources of quantify_specimen.sbatch (unchanged #SBATCH header). Per-specimen locks are taken by the script.
+set -euo pipefail
+M=@MELANOMA_ROOT@; XC=$M/config/rqc_expansion_r3.env
+[ -s "$XC" ] || { echo "STOP $XC missing: run step 12 first"; exit 1; }
+# shellcheck disable=SC1090
+source "$XC"
+LOG=$M/logs/expansion_r3; JOBF=$LOG/jobids.tsv
+test ! -e "$QUANT_ROOT" || { echo "STOP $QUANT_ROOT exists"; exit 1; }
+test ! -e "$JOBF" || { echo "STOP jobs already submitted:"; cat "$JOBF"; exit 1; }
+last=$(ls -d "$PROVENANCE_DIR"/preflight_* 2>/dev/null | sort | tail -1 || true)
+[ -n "$last" ] && [ "$(cat "$last/PASS" 2>/dev/null)" = "GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42" ] || { echo "STOP latest step 12 preflight did not PASS (${last:-none})"; exit 1; }
+mkdir -p "$LOG"; cd "$LOG"
+ACCT=$(sacct -j 23402243 -X -n -o Account%40 2>/dev/null | awk 'NF {print $1; exit}')
+( set -C; : > "$JOBF" )
+for s in GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42; do
+  j=$(sbatch --parsable ${ACCT:+--account="$ACCT"} --job-name="expand_$s" --export=ALL,SPECIMEN="$s" "$RQC_DIR/quantify_specimen.sbatch")
+  printf '%s\t%s\n' "$s" "$j" >> "$JOBF"; echo "submitted $s as job $j"
+done
+echo "monitor: sacct -j $(cut -f2 "$JOBF" | paste -sd, -) -X -o JobID,JobName,State,Elapsed,MaxRSS,ExitCode"
