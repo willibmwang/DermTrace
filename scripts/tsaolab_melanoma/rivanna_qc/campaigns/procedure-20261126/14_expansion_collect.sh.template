@@ -1,0 +1,49 @@
+#!/bin/bash
+# Step 14 (after all nine jobs end): require QUANT_OK + structural validation + complete r3 provenance for EVERY
+# specimen (no partial expansion), then build the 42-specimen matrices (33 committed columns unchanged, nine
+# appended), the technical QC/provenance manifest and the exploratory mixed-matrix analysis. No concordance
+# requirement (no collaborator reference exists for these nine). Outputs: $M/expansion_r3 (new; read-only after).
+set -euo pipefail
+M=@MELANOMA_ROOT@; XC=$M/config/rqc_expansion_r3.env; PD=$M/deploy/procedure-20261126; CM=$M/deploy/committed_matrices_412ad24
+[ -s "$XC" ] || { echo "STOP $XC missing"; exit 1; }
+# shellcheck disable=SC1090
+source "$XC"
+LOG=$M/logs/expansion_r3; OUT=$M/expansion_r3; NINE="GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42"
+(cd "$PD" && sha256sum -c --quiet MANIFEST.sha256) && (cd "$CM" && sha256sum -c --quiet MANIFEST.sha256) || { echo "STOP manifests"; exit 1; }
+test ! -e "$OUT" || { echo "STOP $OUT exists"; exit 1; }
+sacct -j "$(cut -f2 "$LOG/jobids.tsv" | paste -sd, -)" -X -o JobID,JobName,State,Elapsed,MaxRSS,ExitCode
+[ "$(cut -f1 "$LOG/jobids.tsv" | tr '\n' ' ' | sed 's/ $//')" = "$NINE" ] || { echo "STOP job list is not the nine"; exit 1; }
+TOOLS_SHA=$(sha256sum "$RQC_DIR/rivanna_qc_tools.py" | cut -d' ' -f1)
+bad=0
+while IFS=$'\t' read -r s j; do
+  if ! grep -q "^QUANT_OK $QUANT_ROOT/$s\$" "$LOG/melanoma_quant_$j.out" 2>/dev/null; then echo "FAIL  $s (job $j): no QUANT_OK; see $LOG/melanoma_quant_$j.err"; bad=1; continue; fi
+  "$PYTHON_BIN" -I "$RQC_DIR/rivanna_qc_tools.py" validate-quant-dir --dir "$QUANT_ROOT/$s" --specimen "$s" \
+    --expect-targets "$EXPECT_NUM_TARGETS" --expect-libtype "$EXPECT_LIBTYPE" > /dev/null < /dev/null || { echo "FAIL  $s: structural validation"; bad=1; continue; }
+  "$PYTHON_BIN" -I - "$QUANT_ROOT/$s/provenance.json" "$s" "$j" "$TOOLS_SHA" <<'P' || bad=1
+import json, sys
+p = json.load(open(sys.argv[1])); s, j, sha = sys.argv[2:5]
+need = {"status": "complete", "specimen": s, "slurm_job_id": j, "tools_sha256": sha, "script": "quantify_specimen.sbatch", "lifted_exclusions": "none"}
+bad = {k: (p.get(k), v) for k, v in need.items() if p.get(k) != v}
+cfg = p.get("configuration", {})
+for k in ("salmon_version", "salmon_quant_args", "fastp_version", "fastp_container", "index_kmer", "index_fingerprints"):
+    if k not in cfg: bad[f"configuration.{k}"] = ("missing", "present")
+print(("OK    " if not bad else "FAIL  ") + f"{s}: provenance " + ("complete, r3 tools, job " + j if not bad else json.dumps(bad)))
+sys.exit(1 if bad else 0)
+P
+done < "$LOG/jobids.tsv"
+[ "$bad" -eq 0 ] || { echo "STOP not every specimen is QUANT_OK + valid + provenance-complete; no matrices built"; exit 1; }
+mkdir "$OUT"
+args=(); for s in $NINE; do args+=(--new "$s=$QUANT_ROOT/$s"); done
+"$PYTHON_BIN" -I "$PD/expand_dataset.py" matrices --committed-dir "$CM" --fasta "$REF_DIR/$GENCODE_TRANSCRIPTS" --fasta-md5 "$GENCODE_TRANSCRIPTS_MD5" \
+  "${args[@]}" --expect-new "$(echo $NINE | tr ' ' ',')" --new-origin rivanna_qc_r3 --out-dir "$OUT/matrices_42" | tee "$OUT/matrices_42.console.txt"
+"$PYTHON_BIN" -I "$PD/expand_dataset.py" qc-manifest --expansion-manifest "$OUT/matrices_42/expansion_manifest.json" --expanded-dir "$OUT/matrices_42" \
+  --run-qc "$CM/run_qc.tsv" --metadata "$CM/tsaolab_melanoma_sample_metadata.csv" --sheet "$SAMPLE_SHEET" --quant-root "$QUANT_ROOT" \
+  --out-tsv "$OUT/expansion_qc_provenance_42.tsv" | tee "$OUT/qc_manifest.console.txt"
+set +e
+"$PYTHON_BIN" -I "$PD/mixed_matrix_analysis.py" --expanded-dir "$OUT/matrices_42" --committed-dir "$CM" --qc-manifest "$OUT/expansion_qc_provenance_42.tsv" \
+  --cohort-context "$M/deploy/analysis-20261124/gm01_cohort_context.tsv" --frozen-scores "$PD/pca_frozen_scores.json" \
+  --out-dir "$OUT/mixed_matrix_analysis" | tee "$OUT/mixed_matrix_analysis.console.txt"; rc=${PIPESTATUS[0]}
+set -e
+(cd "$OUT" && find . -type f ! -name MANIFEST.sha256 | sort | xargs sha256sum > MANIFEST.sha256)
+chmod -R a-w "$OUT"
+echo "STEP 14 $([ $rc -eq 0 ] && echo PASS || echo 'FAIL (analysis integrity)'): $OUT"; exit $rc

@@ -1,0 +1,100 @@
+#!/bin/bash
+# Step 17, recovery revision r1. Replaces procedure-20261127/17_harmonize_collect.sh, which exited 141 (SIGPIPE from
+# `sacct | head -40` under pipefail) before writing anything. Uses the deployed, unchanged procedure-20261127
+# (common.sh inventories, campaign_tools.py), the existing harmonization config and the COMPLETED array job.
+# Never submits or reruns quantification. Fail-closed:
+#   1. all 28 array tasks QUANT_OK; specimen list identical to the step 15 PASS list
+#   2. all 42 outputs pass the unchanged compatibility/provenance check
+#   3. headers: exactly the 33 expected collaborator IDs and exactly the 42 expected mixed/harmonized IDs (unique, in order)
+#   4. exactly 33 valid, uniquely identified provisional-v1 reports (unchanged rule); evidence problems are distinguished
+#      from scientific concordance failures
+#   5. harmonized matrices + QC manifest (unchanged aggregation), built in .partial and adopted only when complete
+# Exit: 0 all PASS; 3 built, >= 1 scientific concordance/identity failure (listed); 1 any other failure.
+set -euo pipefail
+PDR1=@MELANOMA_ROOT@/deploy/procedure-20261127r1
+PD27=@MELANOMA_ROOT@/deploy/procedure-20261127
+(cd "$PDR1" && sha256sum -c --quiet MANIFEST.sha256) || { echo "STOP recovery bundle manifest check failed"; exit 1; }
+(cd "$PD27" && sha256sum -c --quiet MANIFEST.sha256) || { echo "STOP procedure-20261127 manifest check failed"; exit 1; }
+. "$PD27/common.sh"
+. "$PDR1/collect_lib_r1.sh"
+[ "$PD" = "$PD27" ] || { echo "STOP common.sh PD mismatch"; exit 1; }
+verify_manifests "$PD26" "$CM" "$REF33" "$R3"
+[ -s "$HC" ] || { echo "STOP $HC missing"; exit 1; }
+# shellcheck disable=SC1090
+source "$HC"
+[ "$RQC_DIR" = "$R3" ] && [ -z "$LIFT_EXCLUSIONS" ] && [ -z "$EXCLUDED_SPECIMENS" ] || { echo "STOP harmonization config altered"; exit 1; }
+COLLAB33="GM01 GM02 GM03 GM04 GM05 GM06 GM07 GM08 GM09 GM10 GM11 GM12 GM13 GM14 GM15 GM16 GM17 GM18 GM19 GM20 GM21 GM22 GM23 GM24 GM25 GM26 GM27 GM28 GM29 GM30 GM31 GM32 GM50"
+ALL42="$COLLAB33 $NINE"
+# inventory consistency: collaborator 33 + nine == existing 14 + remaining 28 (as sets), no duplicates
+inv_a=$(printf '%s\n' $ALL42 | sort); inv_b=$( { for e in $EXISTING; do echo "${e%%=*}"; done; printf '%s\n' $REMAINING; } | sort)
+[ "$inv_a" = "$inv_b" ] && [ "$(printf '%s\n' $ALL42 | sort -u | grep -c .)" -eq 42 ] || { echo "STOP inventory definitions are inconsistent"; exit 1; }
+test ! -e "$OUT" || { echo "STOP $OUT exists"; exit 1; }
+for p in "$OUT".partial.*; do [ -e "$p" ] && { echo "STOP an earlier partial build exists: $p (inspect, then remove)"; exit 1; }; done
+[ -s "$LOG/array_job.txt" ] || { echo "STOP $LOG/array_job.txt missing"; exit 1; }
+read -r J LIST < "$LOG/array_job.txt"
+RUN=$(dirname "$LIST")
+[ -s "$RUN/PASS" ] && [ "$(sha256sum "$LIST" | cut -d' ' -f1)" = "$(cat "$RUN/PASS")" ] || { echo "STOP specimen list does not match its step 15 PASS checksum"; exit 1; }
+[ "$(tr '\n' ' ' < "$LIST" | sed 's/ $//')" = "$REMAINING" ] || { echo "STOP specimen list differs from the expected 28"; exit 1; }
+echo "array job $J; list $LIST (28 specimens, checksum matches step 15)"
+show_sacct "$J" 40 || exit 1
+bad=0; i=0
+while read -r s; do
+  grep -q "^QUANT_OK $QUANT_ROOT/$s\$" "$LOG/harmonize_${J}_${i}.out" 2>/dev/null || { echo "FAIL  $s (task $i): no QUANT_OK in $LOG/harmonize_${J}_${i}.out"; bad=1; }
+  i=$((i + 1))
+done < "$LIST"
+[ "$i" -eq 28 ] && [ "$bad" -eq 0 ] || { echo "STOP not all 28 array tasks are QUANT_OK; nothing built"; exit 1; }
+echo "OK    all 28 array tasks QUANT_OK"
+FINAL=$OUT; OUT=$FINAL.partial.$$
+mkdir "$OUT"; install_partial_trap "$OUT"
+declare -a ALL=(); for e in $EXISTING; do ALL+=("$e"); done; for s in $REMAINING; do ALL+=("$s=$QUANT_ROOT/$s"); done
+dir_of() { local e; for e in "${ALL[@]}"; do [ "${e%%=*}" = "$1" ] && { echo "${e#*=}"; return 0; }; done; echo "STOP no output directory for $1" >&2; return 1; }
+args=(); for e in "${ALL[@]}"; do args+=(--specimen "$e"); done
+"$PYTHON_BIN" -I "$PD/campaign_tools.py" verify-compat --rqc-tools "$RQC_DIR/rivanna_qc_tools.py" "${args[@]}" --reference-specimen GM01 \
+  --expect-targets "$EXPECT_NUM_TARGETS" --expect-libtype "$EXPECT_LIBTYPE" --expect-seq-hash "$EXPECT_SEQ_HASH" --expect-name-hash "$EXPECT_NAME_HASH" \
+  --expect-seq-hash512 "$EXPECT_SEQ_HASH512" --expect-name-hash512 "$EXPECT_NAME_HASH512" --expect-decoy-hash "$EXPECT_DECOY_HASH" \
+  --expect-sif-sha256 "$FASTP_SIF_SHA256" --json-out "$OUT/compat_all42.json" > "$OUT/compat_all42.txt" \
+  || { cat "$OUT/compat_all42.txt"; echo "STOP compatibility check failed for the 42 outputs; no matrices built"; exit 1; }
+tail -1 "$OUT/compat_all42.txt"
+collab=$("$PYTHON_BIN" -I "$PDR1/collect_r1.py" header --matrix "$CM/tsaolab_melanoma_tpm_ensembl.tsv.gz" --expect "$(echo $COLLAB33 | tr ' ' ',')")
+mixed=$("$PYTHON_BIN" -I "$PDR1/collect_r1.py" header --matrix "$M/expansion_r3/matrices_42/tsaolab_melanoma_tpm_ensembl.tsv.gz" --expect "$(echo $ALL42 | tr ' ' ',')")
+echo "OK    headers: 33 collaborator IDs and 42 mixed-matrix IDs exactly as expected"
+mkdir "$OUT/concordance_33"; : > "$OUT/concordance_33/compare_exit_codes.tsv"
+for s in $collab; do
+  td=$(dir_of "$s")
+  set +e
+  "$PYTHON_BIN" -I "$RQC_DIR/rivanna_qc_tools.py" compare-quant --specimen "$s" --test-dir "$td" \
+    --reference-quant "$REF33/${s}_committed_quant.sf.gz" --reference-meta "$REF33/${s}_committed_meta_info.json" \
+    --reference-lib-format "$REF33/${s}_committed_lib_format_counts.json" --reference-run-qc "$REF33/run_qc.tsv" \
+    --gene-map-fasta "$REF_DIR/$GENCODE_TRANSCRIPTS" --expect-targets "$EXPECT_NUM_TARGETS" --expect-libtype "$EXPECT_LIBTYPE" \
+    --json-out "$OUT/concordance_33/${s}_provisional-v1.json" > "$OUT/concordance_33/${s}_provisional-v1.txt" 2>&1 < /dev/null
+  rc=$?; set -e
+  printf '%s\t%s\n' "$s" "$rc" >> "$OUT/concordance_33/compare_exit_codes.tsv"
+done
+set +e
+"$PYTHON_BIN" -I "$PDR1/collect_r1.py" reports --dir "$OUT/concordance_33" --expect "$(echo $COLLAB33 | tr ' ' ',')" --expect-n 33 \
+  --exit-codes "$OUT/concordance_33/compare_exit_codes.tsv" --out-tsv "$OUT/concordance_33/summary.tsv"
+crc=$?; set -e
+case $crc in
+  0|3) ;;
+  1) echo "STOP concordance evidence invalid (see above); not a scientific result; no matrices built"; exit 1 ;;
+  *) echo "STOP report validation could not run (exit $crc)"; exit 1 ;;
+esac
+hargs=(); for s in $mixed; do hargs+=(--specimen "$s=$(dir_of "$s")"); done
+"$PYTHON_BIN" -I "$PD/campaign_tools.py" harmonized --expand-tool "$PD26/expand_dataset.py" --fasta "$REF_DIR/$GENCODE_TRANSCRIPTS" \
+  --fasta-md5 "$GENCODE_TRANSCRIPTS_MD5" "${hargs[@]}" --expect-order "$(echo $mixed | tr ' ' ',')" --mixed-dir "$M/expansion_r3/matrices_42" \
+  --compat-json "$OUT/compat_all42.json" --out-dir "$OUT/matrices_42" > "$OUT/matrices_42.console.txt"
+cat "$OUT/matrices_42.console.txt"
+for m in tpm_ensembl counts_ensembl tpm_symbol counts_symbol; do
+  "$PYTHON_BIN" -I "$PDR1/collect_r1.py" header --matrix "$OUT/matrices_42/tsaolab_melanoma_$m.tsv.gz" --expect "$(echo $ALL42 | tr ' ' ',')" > /dev/null
+done
+echo "OK    harmonized matrices: exactly the 42 expected IDs in all four matrices"
+"$PYTHON_BIN" -I "$PD/campaign_tools.py" qc-manifest --expand-tool "$PD26/expand_dataset.py" "${hargs[@]}" --compat-json "$OUT/compat_all42.json" \
+  --matrices-dir "$OUT/matrices_42" --out-tsv "$OUT/harmonized_qc_provenance_42.tsv" > "$OUT/qc_manifest.console.txt"
+cat "$OUT/qc_manifest.console.txt"
+printf 'recovery=procedure-20261127r1\narray_job=%s\nconcordance_exit=%s\n' "$J" "$crc" > "$OUT/RECOVERY_r1.txt"
+(cd "$OUT" && find . -type f ! -name MANIFEST.sha256 | sort | xargs sha256sum > MANIFEST.sha256)
+test ! -e "$FINAL" || { echo "STOP $FINAL appeared during the build"; exit 1; }
+mv "$OUT" "$FINAL"; PARTIAL_DIR=""; OUT=$FINAL
+chmod -R a-w "$OUT"
+if [ "$crc" -eq 0 ]; then echo "STEP 17 (r1) PASS: $OUT"; exit 0; fi
+echo "STEP 17 (r1) BUILT WITH SCIENTIFIC CONCORDANCE FAILURES (see $OUT/concordance_33/summary.tsv): $OUT"; exit 3

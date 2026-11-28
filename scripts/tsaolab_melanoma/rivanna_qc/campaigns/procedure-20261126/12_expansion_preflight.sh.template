@@ -1,0 +1,55 @@
+#!/bin/bash
+# Step 12 (login node; read-only apart from a new config and new provenance reports): expansion preflight.
+#   - r3 bundle, procedure and committed-matrix bundle verify; expansion config = qualified r2 config + r3 code
+#   - no exclusion lifted; QUANT_ROOT absent
+#   - independent inventory: (eligible under r3 on the REAL validated_pairs.tsv) minus (committed matrix columns)
+#     must equal exactly GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42; GM37 + corrupt specimens blocked
+#   - the matrix builder reproduces the committed columns of GM01/02/08/11/31 string-for-string on Rivanna
+set -euo pipefail
+M=@MELANOMA_ROOT@; PD=$M/deploy/procedure-20261126; CM=$M/deploy/committed_matrices_412ad24
+R3=$M/deploy/rqc-src-20261125-r3-4432a801/rivanna_qc; QC=$M/config/rqc_qualification_r2.env; XC=$M/config/rqc_expansion_r3.env
+EXPECT="GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42"
+for d in "$PD" "$CM" "$R3"; do (cd "$d" && sha256sum -c --quiet MANIFEST.sha256) || { echo "STOP manifest check failed: $d"; exit 1; }; done
+echo "OK    manifests: r3 bundle, procedure, committed matrices"
+if [ ! -e "$XC" ]; then
+  cat > "$XC" <<CFG
+# Production expansion (nine specimens without collaborator quantification): r3 code (parser-qualified) with the
+# r2-qualified quantification configuration unchanged; only code path and output roots differ. No exclusion lifted.
+source $QC
+export RQC_DIR=$R3
+export QUANT_ROOT=$M/quant_expansion_r3
+export PROVENANCE_DIR=$M/provenance_expansion_r3
+export EXCLUDED_SPECIMENS=""
+export LIFT_EXCLUSIONS=""
+CFG
+  chmod a-w "$XC"; echo "OK    wrote $XC"
+else echo "OK    reusing $XC (read-only)"; fi
+# shellcheck disable=SC1090
+source "$XC"
+[ "$RQC_DIR" = "$R3" ] && [ -z "${LIFT_EXCLUSIONS:-}" ] && [ -z "${EXCLUDED_SPECIMENS:-}" ] || { echo "STOP config is not r3 / exclusions altered"; exit 1; }
+if [ -e "$QUANT_ROOT" ]; then echo "STOP $QUANT_ROOT exists"; exit 1; fi
+mkdir -p "$PROVENANCE_DIR"; ts=$(date +%Y%m%dT%H%M%S); OUT=$PROVENANCE_DIR/preflight_$ts; mkdir "$OUT"
+header_cols() { { gzip -dc "$1" | head -1; } 2>/dev/null | cut -f2- | tr '\t' '\n' | sort || true; }   # SIGPIPE-safe under pipefail
+committed=$(header_cols "$CM/tsaolab_melanoma_tpm_ensembl.tsv.gz")
+[ "$(printf '%s\n' "$committed" | grep -c .)" -eq 33 ] || { echo "STOP committed matrix does not have 33 columns"; exit 1; }
+for m in counts_ensembl tpm_symbol counts_symbol; do
+  [ "$(header_cols "$CM/tsaolab_melanoma_$m.tsv.gz")" = "$committed" ] || { echo "STOP committed $m columns differ"; exit 1; }; done
+eligible=""; : > "$OUT/resolve_all.tsv"
+for s in $(awk -F, 'NR>1 {print $1}' "$SAMPLE_SHEET"); do
+  if "$PYTHON_BIN" -I "$RQC_DIR/rivanna_qc_tools.py" resolve-specimen --sheet "$SAMPLE_SHEET" --validated-pairs "$VALIDATED_PAIRS" \
+       --specimen "$s" --raw-dir "$RAW_DIR" >> "$OUT/resolve_all.tsv" 2>> "$OUT/resolve_blocked.txt"; then eligible="$eligible $s"; fi
+done
+nine=$(comm -23 <(printf '%s\n' $eligible | sort) <(printf '%s\n' "$committed") | tr '\n' ' ' | sed 's/ $//')
+echo "eligible under r3: $(printf '%s\n' $eligible | grep -c .); committed columns: $(printf '%s\n' "$committed" | grep -c .)"
+echo "eligible minus committed: $nine"
+[ "$nine" = "$EXPECT" ] || { echo "STOP inventory differs from the authorised nine: $EXPECT"; exit 1; }
+for b in GM37 GM43 GM44 GM46 GM47 GM48; do case " $eligible " in *" $b "*) echo "STOP $b unexpectedly eligible"; exit 1 ;; esac; done
+[ -z "$(comm -13 <(printf '%s\n' $eligible | sort) <(printf '%s\n' "$committed"))" ] || { echo "STOP a committed column is not eligible"; exit 1; }
+echo "OK    inventory: exactly the nine authorised specimens; GM37 and corrupt specimens blocked; no exclusion lifted"
+R1=$M/deploy/ref_GM01/ref; XR=$M/deploy/ref_xspec/ref
+"$PYTHON_BIN" -I "$PD/expand_dataset.py" reproduce --committed-dir "$CM" --fasta "$REF_DIR/$GENCODE_TRANSCRIPTS" --fasta-md5 "$GENCODE_TRANSCRIPTS_MD5" \
+  --sample "GM01=$R1/GM01_committed_quant.sf.gz" --sample "GM02=$XR/GM02_committed_quant.sf.gz" --sample "GM08=$XR/GM08_committed_quant.sf.gz" \
+  --sample "GM11=$XR/GM11_committed_quant.sf.gz" --sample "GM31=$XR/GM31_committed_quant.sf.gz" --json-out "$OUT/aggregation_reproduction.json"
+echo "$EXPECT" > "$OUT/PASS"
+chmod -R a-w "$OUT"
+echo "STEP 12 PASS (reports: $OUT)"

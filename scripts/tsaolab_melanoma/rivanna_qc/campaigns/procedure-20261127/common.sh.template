@@ -1,0 +1,13 @@
+# Shared definitions for steps 15-18 (sourced). Paths are fixed; nothing here writes anything.
+M=@MELANOMA_ROOT@
+PD=$M/deploy/procedure-20261127; PD26=$M/deploy/procedure-20261126
+R3=$M/deploy/rqc-src-20261125-r3-4432a801/rivanna_qc
+CM=$M/deploy/committed_matrices_412ad24; REF33=$M/deploy/ref_all33
+QC_CONF=$M/config/rqc_qualification_r2.env; HC=$M/config/rqc_harmonize_r3.env
+LOG=$M/logs/harmonize_r3; OUT=$M/harmonized_r3; CONF_OUT=$M/confounding_r3
+# the 14 specimens already quantified with the candidate workflow (r2: GM01/02/08/11/31; r3: expansion nine)
+EXISTING="GM01=$M/quant_qualification_r2/GM01 GM02=$M/quant_xspecimen_r2/GM02 GM08=$M/quant_xspecimen_r2/GM08 GM11=$M/quant_xspecimen_r2/GM11 GM31=$M/quant_xspecimen_r2/GM31"
+for s in GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42; do EXISTING="$EXISTING $s=$M/quant_expansion_r3/$s"; done
+REMAINING="GM03 GM04 GM05 GM06 GM07 GM09 GM10 GM12 GM13 GM14 GM15 GM16 GM17 GM18 GM19 GM20 GM21 GM22 GM23 GM24 GM25 GM26 GM27 GM28 GM29 GM30 GM32 GM50"
+NINE="GM33 GM34 GM35 GM36 GM38 GM39 GM40 GM41 GM42"
+verify_manifests() { local d; for d in "$@"; do (cd "$d" && sha256sum -c --quiet MANIFEST.sha256) || { echo "STOP manifest check failed: $d"; exit 1; }; done; }
