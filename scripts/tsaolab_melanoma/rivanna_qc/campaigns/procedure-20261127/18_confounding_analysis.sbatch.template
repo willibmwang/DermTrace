@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name=melanoma_confounding
+#SBATCH --partition=standard
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=8G
+#SBATCH --time=02:00:00
+#SBATCH --output=confounding_%j.out
+#SBATCH --error=confounding_%j.err
+# Step 18: exploratory confounding analysis of original33 / mixed42 / harmonized42 (also runnable with bash).
+set -euo pipefail
+PD=@MELANOMA_ROOT@/deploy/procedure-20261127
+. "$PD/common.sh"
+PY=@PYTHON_BIN@
+verify_manifests "$PD" "$CM" "$M/expansion_r3" "$OUT"
+test ! -e "$CONF_OUT" || { echo "STOP $CONF_OUT exists"; exit 1; }
+"$PY" -I "$PD/confounding_analysis.py" --original33 "$CM" --mixed42 "$M/expansion_r3/matrices_42" --harmonized42 "$OUT/matrices_42" \
+  --qc-mixed "$M/expansion_r3/expansion_qc_provenance_42.tsv" --qc-harmonized "$OUT/harmonized_qc_provenance_42.tsv" \
+  --suspect GM10,GM13,GM15,GM21,GM40,GM41 --permutations 2000 --subsamples 100 --out-dir "$CONF_OUT" | tee "$CONF_OUT.console.txt"
+chmod -R a-w "$CONF_OUT" "$CONF_OUT.console.txt"
